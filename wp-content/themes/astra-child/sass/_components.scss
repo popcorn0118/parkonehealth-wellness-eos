@@ -7,7 +7,7 @@
 
 .text-gradient {
   .elementor-heading-title {
-    @include textGradient(bottom, rgba($primary-light, 0.75), rgba($primary-light, 0));
+    @include textGradient(bottom, rgba($primary, 0.75), rgba($primary, 0));
   }
 }
 .text-gradient-w {
@@ -65,12 +65,12 @@
     padding-right: 31px !important;
     border-radius: 999px !important;
     &::before {
-      background-color: $primary-light !important;
+      background-color: $primary !important;
     }
     border: 0;
     &:hover {
       &::before {
-        background-color: rgba($primary-light, 0.75) !important;
+        background-color: rgba($primary, 0.75) !important;
       }
     }
   }

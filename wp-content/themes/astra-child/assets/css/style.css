@@ -17,8 +17,8 @@ Template: astra
 
 /* line 9, ../../sass/_components.scss */
 .text-gradient .elementor-heading-title {
-  background: linear-gradient(to bottom, rgba(135, 202, 172, 0.75), rgba(135, 202, 172, 0));
-  background: -webkit-linear-gradient(to bottom, rgba(135, 202, 172, 0.75), rgba(135, 202, 172, 0));
+  background: linear-gradient(to bottom, rgba(121, 137, 95, 0.75), rgba(121, 137, 95, 0));
+  background: -webkit-linear-gradient(to bottom, rgba(121, 137, 95, 0.75), rgba(121, 137, 95, 0));
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
@@ -88,15 +88,15 @@ Template: astra
 }
 /* line 67, ../../sass/_components.scss */
 .btn-1 .elementor-button::before {
-  background-color: #87CAAC !important;
+  background-color: #79895F !important;
 }
 /* line 72, ../../sass/_components.scss */
 .btn-1 .elementor-button:hover::before {
-  background-color: rgba(135, 202, 172, 0.75) !important;
+  background-color: rgba(121, 137, 95, 0.75) !important;
 }
 /* line 78, ../../sass/_components.scss */
 .btn-1.line .elementor-button {
-  border: 1px solid #66AF8F !important;
+  border: 1px solid #79895F !important;
   background-color: transparent !important;
 }
 /* line 81, ../../sass/_components.scss */
@@ -105,11 +105,11 @@ Template: astra
 }
 /* line 84, ../../sass/_components.scss */
 .btn-1.line .elementor-button .elementor-button-text {
-  color: #66AF8F;
+  color: #79895F;
 }
 /* line 88, ../../sass/_components.scss */
 .btn-1.line .elementor-button:hover::before {
-  background-color: #66AF8F !important;
+  background-color: #79895F !important;
 }
 /* line 91, ../../sass/_components.scss */
 .btn-1.line .elementor-button:hover .elementor-button-text {
@@ -134,7 +134,7 @@ Template: astra
 }
 /* line 121, ../../sass/_components.scss */
 .btn-2 .elementor-button::before {
-  background-color: #66AF8F !important;
+  background-color: #79895F !important;
 }
 /* line 124, ../../sass/_components.scss */
 .btn-2 .elementor-button .elementor-button-text {
@@ -142,7 +142,7 @@ Template: astra
 }
 /* line 128, ../../sass/_components.scss */
 .btn-2 .elementor-button:hover::before {
-  background-color: #7dbba0 !important;
+  background-color: #8b9c70 !important;
 }
 /* line 135, ../../sass/_components.scss */
 .btn-2.white .elementor-button::before {
@@ -150,11 +150,11 @@ Template: astra
 }
 /* line 138, ../../sass/_components.scss */
 .btn-2.white .elementor-button .elementor-button-text {
-  color: #66AF8F;
+  color: #79895F;
 }
 /* line 142, ../../sass/_components.scss */
 .btn-2.white .elementor-button:hover::before {
-  background-color: rgba(102, 175, 143, 0.25) !important;
+  background-color: rgba(121, 137, 95, 0.25) !important;
 }
 
 /* line 151, ../../sass/_components.scss */
@@ -169,7 +169,7 @@ Template: astra
 }
 /* line 158, ../../sass/_components.scss */
 .btn-3 .elementor-button .elementor-button-text {
-  color: #66AF8F;
+  color: #79895F;
 }
 /* line 160, ../../sass/_components.scss */
 .btn-3 .elementor-button .elementor-button-text::after {
@@ -177,14 +177,14 @@ Template: astra
   display: inline-block;
   width: 10px;
   height: 10px;
-  border-top: 2px solid #66AF8F;
-  border-right: 2px solid #66AF8F;
+  border-top: 2px solid #79895F;
+  border-right: 2px solid #79895F;
   margin: 0 0 1px 10px;
   transform: rotate(45deg);
 }
 /* line 172, ../../sass/_components.scss */
 .btn-3 .elementor-button:hover::before {
-  background-color: #66AF8F !important;
+  background-color: #79895F !important;
 }
 /* line 175, ../../sass/_components.scss */
 .btn-3 .elementor-button:hover .elementor-button-text {
@@ -235,7 +235,7 @@ Template: astra
 }
 /* line 221, ../../sass/_components.scss */
 .btn-more .elementor-button:hover .elementor-button-text {
-  color: #66AF8F;
+  color: #79895F;
 }
 
 /* line 228, ../../sass/_components.scss */
@@ -247,14 +247,14 @@ Template: astra
   border: 1px solid transparent;
   border-block-start: 1px solid transparent !important;
   border-image-slice: 1 !important;
-  border-image: linear-gradient(to bottom right, rgba(102, 175, 143, 0) 30%, #66AF8F 100%);
+  border-image: linear-gradient(to bottom right, rgba(121, 137, 95, 0) 30%, #79895F 100%);
 }
 /* line 243, ../../sass/_components.scss */
 .line.right .elementor-divider-separator {
   border: 1px solid transparent;
   border-block-start: 1px solid transparent !important;
   border-image-slice: 1 !important;
-  border-image: linear-gradient(to bottom left, rgba(102, 175, 143, 0) 30%, #66AF8F 100%);
+  border-image: linear-gradient(to bottom left, rgba(121, 137, 95, 0) 30%, #79895F 100%);
 }
 /* line 248, ../../sass/_components.scss */
 .line.left-w .elementor-divider-separator {
@@ -325,11 +325,11 @@ Template: astra
 }
 /* line 303, ../../sass/_components.scss */
 .icon-info-btn .elementor-button:hover .elementor-button-text {
-  color: #FDD128;
+  color: #D0917F;
 }
 /* line 305, ../../sass/_components.scss */
 .icon-info-btn .elementor-button:hover .elementor-button-text::before, .icon-info-btn .elementor-button:hover .elementor-button-text::after {
-  border-color: #FDD128;
+  border-color: #D0917F;
 }
 
 /* line 317, ../../sass/_components.scss */
@@ -390,6 +390,11 @@ Template: astra
   z-index: 1;
 }
 
+/* line 6, ../../sass/_main.scss */
+body * {
+  font-family: 'Crimson Text', 'Noto Serif TC', serif;
+}
+
 /* line 11, ../../sass/_main.scss */
 main {
   width: 100%;
@@ -423,7 +428,7 @@ main {
 }
 /* line 35, ../../sass/_main.scss */
 .slick-arrow > button:hover {
-  background-color: #66AF8F;
+  background-color: #79895F;
 }
 /* line 38, ../../sass/_main.scss */
 .slick-arrow > button:active, .slick-arrow > button:focus {
@@ -445,7 +450,7 @@ main {
 }
 /* line 65, ../../sass/_main.scss */
 .slick-dots-light .slick-dots .slick-active button {
-  background-color: #FDD128;
+  background-color: #D0917F;
 }
 
 /* line 74, ../../sass/_main.scss */
@@ -534,7 +539,7 @@ main {
   bottom: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(102, 175, 143, 0.95);
+  background-color: rgba(121, 137, 95, 0.95);
 }
 /* line 149, ../../sass/_main.scss */
 .search-entire-site .cont {
@@ -575,12 +580,12 @@ main {
 }
 /* line 173, ../../sass/_main.scss */
 .search-entire-site .cont .ast-container .search .search-title {
-  color: #4B4B4B;
+  color: #434343;
 }
 /* line 176, ../../sass/_main.scss */
 .search-entire-site .cont .ast-container .search form {
   margin-top: 24px;
-  border-bottom: 1px solid #BEBEBE;
+  border-bottom: 1px solid #4B4B4B;
   display: flex;
 }
 /* line 180, ../../sass/_main.scss */
@@ -616,7 +621,7 @@ main {
 }
 /* line 209, ../../sass/_main.scss */
 .search-entire-site .cont .search-close-btn:hover {
-  color: #66AF8F;
+  color: #79895F;
 }
 @media screen and (max-width: 767px) {
   /* line 204, ../../sass/_main.scss */
@@ -628,7 +633,7 @@ main {
 
 /* line 221, ../../sass/_main.scss */
 .keyword .keyword-title {
-  color: #4B4B4B;
+  color: #434343;
 }
 /* line 224, ../../sass/_main.scss */
 .keyword .keyword-list {
@@ -645,7 +650,7 @@ main {
 /* line 232, ../../sass/_main.scss */
 .keyword .keyword-list .item > * {
   font-size: 20px;
-  color: #4B4B4B;
+  color: #434343;
 }
 /* line 236, ../../sass/_main.scss */
 .keyword .keyword-list .item small {
