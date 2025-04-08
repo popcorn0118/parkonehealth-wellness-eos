@@ -17,7 +17,21 @@ define( 'CHILD_THEME_ASTRA_CHILD_VERSION', '1.0.0' );
  * Enqueue styles
  */
 function child_enqueue_styles() {
+	// 先取消 WordPress 預設的 jQuery
+	wp_deregister_script('jquery');
 
+	// 改用 jQuery 3.7.1
+	wp_register_script(
+		'jquery',
+		get_stylesheet_directory_uri() . '/assets/js/jquery-3.7.1.min.js',
+		array(), // 無依賴
+		'3.7.1',
+		true     // 放到底部 footer
+	);
+	wp_enqueue_script('jquery');
+
+
+	//css
 	wp_enqueue_style( 'astra-child-theme-css', get_stylesheet_directory_uri() . '/style.css', array('astra-theme-css'), CHILD_THEME_ASTRA_CHILD_VERSION, 'all' );
 
 }
@@ -242,17 +256,19 @@ function display_check_plan()
 		echo "</tr></tfoot>";
 		?>
 	</table>
-	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+	<!-- <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script> -->
 	<script>
 		var multi_select_rule = <?= json_encode($multi_select_rule); ?>;
-		jQuery(document).ready(function($) {
-			$("input").change(function() {
-				var class_name = $(this).attr('class');
-				var checked = $("." + class_name + ":checked").length;
-				if (checked > multi_select_rule[class_name]) {
-					alert("最多只能選擇 " + multi_select_rule[class_name] + " 項");
-					$(this).prop('checked', false);
-				}
+		document.addEventListener('DOMContentLoaded', function() {
+			jQuery(document).ready(function($) {
+				$("input").change(function() {
+					var class_name = $(this).attr('class');
+					var checked = $("." + class_name + ":checked").length;
+					if (checked > multi_select_rule[class_name]) {
+						alert("最多只能選擇 " + multi_select_rule[class_name] + " 項");
+						$(this).prop('checked', false);
+					}
+				});
 			});
 		});
 	</script>
@@ -270,32 +286,34 @@ function upload_csv()
 		<input type="file" name="csv_file" accept=".csv">
 		<input type="submit" value="上傳">
 	</form>
-	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+	<!-- <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script> -->
 	<script>
-		jQuery(document).ready(function($) {
-			$('#upload_csv_form').submit(function(e) {
-				e.preventDefault();
+		document.addEventListener('DOMContentLoaded', function() {
+			jQuery(document).ready(function($) {
+				$('#upload_csv_form').submit(function(e) {
+					e.preventDefault();
 
-				if ($('input[type="file"]').val() == '') {
-					alert('請選擇檔案');
-					return;
-				}
-
-				var formData = new FormData(this);
-				formData.append('action', 'import_csv');
-				$.ajax({
-					url: $(this).attr('action'),
-					type: $(this).attr('method'),
-					data: formData,
-					processData: false,
-					contentType: false,
-					dataType: 'json',
-					cache: false,
-					async: false,
-					success: function(response) {
-						console.log(response);
-						alert('上傳成功');
+					if ($('input[type="file"]').val() == '') {
+						alert('請選擇檔案');
+						return;
 					}
+
+					var formData = new FormData(this);
+					formData.append('action', 'import_csv');
+					$.ajax({
+						url: $(this).attr('action'),
+						type: $(this).attr('method'),
+						data: formData,
+						processData: false,
+						contentType: false,
+						dataType: 'json',
+						cache: false,
+						async: false,
+						success: function(response) {
+							console.log(response);
+							alert('上傳成功');
+						}
+					});
 				});
 			});
 		});
@@ -793,54 +811,56 @@ function show_plan_compare()
 		<!-- End of 做直的比較表 -->
 	<?php endif; ?>
 	<script type="text/javascript">
-		jQuery(function($) {
-			$('.add_to_plans_compare').click(function() {
-				var pname = $(this).data('pname');
-				var pid = $(this).data('pid');
+		document.addEventListener('DOMContentLoaded', function() {
+			jQuery(function($) {
+				$('.add_to_plans_compare').click(function() {
+					var pname = $(this).data('pname');
+					var pid = $(this).data('pid');
 
-				$.ajax({
-					url: '<?= admin_url('admin-ajax.php'); ?>',
-					type: 'post',
-					dataType: 'json',
-					cache: false,
-					async: false,
-					data: {
-						action: 'add_to_plans_compare',
-						pname: pname,
-						pid: pid,
-					},
-					success: function(response) {
-						// console.log(response);
-						if (response.success) {
-							location.reload();
-						} else {
-							alert(response.message);
+					$.ajax({
+						url: '<?= admin_url('admin-ajax.php'); ?>',
+						type: 'post',
+						dataType: 'json',
+						cache: false,
+						async: false,
+						data: {
+							action: 'add_to_plans_compare',
+							pname: pname,
+							pid: pid,
+						},
+						success: function(response) {
+							// console.log(response);
+							if (response.success) {
+								location.reload();
+							} else {
+								alert(response.message);
+							}
 						}
-					}
-				});
-			});
-
-			$("#btn_remove_from_compare").on('mouseup', function() {
-				var remove_from_compare = $(".remove_from_compare:checked");
-				var plans = [];
-				remove_from_compare.each(function() {
-					plans.push($(this).val());
+					});
 				});
 
-				$.ajax({
-					url: '<?= admin_url('admin-ajax.php'); ?>',
-					type: 'post',
-					dataType: 'json',
-					cache: false,
-					async: false,
-					data: {
-						action: 'remove_from_compare',
-						plans: plans,
-					},
-					success: function(response) {
-						// console.log(response);
-						location.reload();
-					}
+				$("#btn_remove_from_compare").on('mouseup', function() {
+					var remove_from_compare = $(".remove_from_compare:checked");
+					var plans = [];
+					remove_from_compare.each(function() {
+						plans.push($(this).val());
+					});
+
+					$.ajax({
+						url: '<?= admin_url('admin-ajax.php'); ?>',
+						type: 'post',
+						dataType: 'json',
+						cache: false,
+						async: false,
+						data: {
+							action: 'remove_from_compare',
+							plans: plans,
+						},
+						success: function(response) {
+							// console.log(response);
+							location.reload();
+						}
+					});
 				});
 			});
 		});
@@ -991,101 +1011,103 @@ function plan_search_result()
 		</table>
 	</div>
 	<script type="text/javascript">
-		jQuery(function($) {
-			let form = $("form.wpcf7-form.init");
-			$("#btn_search").on('click', function() {
-				$.ajax({
-					url: '<?= admin_url('admin-ajax.php'); ?>',
-					type: 'post',
-					dataType: 'json',
-					cache: false,
-					async: false,
-					data: {
-						action: 'get_plan_search_result',
-						data: form.serialize(),
-					},
-					success: function(response) {
-						// console.log(response);
-						$(".result_row").remove();
-						for (const key in response) {
-							if (response.hasOwnProperty(key)) {
-								const plans = response[key];
-								let exists_plan_compare = $('.add_to_plan_compare[data-pid="' + plans["plan_id"] + '"]');
-								if (exists_plan_compare.length > 0) {											
-									return;
-								}
-								// console.log(key);
-								let tr = $("<tr class='result_row'></tr>");
-								let td = $("<td></td>");
-								let content_text = "<input type='checkbox' class='add_to_plan_compare' value=" + key + " data-pid='" + plans["plan_id"] + "'><label>" + key + "</label><span>[最多人選擇]</span>";
-								console.log(plans);
+		document.addEventListener('DOMContentLoaded', function() {
+			jQuery(function($) {
+				let form = $("form.wpcf7-form.init");
+				$("#btn_search").on('click', function() {
+					$.ajax({
+						url: '<?= admin_url('admin-ajax.php'); ?>',
+						type: 'post',
+						dataType: 'json',
+						cache: false,
+						async: false,
+						data: {
+							action: 'get_plan_search_result',
+							data: form.serialize(),
+						},
+						success: function(response) {
+							// console.log(response);
+							$(".result_row").remove();
+							for (const key in response) {
+								if (response.hasOwnProperty(key)) {
+									const plans = response[key];
+									let exists_plan_compare = $('.add_to_plan_compare[data-pid="' + plans["plan_id"] + '"]');
+									if (exists_plan_compare.length > 0) {											
+										return;
+									}
+									// console.log(key);
+									let tr = $("<tr class='result_row'></tr>");
+									let td = $("<td></td>");
+									let content_text = "<input type='checkbox' class='add_to_plan_compare' value=" + key + " data-pid='" + plans["plan_id"] + "'><label>" + key + "</label><span>[最多人選擇]</span>";
+									console.log(plans);
 
-								plans["info"].forEach(
-									(plan, index) => {
-										var _gender = '';
-										if(plan["gender"] == 'female') { _gender = '女性'; }
-										else if (plan["gender"] == 'male') { _gender = '男性'; }
-										content_text += "<label>" + _gender + "</label><label>價格: " + plan["price"] + "</label>";
-									});
-								td.html(content_text);
-								tr.append(td);
-								$("#result_th").after(tr);
+									plans["info"].forEach(
+										(plan, index) => {
+											var _gender = '';
+											if(plan["gender"] == 'female') { _gender = '女性'; }
+											else if (plan["gender"] == 'male') { _gender = '男性'; }
+											content_text += "<label>" + _gender + "</label><label>價格: " + plan["price"] + "</label>";
+										});
+									td.html(content_text);
+									tr.append(td);
+									$("#result_th").after(tr);
+								}
 							}
 						}
-					}
-				});
-			});
-
-			$("#btn_add_to_compare").on('mouseup', function() {
-				// console.log($(".add_to_plan_compare"));
-				let add_to_plan_compare = $(".add_to_plan_compare");
-
-				// 沒有選擇方案
-				if (add_to_plan_compare.length == 0) {
-					alert('請選擇方案');
-					return;
-				}
-				console.log(add_to_plan_compare.length);
-				// 最多3筆
-				if (add_to_plan_compare.length > 3) {
-					alert('最多只能比較三筆方案');
-					return;
-				}
-
-				// 刪除原本的方案互比
-				$.ajax({
-					url: '<?= admin_url('admin-ajax.php'); ?>',
-					type: 'post',
-					dataType: 'json',
-					cache: false,
-					async: false,
-					data: {
-						action: 'remove_plan_compare',
-					},
-					success: function(response) {}
+					});
 				});
 
-				add_to_plan_compare.each(function() {
-					if ($(this).prop('checked')) {
-						let pname = $(this).val();
-						// console.log(pname);
-						$.ajax({
-							url: '<?= admin_url('admin-ajax.php'); ?>',
-							type: 'post',
-							dataType: 'json',
-							cache: false,
-							async: false,
-							data: {
-								action: 'add_to_plans_compare',
-								pname: pname,
-								pid: $(this).data('pid'),
-							},
-							success: function(response) {
-								// console.log(response);
-								location.href = '<?= site_url('search_plan'); ?>';
-							}
-						});
+				$("#btn_add_to_compare").on('mouseup', function() {
+					// console.log($(".add_to_plan_compare"));
+					let add_to_plan_compare = $(".add_to_plan_compare");
+
+					// 沒有選擇方案
+					if (add_to_plan_compare.length == 0) {
+						alert('請選擇方案');
+						return;
 					}
+					console.log(add_to_plan_compare.length);
+					// 最多3筆
+					if (add_to_plan_compare.length > 3) {
+						alert('最多只能比較三筆方案');
+						return;
+					}
+
+					// 刪除原本的方案互比
+					$.ajax({
+						url: '<?= admin_url('admin-ajax.php'); ?>',
+						type: 'post',
+						dataType: 'json',
+						cache: false,
+						async: false,
+						data: {
+							action: 'remove_plan_compare',
+						},
+						success: function(response) {}
+					});
+
+					add_to_plan_compare.each(function() {
+						if ($(this).prop('checked')) {
+							let pname = $(this).val();
+							// console.log(pname);
+							$.ajax({
+								url: '<?= admin_url('admin-ajax.php'); ?>',
+								type: 'post',
+								dataType: 'json',
+								cache: false,
+								async: false,
+								data: {
+									action: 'add_to_plans_compare',
+									pname: pname,
+									pid: $(this).data('pid'),
+								},
+								success: function(response) {
+									// console.log(response);
+									location.href = '<?= site_url('search_plan'); ?>';
+								}
+							});
+						}
+					});
 				});
 			});
 		});
