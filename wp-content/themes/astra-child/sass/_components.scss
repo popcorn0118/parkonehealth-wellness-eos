@@ -1,0 +1,376 @@
+@import 'variable';
+@import 'mixin';
+
+.blur-50 {
+  @include blur(50px);
+}
+
+.text-gradient {
+  .elementor-heading-title {
+    @include textGradient(bottom, rgba($primary-light, 0.75), rgba($primary-light, 0));
+  }
+}
+.text-gradient-w {
+  .elementor-heading-title {
+    @include textGradient(bottom, $text-w, rgba($text-w, 0.5));
+  }
+}
+
+.no-br {
+  @include md() {
+    br {
+      display: none;
+    }
+  }
+}
+.text-crimson-text {
+  font-family: 'Crimson Text', 'Noto Serif TC', serif !important;
+}
+
+//按鈕
+.btn-1,.btn-2,.btn-3 {
+  .elementor-button {
+    padding: 20px 24px !important;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    background-color: $text-w !important;
+    margin-bottom: -8px;
+    .elementor-button-content-wrapper {
+      position: relative;
+      z-index: 1;
+    }
+    .elementor-button-text {
+      font-size: 18px;
+      font-weight: bold;
+      line-height: 1;
+      color: $text-w;
+    }
+    &::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: block;
+      left: 0;
+      top: 0;
+      transition: 0.4s;
+    }
+  }
+}
+.btn-1 {
+  .elementor-button {
+    min-width: 142px;
+    padding-left: 31px !important;
+    padding-right: 31px !important;
+    border-radius: 999px !important;
+    &::before {
+      background-color: $primary-light !important;
+    }
+    border: 0;
+    &:hover {
+      &::before {
+        background-color: rgba($primary-light, 0.75) !important;
+      }
+    }
+  }
+  &.line {
+    .elementor-button {
+      border: 1px solid $primary !important;
+      background-color: transparent !important;
+      &::before {
+        background-color: transparent !important;
+      }
+      .elementor-button-text {
+        color: $primary;
+      }
+      &:hover {
+        &::before {
+          background-color: $primary !important;
+        }
+        .elementor-button-text {
+          color: $text-w;
+        }
+      }
+    }
+  }
+  &.ms {
+    .elementor-button {
+      @include md() {
+        min-width: 120px;
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+      }
+      &::before {
+      }
+      &:hover {
+        &::before {
+        }
+      }
+    }
+  }
+  
+}
+.btn-2 {
+  .elementor-button {
+    min-width: 117px;
+    border-radius: 12px !important;
+    border: 0;
+    padding-top: 18px !important;
+    padding-bottom: 18px !important;
+    &::before {
+      background-color: $primary !important;
+    }
+    .elementor-button-text {
+      font-size: 16px;
+    }
+    &:hover {
+      &::before {
+        background-color: lighten($primary, 7%) !important;
+      }
+    }
+  }
+  &.white {
+    .elementor-button {
+      &::before {
+        background-color: $text-w !important;
+      }
+      .elementor-button-text {
+        color: $primary;
+      }
+      &:hover {
+        &::before {
+          background-color: rgba($primary, 0.25) !important;
+        }
+      }
+    }
+    
+  }
+}
+.btn-3 {
+  .elementor-button {
+    min-width: 188px;
+    border-radius: 0 12px 12px 12px !important;
+    border: 0;
+    &::before {
+      background-color: $text-w !important;
+    }
+    .elementor-button-text {
+      color: $primary;
+      &::after {
+        content: '';
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-top: 2px solid $primary;
+        border-right: 2px solid $primary;
+        margin: 0 0 1px 10px;
+        transform: rotate(45deg);
+      }
+    }
+    &:hover {
+      &::before {
+        background-color: $primary !important;
+      }
+      .elementor-button-text {
+        color: $text-w;
+        &::after {
+          border-top-color: $text-w;
+          border-right-color: $text-w;
+        }
+      }
+    }
+  }
+&.white {
+    
+  }
+}
+.btn-round {
+  width: 48px;
+  height: 48px;
+  &.white {
+    
+  }
+}
+.back-icon-btn {
+  svg {
+    width: auto !important;
+  }
+}
+
+//按鈕(了解更多)
+.btn-more {
+  min-width: 173px !important;
+  flex-shrink: 0;
+  .elementor-button {
+    border: 1px solid $text-w;
+    color: $text-w;
+    background-color: transparent !important;
+    width: 100% !important;
+    border-radius: 16px !important;
+    padding: 18px !important;
+    .elementor-button-text {
+      font-size: 18px;
+      font-weight: bold;
+      line-height: 1;
+      color: $text-w;
+    }
+    &:hover {
+      background-color: $text-w !important;
+      box-shadow: 2px 5px 8px rgba(#000, 0.08);
+      .elementor-button-text {
+        color: $primary;
+      }
+    }
+  }
+}
+//h2標題線
+.line {
+  position: relative;
+  &.left, &.right, &.left-w, &.right-w {
+    .elementor-divider-separator {
+      
+    }
+  }
+
+  &.left {
+    .elementor-divider-separator {
+      @include borderGradient(bottom right, rgba($primary, 0), $primary);
+      
+    }
+  }
+  &.right {
+    .elementor-divider-separator {
+      @include borderGradient(bottom left, rgba($primary, 0), $primary);
+    }
+  }
+  &.left-w {
+    .elementor-divider-separator {
+      @include borderGradient(bottom right, rgba($text-w, 0), $text-w);
+    }
+  }
+  &.right-w {
+    .elementor-divider-separator {
+      @include borderGradient(bottom left, rgba($text-w, 0), $text-w);
+    }
+  }
+  &.left-grey {
+    .elementor-divider-separator {
+      @include borderGradient(bottom right, rgba(#dcdcdc, 0), #dcdcdc);
+    }
+  }
+  &.right-grey {
+    .elementor-divider-separator {
+      @include borderGradient(bottom left, rgba(#dcdcdc, 0), #dcdcdc);
+    }
+  }
+}
+
+// icon
+.icon-info-btn {
+  .elementor-button {
+    background: transparent;
+    border: 0;
+    padding: 0 !important;
+    .elementor-button-text {
+      font-size: 18px;
+      text-transform: lowercase;
+      letter-spacing: 3px;
+      position: relative;
+      &::before, &::after {
+        content: '';
+        display: inline-block;
+        border-top: 1px solid $text-w;
+        border-right: 1px solid $text-w;
+        width: 8px;
+        height: 8px;
+        transition: 0.4s;
+        opacity: 0;
+      }
+      &::before {
+        transform: rotate(-135deg);
+        margin-right: 8px;
+      }
+      &::after {
+        transform: rotate(45deg);
+        margin-left: 8px;
+      }
+    }
+    &:focus {
+      outline: 0;
+    }
+    &:hover {
+      .elementor-button-text {
+        color: $second;
+        &::before, &::after {
+          border-color: $second;
+        }
+      }
+    }
+  }
+}
+.icon-info-warp {
+  &:hover {
+    .icon-info-btn {
+      .elementor-button {
+        .elementor-button-text {
+          &::before, &::after {
+            opacity: 1;
+          }
+          &::before {
+            margin-right: 15px;
+            
+          }
+          &::after {
+            margin-left: 15px;
+          }
+        }
+      }
+      
+    }
+  }
+}
+.icon-info {
+  .elementor-icon {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 120px;
+    height: 120px;
+    border-radius: 999px;
+    box-shadow: 2px 5px 8px rgba(#000, 0.08);
+    &::before {
+      content:"";
+      position:absolute;
+      top:50%;
+      left:50%;
+      transform: translate(-50%, -50%);
+      border-radius:100%;
+      display: block;
+      width: 116px;
+      height: 116px;
+      background:linear-gradient(rgba($text-w, 0.8),rgba($text-w, 0.25));
+      @include bgGradient(to left top, rgba($text-w, 0.3) 10%,rgba($text-w, 0.05) 90%);
+    }
+    &::after {
+      content:"";
+      position:absolute;
+      top:0;
+      left:0;
+      right:0;
+      bottom:0;
+      border-radius:100%;
+      @include bgGradient(to left top, rgba($text-w, 0.25) 90%,rgba($text-w, 0) 10%);
+      // background:linear-gradient(rgba($text-w, 0.25),rgba($text-w, 0));
+      -webkit-mask:radial-gradient(farthest-side, transparent calc(100% - 2px),#fff 0);
+    }
+
+  }
+  > svg {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+

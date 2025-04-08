@@ -1,0 +1,274 @@
+@import 'variable';
+@import 'mixin';
+// @import url('https://fonts.googleapis.com/css2?family=Crimson+Text&display=swap');
+
+body {
+  * {
+    // font-family: 'Noto Serif TC', serif;
+  }
+}
+
+main {
+  width: 100%;
+}
+
+//slick
+.slick-track {
+  display: flex;
+}
+.slick-arrow {
+  position: relative;
+  display: flex;
+  align-items: center;
+  > button {
+    padding: 5px;
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 0;
+    > svg {
+      fill: $text-w;
+    }
+    &:hover {
+      background-color: $primary;
+    }
+    &:active, &:focus {
+      background-color: $primary-dark;
+    }
+  }
+  &.slick-disabled {
+    > button {
+      opacity: 0;
+      cursor: context-menu;
+    }
+  }
+  &.slick-next {
+    > button {
+      > svg {
+        transform: rotate(180deg);
+      }
+    }
+  }
+}
+.slick-dots {
+}
+
+.slick-dots-light {
+  .slick-dots {
+    button {
+      background-color: $bg;
+    }
+    .slick-active {
+      button {
+        background-color: $second;
+      }
+    }
+  }
+}
+
+
+// header
+.main-header-bar.ast-sticky-active {
+  box-shadow: 0 2px 10px 0 rgba(36, 50, 66, .0);
+  position: relative;
+  &::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    display: block;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    @include blur(20px);
+    background-color: rgba($text-w, 0.6) !important;
+  }
+}
+.main-header-menu {
+  .menu-item {
+    > .menu-link {
+      @media (min-width: $ml) and (max-width: 1130px) {
+        font-size: 16px !important;
+        padding-left: 11px;
+        padding-right: 11px;
+      }
+    }
+    .sub-menu {
+      @include blur(20px);
+      background-color: rgba($text-w, 0.6) !important;
+      box-shadow: 0 5px 10px rgba(#000, 0.1 );
+      * {
+        background-color: transparent !important;
+      }
+      > li {
+        border-bottom: 1px solid #DCDCDC;
+        > .menu-link {
+          padding-top: 17px;
+          padding-bottom: 17px;
+        }
+        &:last-of-type {
+          border-bottom: 0px;
+        }
+      }
+    }
+  }
+}
+
+//全站搜尋-按鈕
+.header-search-btn {
+  cursor: pointer;
+  font-size: 0;
+  display: flex;
+  align-items: center;
+  &::after {
+    content: url(../img/search.svg);
+    display: block;
+    line-height: 2.2;
+    background-repeat: no-repeat;
+    background-position: center center;
+  }
+  @include ml() {
+    margin-right: 10px;
+  }
+}
+//全站搜尋-內容
+.search-entire-site {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba($primary, 0.95);
+  .cont {
+    @include blur(50px);
+    position: relative;
+    padding: 50px 65px;
+    background-color: rgba($text-w, 0.85);
+    max-height: 90vh;
+    overflow-y: auto;
+    @include md() {
+      padding: 100px 30px 30px 30px;
+    }
+    @include sm() {
+      padding: 100px 0 30px 0;
+    }
+    
+    .ast-container {
+      display: flex;
+      gap: 80px;
+      @include lg() {
+        flex-direction: column;
+      }
+      .warp {
+        width: 50%;
+      }
+      .search {
+        .search-title {
+          color: $text-3;
+        }
+        form {
+          margin-top: 24px;
+          border-bottom: 1px solid $text-4;
+          display: flex;
+          input {
+            width: 100%;
+            border: 0;
+            background-color: transparent;
+          }
+          button {
+            background-color: transparent;
+            border: 0px;
+            svg {
+              width: 18px;
+            }
+          }
+        }
+      }
+      .keyword {
+        .keyword-list {
+          flex-direction: column;
+          gap: 16px;
+          .item {
+            width: 100%;
+          }
+        }
+      }
+    }
+    .search-close-btn {
+      position: absolute;
+      right: 65px;
+      top: 50px;
+      cursor: pointer;
+      &:hover {
+        color: $primary;
+      }
+      @include md() {
+        right: 30px;
+        top: 30px;
+      }
+    }
+  }
+}
+
+.keyword {
+  .keyword-title {
+    color: $text-3;
+  }
+  .keyword-list {
+    list-style: none;
+    margin: 0;
+    margin-top: 24px;
+    display: flex;
+    flex-wrap: wrap;
+    .item {
+      font-size: 16px;
+      > * {
+        font-size: 20px;
+        color: $text-3;
+      }
+      small {
+        font-size: 16px;
+      }
+    }
+  }
+}
+
+
+
+footer {
+  .footer-menu {
+    ul.menu {
+      list-style: none;
+      margin: 0;
+      display: grid;
+      gap: 20px;
+      > li {
+        > a {
+          color: #F3E8E4;
+          font-size: 18px;
+          font-weight: 500;
+        }
+      }
+    }
+  }
+  .copyright {
+    font-size: 14px;
+    a, .elementor-shortcode {
+      color: $text-w;
+      font-size: 20px;
+    }
+    a {
+      &:hover {
+        // color: $primary
+      }
+    }
+  }
+  
+}
