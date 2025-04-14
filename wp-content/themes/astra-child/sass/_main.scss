@@ -1,15 +1,20 @@
 @import 'variable';
 @import 'mixin';
-// @import url('https://fonts.googleapis.com/css2?family=Crimson+Text&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap');
+
 
 body {
   * {
-    font-family: 'Crimson Text', 'Noto Serif TC', serif;
+    // font-family: 'Crimson Text', 'Noto Serif TC', serif;
+    line-height: 2;
   }
 }
 
 main {
   width: 100%;
+}
+.text-shadow {
+  @include text-shadow();
 }
 
 //slick
@@ -45,7 +50,7 @@ main {
       cursor: context-menu;
     }
   }
-  &.slick-next {
+  &.slick-prev {
     > button {
       > svg {
         transform: rotate(180deg);
@@ -68,6 +73,119 @@ main {
     }
   }
 }
+
+//全站共用浮動按鈕
+@media (min-width: 768px) {
+  .floating-btn {
+    position: fixed;
+    top: 20%;
+    right: 2.1vw; 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 71vh;
+    z-index: 1000;
+    .floating-btn-top {
+      display: flex;
+      flex-direction: column;
+      gap: 24px; 
+      .floating-btn-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: $primary;
+        color: #fff;
+        border-radius: 4px;
+        padding: 10px 16px;
+        width: 77px;
+        height: 98px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        text-decoration: none;
+        transition: background-color 0.3s, transform 0.3s;
+        &:hover {
+          background-color: rgba($primary, 0.75);
+        }
+        img {
+          width: 36px;
+          // height: 20px;
+        }
+        .floating-btn-title {
+          font-size: 14px;
+          line-height: 1.2;
+          margin-top: 8px;
+        }
+      }
+    }
+  
+    .floating-btn-bottom {
+      .floating-btn-item {
+        display: flex;
+        justify-content: center;
+        &:hover {
+          opacity: 0.75;
+        }
+      }
+    }
+  }
+  
+  #ast-scroll-top {
+    width: 77px;
+    right: 2.1vw;
+  }
+}
+
+@include md() {
+  .main-header-bar {
+    padding-bottom: 61px;
+  }
+  .floating-btn {
+    background-color: rgba($primary, 0.8);
+    height: 61px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    .floating-btn-top {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      width: 100%;
+      padding: 0 8px;
+      .floating-btn-item {
+        text-align: center;
+        border-right: 1px solid $text-w;
+        &:last-child {
+          border-right: 0;
+        }
+        .floating-btn-icon {
+          display: none;
+        }
+        .floating-btn-title {
+          color: $text-w;
+          font-size: 16px;
+          font-weight: bold;
+          line-height: 1;
+        }
+      }
+    }
+    .floating-btn-bottom {
+      position: fixed;
+      right: 27px; 
+      bottom: 75px;
+      // display: none;
+      .floating-btn-item {
+       .floating-btn-icon {
+        width: 36px;
+       } 
+      }
+    }
+  }
+}
+
+
+
 
 
 // header
@@ -239,21 +357,58 @@ main {
     }
   }
 }
-
+//手機板header
+.ast-mobile-popup-header {
+  justify-content: start !important;
+  #menu-toggle-close {
+    align-items: center;
+    width: 100%;
+    border-bottom: 1px solid #DCDCDC;
+    padding: 20px 15px;
+    &::after {
+      content: '關閉';
+      font-size: 16px;
+      color: $text-3 !important;
+      letter-spacing: 2px;
+      margin-left: 5px;
+    }
+    &:focus {
+      border: 0;
+      border-bottom: 1px solid #DCDCDC;
+    }
+    .ast-svg-iconset {
+      line-height: 1.3;
+    }
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
 
 
 footer {
+  a {
+    color: #fff;
+    // font-family: 'Noto Serif SC';
+    &:hover {
+      color: #fff;
+    }
+  }
   .footer-menu {
     ul.menu {
       list-style: none;
       margin: 0;
       display: grid;
-      gap: 20px;
+      gap: 26px;
       > li {
         > a {
-          color: #F3E8E4;
-          font-size: 18px;
-          font-weight: 500;
+          color: #FFF;
+          font-size: 20px;
+          font-weight: 600;
+          @include md() {
+            font-size: 18px;
+          }
         }
       }
     }
@@ -263,6 +418,9 @@ footer {
     a, .elementor-shortcode {
       color: $text-w;
       font-size: 20px;
+      @include md() {
+        font-size: 18px;
+      }
     }
     a {
       &:hover {

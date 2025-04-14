@@ -17,22 +17,14 @@ define( 'CHILD_THEME_ASTRA_CHILD_VERSION', '1.0.0' );
  * Enqueue styles
  */
 function child_enqueue_styles() {
-	// 先取消 WordPress 預設的 jQuery
-	wp_deregister_script('jquery');
 
-	// 改用 jQuery 3.7.1
-	wp_register_script(
-		'jquery',
-		get_stylesheet_directory_uri() . '/assets/js/jquery-3.7.1.min.js',
-		array(), // 無依賴
-		'3.7.1',
-		true     // 放到底部 footer
-	);
-	wp_enqueue_script('jquery');
+	wp_enqueue_script( 'slick-js', get_stylesheet_directory_uri() . '/assets/js/slick.min.js', array('jquery'), '', true );
+	wp_enqueue_script('main', get_stylesheet_directory_uri().'/assets/js/main.js', array('jquery'), '', true);
 
 
 	//css
-	wp_enqueue_style( 'astra-child-theme-css', get_stylesheet_directory_uri() . '/style.css', array('astra-theme-css'), CHILD_THEME_ASTRA_CHILD_VERSION, 'all' );
+	wp_enqueue_style( 'slick-css', get_stylesheet_directory_uri() . '/assets/css/slick.css', array(), CHILD_THEME_ASTRA_CHILD_VERSION );
+	wp_enqueue_style( 'astra-child-theme-css', get_stylesheet_directory_uri() . '/assets/css/style.css', array('astra-theme-css'), CHILD_THEME_ASTRA_CHILD_VERSION, 'all' );
 
 }
 
@@ -40,7 +32,15 @@ add_action( 'wp_enqueue_scripts', 'child_enqueue_styles', 15 );
 
 
 
-
+// footer copyright year
+function current_year_init() {
+	function current_year_fn () {
+		$year = date_i18n ('Y');
+		return $year;
+	}
+	add_shortcode ('current_year', 'current_year_fn');
+}
+add_action('init', 'current_year_init');
 
 
 

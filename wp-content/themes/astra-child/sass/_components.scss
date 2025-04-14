@@ -1,8 +1,17 @@
 @import 'variable';
 @import 'mixin';
 
-.blur-50 {
-  @include blur(50px);
+// .font {
+//   font-family: 'Noto Serif TC', Sans-serif !important;
+// }
+.font-en {
+  font-family: "Crimson Text", serif !important;
+}
+
+@for $i from 1 through 5 {
+  .blur-#{ $i * 10 } {
+    @include blur(#{$i * 10}px);
+  }
 }
 
 .text-gradient {
@@ -28,9 +37,9 @@
 }
 
 //按鈕
-.btn-1,.btn-2,.btn-3 {
+.btn-1,.btn-2,.btn-text {
   .elementor-button {
-    padding: 20px 24px !important;
+    padding: 11px 22px 9px 22px !important;
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -42,8 +51,8 @@
     }
     .elementor-button-text {
       font-size: 18px;
-      font-weight: bold;
-      line-height: 1;
+      font-weight: 400;
+      letter-spacing: 2px;
       color: $text-w;
     }
     &::before {
@@ -61,9 +70,6 @@
 .btn-1 {
   .elementor-button {
     min-width: 142px;
-    padding-left: 31px !important;
-    padding-right: 31px !important;
-    border-radius: 999px !important;
     &::before {
       background-color: $primary !important;
     }
@@ -111,73 +117,80 @@
   }
   
 }
-.btn-2 {
+// .btn-2 {
+//   .elementor-button {
+//     min-width: 117px;
+//     border-radius: 12px !important;
+//     border: 0;
+//     padding-top: 18px !important;
+//     padding-bottom: 18px !important;
+//     &::before {
+//       background-color: $primary !important;
+//     }
+//     .elementor-button-text {
+//       font-size: 16px;
+//     }
+//     &:hover {
+//       &::before {
+//         background-color: lighten($primary, 7%) !important;
+//       }
+//     }
+//   }
+//   &.white {
+//     .elementor-button {
+//       &::before {
+//         background-color: $text-w !important;
+//       }
+//       .elementor-button-text {
+//         color: $primary;
+//       }
+//       &:hover {
+//         &::before {
+//           background-color: rgba($primary, 0.25) !important;
+//         }
+//       }
+//     }
+    
+//   }
+// }
+.btn-text {
   .elementor-button {
-    min-width: 117px;
-    border-radius: 12px !important;
+    // min-width: 188px;
+    border-radius: 0 !important;
     border: 0;
-    padding-top: 18px !important;
-    padding-bottom: 18px !important;
+    padding: 0 !important;
+    background-color: transparent !important;
     &::before {
-      background-color: $primary !important;
+      background-color: transparent !important;
     }
     .elementor-button-text {
       font-size: 16px;
-    }
-    &:hover {
-      &::before {
-        background-color: lighten($primary, 7%) !important;
-      }
-    }
-  }
-  &.white {
-    .elementor-button {
-      &::before {
-        background-color: $text-w !important;
-      }
-      .elementor-button-text {
-        color: $primary;
-      }
-      &:hover {
-        &::before {
-          background-color: rgba($primary, 0.25) !important;
-        }
-      }
-    }
-    
-  }
-}
-.btn-3 {
-  .elementor-button {
-    min-width: 188px;
-    border-radius: 0 12px 12px 12px !important;
-    border: 0;
-    &::before {
-      background-color: $text-w !important;
-    }
-    .elementor-button-text {
+      font-weight: 300;
       color: $primary;
+      position: relative;
+      padding-right: 20px;
+      transition: 0.4s;
       &::after {
         content: '';
         display: inline-block;
-        width: 10px;
-        height: 10px;
-        border-top: 2px solid $primary;
-        border-right: 2px solid $primary;
+        width: 9px;
+        height: 9px;
+        border-top: 1px solid $primary;
+        border-right: 1px solid $primary;
         margin: 0 0 1px 10px;
-        transform: rotate(45deg);
+        position: absolute;
+        right: 2px;
+        top: 46%;
+        transform: translateY(-50%) rotate(45deg);
       }
     }
     &:hover {
       &::before {
-        background-color: $primary !important;
+        background-color: transparent !important;
       }
       .elementor-button-text {
-        color: $text-w;
-        &::after {
-          border-top-color: $text-w;
-          border-right-color: $text-w;
-        }
+        padding-right: 30px;
+
       }
     }
   }

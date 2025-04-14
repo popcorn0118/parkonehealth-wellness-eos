@@ -93,11 +93,11 @@ $xs: 360px;
   background: -webkit-linear-gradient($direction, $color-1, $color-2);
 }
 
-@mixin bg-btn() {
-  border-radius: 16px;
+@mixin bg-btn($radius: 4px) {
+  border-radius: $radius;
   background-color: $text-w;
-  box-shadow: 2px 5px 8px 0 rgba(#000, 0.08);
-  padding: 10px 5px;
+  box-shadow: 0px 5px 10px 0 rgba(#000, 0.1);
+  padding: 8px 5px;
   // width: 100%;
   text-align: center;
   display: flex;
@@ -135,6 +135,10 @@ $xs: 360px;
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
+}
+
+@mixin text-shadow($text-shadow: 2px 5px 8px rgba(#000, 0.15)) {
+  text-shadow: $text-shadow;
 }
 
 //input專用, 在input選取提示的常用關鍵字後的樣式
