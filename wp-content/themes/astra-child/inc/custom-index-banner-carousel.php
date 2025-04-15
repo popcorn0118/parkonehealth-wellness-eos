@@ -8,6 +8,7 @@
 
  * ================================== */
 
+$banner_text = get_field('banner_text');
 $image_carousel = get_field('image_carousel');
 
 ?>
@@ -17,9 +18,9 @@ $image_carousel = get_field('image_carousel');
 	<div class="index-image-carousel">
 		<div class="cont">
 			<div class="text">
-				<h1 class="text-shadow">博田國際健康管理中心</h1>
-				<h6 class="font-en text-shadow">International Health Management Center</h6>
-				<h4 class="desc text-shadow no-br">以醫學中心規格打造五星級受檢感受，<br/>各類高端新穎的醫學檢查儀器、舒適隱密的診療空間及全方位的貼心服務。</h4>
+				<h1 class="text-shadow"><?php echo $banner_text['title']; ?></h1>
+				<h6 class="font-en text-shadow"><?php echo $banner_text['title_sub']; ?></h6>
+				<h4 class="desc text-shadow no-br"><?php echo $banner_text['desc']; ?></h4>
 			</div>
 			<div class="slider-nav-warp">
 				<ul class="slider-nav">

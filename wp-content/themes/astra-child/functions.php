@@ -666,6 +666,7 @@ function get_hottest_plan()
 {
 	ob_start();
 	$hottest_plans = get_field('hottest_plans', 'option');
+	$hottest_plans_bg = get_field('hottest_plans_bg', 'option');
 	// error_log(print_r($hottest_plans, true));	
 	$count = 3;	// 只取前三筆
 	$plans = array();
@@ -699,25 +700,29 @@ function get_hottest_plan()
 ?>
 	<div class="hottest-plan">
 		<?php
-		foreach ($plans as $plan):
+		$bg_keys = ['img_bg_1', 'img_bg_2', 'img_bg_3'];
+		foreach ($plans as $index => $plan):
+			$bg_key = $bg_keys[$index] ?? 'img_bg_1'; // 防呆：超出3筆時仍抓第一張
+			$bg_url = $hottest_plans_bg[$bg_key]['link'];
 		?>
 			<div class="plan">
-				<h4><?= $plan['tag_name']; ?></h4>
-				<h3><?= $plan['title']; ?></h3>
+				<h4 class="sub-title"><?= $plan['tag_name']; ?></h4>
+				<h3 class="title"><?= $plan['title']; ?></h3>
+				<div class="line"></div>
 				<?php
 				foreach ($plan['detail'] as $detail):
 				?>
-					<p>
-					<ul>
-						<li><?= $detail['sex']; ?>性</li>
-						<li>價格: <?= $detail['price']; ?></li>
-						<li>詳細資訊</li>
+					<ul class="list">
+						<li class="sex"><?= $detail['sex']; ?>性</li>
+						<li class="price">NT$<?= $detail['price']; ?></li>
+						<!-- <li>詳細資訊</li> -->
 					</ul>
-					</p>
 				<?php
 				endforeach;
 				?>
+				<button type="button" class="program_content">了解方案內容</button>
 				<button type="button" data-pname="<?= $plan['title']; ?>" data-pid="<?= $plan['id']; ?>" class="add_to_plans_compare">加入方案互比</button>
+				<div class="img" style="background-image: url(<?php echo $bg_url; ?>);"></div>
 			</div>
 		<?php
 		endforeach;

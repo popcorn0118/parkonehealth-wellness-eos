@@ -88,9 +88,9 @@ $xs: 360px;
   color: transparent;
 }
 //背景漸層
-@mixin bgGradient($direction, $color-1, $color-2) {
-  background: linear-gradient($direction, $color-1, $color-2);
-  background: -webkit-linear-gradient($direction, $color-1, $color-2);
+@mixin bgGradient($direction, $colors...) {
+  background: linear-gradient($direction, $colors...);
+  background: -webkit-linear-gradient($direction, $colors...);
 }
 
 @mixin bg-btn($radius: 4px) {
