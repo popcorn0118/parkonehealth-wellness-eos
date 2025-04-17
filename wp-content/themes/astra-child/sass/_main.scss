@@ -340,6 +340,18 @@ main {
     background-color: rgba($text-w, 0.6) !important;
   }
 }
+@media (min-width: $ml) and (max-width: $lg) {
+  .main-header-bar {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  header {
+  .custom-logo-link img {
+      max-width: 200px;
+    }
+  }
+}
+
 .main-header-menu {
   .menu-item {
     > .menu-link {
@@ -376,70 +388,82 @@ main {
   font-size: 0;
   display: flex;
   align-items: center;
-  &::after {
+  &::before {
     content: url(../img/search.svg);
     display: block;
     line-height: 2.2;
     background-repeat: no-repeat;
     background-position: center center;
+    margin: 3px 10px -3px -2px;
   }
   @include ml() {
     margin-right: 10px;
+    font-size: 16px;
+    color: $text-3;
   }
 }
 //全站搜尋-內容
 .search-entire-site {
+  @include blur(50px);
   display: none;
   position: fixed;
-  z-index: 999;
+  z-index: 100001;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba($primary, 0.95);
+  background-color: rgba($primary, 0.9);
   .cont {
-    @include blur(50px);
     position: relative;
-    padding: 50px 65px;
-    background-color: rgba($text-w, 0.85);
-    max-height: 90vh;
+    padding: 145px 65px;
+    max-height: 100vh;
     overflow-y: auto;
     @include md() {
-      padding: 100px 30px 30px 30px;
+      padding: 87px 30px 30px 30px;
     }
     @include sm() {
-      padding: 100px 0 30px 0;
+      padding: 87px 0 30px 0;
     }
     
     .ast-container {
       display: flex;
       gap: 80px;
-      @include lg() {
-        flex-direction: column;
-      }
+      flex-direction: column;
+      position: relative;
       .warp {
         width: 50%;
+        @include md() {
+          width: 100%;
+        }
       }
       .search {
         .search-title {
-          color: $text-3;
+          color: $text-w;
         }
         form {
           margin-top: 24px;
-          border-bottom: 1px solid $text-4;
+          border-bottom: 1px solid $text-w;
           display: flex;
           input {
+            color: $text-w;
             width: 100%;
             border: 0;
             background-color: transparent;
+            &::placeholder {
+              color: $text-w;
+            }
           }
           button {
             background-color: transparent;
             border: 0px;
             svg {
               width: 18px;
+              path {
+                stroke: $text-w;
+
+              }
             }
           }
         }
@@ -456,15 +480,16 @@ main {
     }
     .search-close-btn {
       position: absolute;
-      right: 65px;
-      top: 50px;
+      right: 0;
+      top: 0;
       cursor: pointer;
+      color: $text-w;
       &:hover {
-        color: $primary;
+        color: $primary-dark;
       }
       @include md() {
-        right: 30px;
-        top: 30px;
+        right: 20px;
+        top: -50px;
       }
     }
   }
@@ -472,7 +497,7 @@ main {
 
 .keyword {
   .keyword-title {
-    color: $text-3;
+    color: $text-w;
   }
   .keyword-list {
     list-style: none;
@@ -484,7 +509,7 @@ main {
       font-size: 16px;
       > * {
         font-size: 20px;
-        color: $text-3;
+        color: #DCDCDC;
       }
       small {
         font-size: 16px;
