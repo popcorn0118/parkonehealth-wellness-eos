@@ -42,6 +42,52 @@ function current_year_init() {
 }
 add_action('init', 'current_year_init');
 
+// 客製化 post type
+function create_post_type() {
+
+	register_post_type( 'case',
+		array(
+			'labels' 				=> array(
+				'name' 				=> __( '案例見證' ),
+				'singular_name' 	=> __( '案例見證' )
+			),
+			'public' 				=> true,
+			'has_archive' 			=> true,
+			'menu_icon' 			=> 'dashicons-welcome-write-blog',
+			'supports' 				=> array('title', 'editor', 'thumbnail', 'excerpt', 'revisions'),
+			'taxonomies' 			=> array('case-type', 'case-tag'),
+			'capability_type' 		=> 'page',
+			'map_meta_cap'			=> true,
+			// 'show_in_rest'      	=> true, // To use Gutenberg editor.
+			// 'supports' => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments', 'taxonomies'  ),
+		)
+	);
+
+	flush_rewrite_rules();
+}
+add_action( 'init', 'create_post_type' );
+
+// 新增 Taxonomy 給客製化的 post type
+function create_custom_taxonomy() {
+	  
+	// 分類
+	register_taxonomy('case-type',array('case'), 
+		array(
+			'labels' 				=> array(
+			'name' 				=> __( '案例見證分類' ),
+			'singular_name' 	=> __( '案例見證分類' )
+		),
+		'show_ui' 				=> true,
+		'show_admin_column' 	=> true,
+		'query_var' 			=> true,
+		'hierarchical' 			=> true,
+		'rewrite' 				=> array( 'slug' => 'case-type' ),
+		)
+	);
+
+}
+add_action( 'init', 'create_custom_taxonomy', 0 );
+
 
 
 

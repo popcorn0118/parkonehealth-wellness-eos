@@ -20,6 +20,29 @@ jQuery(document).ready(function ($) {
     nextArrow: `<button type="button" class="slick-next"><svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M-2.10598e-07 0.980724L1.04108 -1.10361e-07L6.71157 5.34495C6.80297 5.43059 6.87551 5.53244 6.92502 5.64462C6.97452 5.7568 7 5.87711 7 5.99861C7 6.12012 6.97452 6.24042 6.92502 6.3526C6.87551 6.46479 6.80297 6.56663 6.71157 6.65227L1.04108 12L0.000980942 11.0193L5.32314 6L-2.10598e-07 0.980724Z" fill="#4B4B4B"/></svg></button>`,
   });
 
+  //首頁 案例見證輪播
+  $('.index-case-card > .slider').slick({
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    arrows: true,
+    dots: false,
+    centerMode: true,
+    // centerPadding: '20%',
+    speed: 300,
+    // autoplay: true,
+    // autoplaySpeed: 5000,
+    // focusOnSelect: true, //點輪播圖就可以切換
+    prevArrow: `<button type="button" class="slick-prev"><svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M-2.10598e-07 0.980724L1.04108 -1.10361e-07L6.71157 5.34495C6.80297 5.43059 6.87551 5.53244 6.92502 5.64462C6.97452 5.7568 7 5.87711 7 5.99861C7 6.12012 6.97452 6.24042 6.92502 6.3526C6.87551 6.46479 6.80297 6.56663 6.71157 6.65227L1.04108 12L0.000980942 11.0193L5.32314 6L-2.10598e-07 0.980724Z" fill="#4B4B4B"/></svg><span class="text">上個案例</span></button>`,
+    nextArrow: `<button type="button" class="slick-next"><span class="text">下個案例</span><svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M-2.10598e-07 0.980724L1.04108 -1.10361e-07L6.71157 5.34495C6.80297 5.43059 6.87551 5.53244 6.92502 5.64462C6.97452 5.7568 7 5.87711 7 5.99861C7 6.12012 6.97452 6.24042 6.92502 6.3526C6.87551 6.46479 6.80297 6.56663 6.71157 6.65227L1.04108 12L0.000980942 11.0193L5.32314 6L-2.10598e-07 0.980724Z" fill="#4B4B4B"/></svg></button>`,
+    // responsive: [
+    //   {
+    //     breakpoint: 768,
+    //     settings: {
+    //         slidesToShow: 1,
+    //     }
+    //   },
+    // ]
+  });
 
 
 

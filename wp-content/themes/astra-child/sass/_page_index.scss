@@ -145,3 +145,263 @@
     }
   }
 }
+
+
+// 案例見證輪播
+.index-case-card {
+  width: 100%;
+  // overflow: hidden;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  .slick-list {
+    overflow: visible;
+  }
+  > ul.slider {
+    width: 135%;
+    margin: 0;
+    list-style: none;
+    position: unset;
+    @include xl() {
+        width: 200%; 
+    }
+    @include md() {
+        width: 300%; 
+    }
+    .slick-arrow {
+      @include blur(50px);
+      position: absolute;
+      bottom: 0;
+      z-index: 3;
+      transform: translateY(25%);
+      color: $text-4;
+      font-size: 18px;
+      background-color: rgba($text-w, 0.5);
+      box-shadow: 0 5px 10px rgba(#000, 0.1);
+      transition: 0.4s;
+      padding: 14px;
+      min-width: 181px;
+      display: flex;
+      justify-content: center;
+      letter-spacing: 2px;
+      @include xxl() {
+        min-width: 39px;
+        min-height: 44px;
+      }
+      svg  {
+        path {
+          fill: $text-4;
+        }
+      }
+      // border: 0;
+      &:hover {
+        background-color: $primary;
+        color: $text-w;
+        svg path {
+          fill: $text-w;
+        }
+      }
+      &.slick-prev {
+        left: 13%;
+        @include md() {
+          left: 0;
+        }
+        svg  {
+          margin-right: 30px;
+          transform: rotate(180deg);
+          @include xxl() {
+            margin-right: 0px;
+          }
+        }
+      }
+      &.slick-next {
+        right: 13%;
+        @include md() {
+          right: 0;
+        }
+        svg  {
+          margin-left: 30px;
+          @include xxl() {
+            margin-left: 0px;
+          }
+        }
+      }
+      .text {
+        @include xxl() {
+          display: none;
+        }
+      }
+    }
+    .slick-track {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        @include md() {
+          gap: 0px;
+        }
+    }
+    .slide-item {
+        // padding: 80px;
+        // padding: 80px;
+        display: flex;
+        align-items: center;
+        // overflow: hidden;
+        transform: scale(0.85);
+        transition: .3s ease-in-out all;
+        box-shadow: 0 5px 8px 0 rgba(#000, 0.1);
+        .item-warp {
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: cover;
+            width: 100%;
+            height: 0;
+            padding: 30% 0;
+            // aspect-ratio: 16 / 10;
+            display: flex;
+            align-items: flex-end;
+            position: relative;
+            z-index: 2;
+            border-radius: 8px;
+            .cont {
+              @include blur(50px);
+              position: absolute;
+              width: 80%;
+              left: 50%;
+              bottom: 0;
+              box-shadow: 0 -5px 8px 0 rgba(#000, 0.1);
+              transform: translate(-50%, 50%);
+              background-color: rgba($text-w, 0.9);
+              border-radius: 8px;
+              padding: 35px 70px;
+              opacity: 0;
+              .title {
+                @include word-count(1);
+                margin-bottom: 10px;
+                color: $text-2
+              }
+              .desc {
+                @include word-count(2);
+                font-size: 16px;
+                color: #707070;
+              }
+            }
+        }
+        &.slick-center {
+            transform: scale(1);
+            cursor: context-menu;
+            .item-warp {
+                .cont {
+                  opacity: 1;
+                }
+            }
+        }
+    }
+    
+
+  }
+}
+
+// 首頁健康專欄
+.index-column {
+  display: grid;
+  margin: 0;
+  list-style: none;
+  gap: 40px;
+  grid-template-columns: repeat(3, 1fr);
+  .item {
+    .info {
+      .img {
+        border-radius: 8px;
+        width: 100%;
+        display: block;
+        padding: 30% 0;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+      .cont {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        .date {
+          margin-right: 9px;
+          color: $text-4;
+          font-size: 16px;
+          display: inline-flex;
+          align-items: center;
+          letter-spacing: 1px;
+          &:after {
+            content: '';
+            width: 1px;
+            height: 16px;
+            display: inline-block;
+            border-right: 1px solid $text-4;
+            padding-left: 11px;
+          }
+        }
+        .meta {
+          .cat, .tag {
+            color: $text-4;
+            font-size: 16px;
+          }
+          .cat {
+            &::after {
+              content: '、';
+            }
+            &:last-of-type {
+              &::after {
+                display: none
+              }
+            }
+          }
+          .tag {
+            &::before {
+              content: '、';
+            }
+          }
+        }
+        .title {
+          @include word-count(1);
+          color: $text-2;
+          font-weight: 600;
+          line-height: 1.7;
+          margin-bottom: 0
+        }
+        .desc {
+          @include word-count(3);
+          font-size: 16px;
+          color: #707070;
+          color: $text-3;
+          line-height: 1.7;
+        }
+      }
+    }
+    &:hover {
+      .info {
+        .cont {
+          .title {
+            color: $primary;
+          }
+        }
+      }
+    }
+  }
+  @include lg()  {
+    grid-template-columns: repeat(2, 2fr);
+  }
+  @include md() {
+    grid-template-columns: repeat(1, 1fr);
+    .item {
+      &:last-of-type {
+        display: none;
+      }
+    }
+  }
+  @media (min-width: $lg) {
+    .item {
+      &:last-of-type {
+        display: none;
+      }
+    }
+  }
+}
