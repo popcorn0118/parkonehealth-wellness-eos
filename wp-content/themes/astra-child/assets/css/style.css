@@ -11,7 +11,7 @@ Text Domain: astra-child
 Template: astra
 */
 @import url("https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@100;200;300;400;500;700;800;900&display=swap");
 /* line 7, ../../sass/_components.scss */
 .font-en {
   font-family: "Crimson Text", serif !important;
