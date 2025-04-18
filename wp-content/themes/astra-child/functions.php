@@ -356,7 +356,7 @@ function upload_csv()
 						cache: false,
 						async: false,
 						success: function(response) {
-							console.log(response);
+							// console.log(response);
 							alert('上傳成功');
 						}
 					});
@@ -766,7 +766,7 @@ function get_hottest_plan()
 				<?php
 				endforeach;
 				?>
-				<button type="button" class="program_content">了解方案內容</button>
+				<button type="button" class="program_content" data-pname="<?= $plan['title']; ?>" data-pid="<?= $plan['id']; ?>">了解方案內容</button>
 				<button type="button" data-pname="<?= $plan['title']; ?>" data-pid="<?= $plan['id']; ?>" class="add_to_plans_compare">加入方案互比</button>
 				<div class="img" style="background-image: url(<?php echo $bg_url; ?>);"></div>
 			</div>
@@ -775,7 +775,15 @@ function get_hottest_plan()
 
 		?>
 	</div>
-
+	<script>
+		jQuery(function($) {
+			$('.program_content').click(function() {
+				var pname = $(this).data('pname');
+				var pid = $(this).data('pid');
+				location.href = '<?= site_url('checkup-plan'); ?>/' + pname;
+			});
+		});
+	</script>
 
 	<?php
 
@@ -882,7 +890,8 @@ function show_plan_compare()
 						success: function(response) {
 							// console.log(response);
 							if (response.success) {
-								location.reload();
+								// location.reload();
+								location.href = '<?= site_url('search_plan'); ?>';
 							} else {
 								alert(response.message);
 							}
