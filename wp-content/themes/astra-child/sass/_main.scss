@@ -61,23 +61,21 @@ main {
   }
 }
 .slick-dots {
-  > li {
+  li {
     margin: 0;
-  }
-}
-
-.slick-dots-light {
-  .slick-dots {
-    
     button {
       background-color: #D9D9D9;
     }
-    .slick-active {
+    &.slick-active {
       button {
         background-color: $primary;
       }
     }
   }
+}
+
+.slick-dots-light {
+  
 }
 
 //全站共用浮動按鈕

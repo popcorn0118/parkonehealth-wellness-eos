@@ -287,6 +287,7 @@
             position: relative;
             z-index: 2;
             border-radius: 8px;
+            pointer-events: none;
             .cont {
               @include blur(50px);
               position: absolute;
@@ -331,9 +332,10 @@
             transform: scale(1);
             cursor: context-menu;
             .item-warp {
-                .cont {
-                  opacity: 1;
-                }
+              pointer-events: all;
+              .cont {
+                opacity: 1;
+              }
             }
         }
         &.slick-current {
