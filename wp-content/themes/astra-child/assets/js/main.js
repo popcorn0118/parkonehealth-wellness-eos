@@ -28,20 +28,24 @@ jQuery(document).ready(function ($) {
     dots: false,
     centerMode: true,
     // centerPadding: '20%',
-    speed: 300,
     // autoplay: true,
     // autoplaySpeed: 5000,
-    // focusOnSelect: true, //點輪播圖就可以切換
+    speed: 1000, // 切換速度設定為 1000 毫秒（=1秒）
+    focusOnSelect: false, //點輪播圖就可以切換
     prevArrow: `<button type="button" class="slick-prev"><svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M-2.10598e-07 0.980724L1.04108 -1.10361e-07L6.71157 5.34495C6.80297 5.43059 6.87551 5.53244 6.92502 5.64462C6.97452 5.7568 7 5.87711 7 5.99861C7 6.12012 6.97452 6.24042 6.92502 6.3526C6.87551 6.46479 6.80297 6.56663 6.71157 6.65227L1.04108 12L0.000980942 11.0193L5.32314 6L-2.10598e-07 0.980724Z" fill="#4B4B4B"/></svg><span class="text">上個案例</span></button>`,
     nextArrow: `<button type="button" class="slick-next"><span class="text">下個案例</span><svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M-2.10598e-07 0.980724L1.04108 -1.10361e-07L6.71157 5.34495C6.80297 5.43059 6.87551 5.53244 6.92502 5.64462C6.97452 5.7568 7 5.87711 7 5.99861C7 6.12012 6.97452 6.24042 6.92502 6.3526C6.87551 6.46479 6.80297 6.56663 6.71157 6.65227L1.04108 12L0.000980942 11.0193L5.32314 6L-2.10598e-07 0.980724Z" fill="#4B4B4B"/></svg></button>`,
-    // responsive: [
-    //   {
-    //     breakpoint: 768,
-    //     settings: {
-    //         slidesToShow: 1,
-    //     }
-    //   },
-    // ]
+    responsive: [
+      {
+        breakpoint: 575,
+        settings: {
+          arrows: false,
+          dots: true,
+          centerMode: false,
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        }
+      },
+    ]
   });
 
 
@@ -95,6 +99,48 @@ $('.header-search-btn').on('click', function() {
 $('.search-close-btn').on('click', function() {
   $('.search-entire-site').fadeOut(300);
 });
+
+
+
+
+// 首頁影片自動撥放
+const $videos = $('.auto-play video');
+
+function checkVisibilityAndToggleVideo() {
+  $videos.each(function () {
+    const rect = this.getBoundingClientRect();
+    const inView = rect.top < window.innerHeight * 0.75 && rect.bottom > window.innerHeight * 0.25;
+    if (inView) {
+      this.play().catch(() => {});
+    } else {
+      this.pause();
+    }
+  });
+}
+
+// 初始判斷一次（防止首次不播放）
+checkVisibilityAndToggleVideo();
+
+// 綁定 scroll & resize
+$(window).on('scroll resize', function () {
+  checkVisibilityAndToggleVideo();
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 });
