@@ -127,11 +127,39 @@ $(window).on('scroll resize', function () {
 });
 
 
+/**
+ * 
+ * 
+ * 從健檢預約(/health-check-up-appointment/)
+ * 點擊對應按鈕到諮詢預約(/consultation-appointment/#tab-2)切換對應tab表單
+ * 
+ * **/
 
+const hash = window.location.hash;
 
+  if (hash && hash.startsWith('#tab-')) {
+    const observer = new MutationObserver(() => {
+      const el = document.querySelector(hash);
+      if (el && el.offsetParent !== null) { // 確保元素可見
+        el.dispatchEvent(new MouseEvent('click', {
+          view: window,
+          bubbles: true,
+          cancelable: true
+        }));
+        observer.disconnect(); // 點擊後移除 observer
+      }
+    });
 
-
-
+    // 監聽整個 tabs 區塊變動（初始化會產生變化）
+    const target = document.querySelector('.tabs-forms');
+    if (target) {
+      observer.observe(target, {
+        childList: true,
+        subtree: true,
+        attributes: true
+      });
+    }
+  }
 
 
 
@@ -144,3 +172,5 @@ $(window).on('scroll resize', function () {
 
 
 });
+
+

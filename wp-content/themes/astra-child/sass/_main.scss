@@ -18,7 +18,12 @@ main {
 .text-shadow {
   @include text-shadow();
 }
-
+.page-banner {
+  
+  @media (min-width: 768px) {
+    height: 480px;
+  }
+}
 //slick
 .slick-track {
   display: flex;
@@ -77,6 +82,79 @@ main {
 .slick-dots-light {
   
 }
+
+.swiper-pagination {
+  bottom: -10px !important;
+}
+
+.faq {
+  .e-n-accordion-item {
+    > .e-n-accordion-item-title {
+      border-left: 5px solid #B0BF98 !important;
+    }
+    > .e-con {
+      border-left: 5px solid $accent !important;
+    }
+    &[open] > .e-n-accordion-item-title {
+      border-left: 5px solid $accent !important;
+    }
+  }
+}
+
+// 切換表單(諮詢預約)
+.tabs-forms {
+  .e-n-tabs-heading {
+    margin-bottom: -38px;
+    z-index: 1;
+    padding: 0 15px;
+    > button {
+      @include md() {
+        order: 1 !important;
+        margin-bottom: 0px !important;
+      }
+    }
+  }
+  .e-n-tab-title {
+    .e-n-tab-title-text {
+      display: flex;
+      flex-direction: column;
+      align-items: self-start;
+      > span {
+        font-size: 14px;
+        font-weight: 600;
+        font-family: 'Crimson Text';
+        color: $primary;
+      }
+    }
+    &[aria-selected="false"] {
+      .e-n-tab-title-text {
+        > span {
+          opacity: 0;
+          @include md() {
+            opacity: 1;
+            color: $text-2;
+          }
+        }
+      }
+    }
+    // &[aria-selected="true"] {
+    //   @include md() {
+    //     order: 2 !important;
+    //   }
+    // }
+  }
+  .e-n-tabs-content {
+    box-shadow: 2px 5px 8px 0px rgba(#000, 0.08);
+    border-radius: 12px;
+    > div {
+      @include md() {
+        order: 3 !important;
+      }
+    }
+  }
+}
+
+
 
 //全站共用浮動按鈕
 @media (min-width: 768px) {
