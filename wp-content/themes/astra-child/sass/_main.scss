@@ -101,54 +101,94 @@ main {
   }
 }
 
-// 切換表單(諮詢預約)
-.tabs-forms {
-  .e-n-tabs-heading {
-    margin-bottom: -38px;
-    z-index: 1;
-    padding: 0 15px;
-    > button {
-      @include md() {
-        order: 1 !important;
-        margin-bottom: 0px !important;
+// 表單
+.wpcf7-form {
+  .text, label {
+    color: $text-2;
+  }
+  label {
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 20px;
+    display: inline-block;
+  }
+  .required {
+    color: #FF0000;
+  }
+  .custom-error {
+    color: #dc3232;
+    font-size: 1em;
+    margin-top: -28px;
+    display: block;
+  }
+  input, select, textarea {
+    border: 1px solid #BEBEBE;
+    border-radius: 4px !important;
+    background-color: transparent !important;
+    color: $text-2;
+    font-size: 18px;
+    &:disabled {
+      background-color: #f9f9f9 !important;
+    }
+    &:focus {
+      border: 1px solid #BEBEBE !important;
+    }
+  }
+  textarea {
+    height: 200px;
+  }
+  $check-color: $primary;
+  $check-size: 20px;
+  input[type="checkbox"],
+  input[type="radio"] {
+    min-width: unset;
+    appearance: none;
+    -webkit-appearance: none;
+    width: $check-size;
+    height: $check-size;
+    border: 1px solid $text-4;
+    border-radius: 2px;
+    background-color: transparent;
+    cursor: pointer;
+    position: relative;
+    vertical-align: middle;
+    margin: 0;
+    transition: background-color 0.2s, border-color 0.2s;
+    &:checked {
+      background-color: $check-color !important;
+      border-color: $check-color;
+      &::after {
+        content: '';
+        position: absolute;
+        left: 7px;
+        top: 3px;
+        width: 5px;
+        height: 10px;
+        border: solid #fff;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
       }
     }
   }
-  .e-n-tab-title {
-    .e-n-tab-title-text {
-      display: flex;
-      flex-direction: column;
-      align-items: self-start;
-      > span {
-        font-size: 14px;
-        font-weight: 600;
-        font-family: 'Crimson Text';
-        color: $primary;
-      }
-    }
-    &[aria-selected="false"] {
-      .e-n-tab-title-text {
-        > span {
-          opacity: 0;
-          @include md() {
-            opacity: 1;
-            color: $text-2;
-          }
-        }
-      }
-    }
-    // &[aria-selected="true"] {
-    //   @include md() {
-    //     order: 2 !important;
-    //   }
-    // }
+  .wpcf7-form-control-wrap {
+    // line-height: 1;
   }
-  .e-n-tabs-content {
-    box-shadow: 2px 5px 8px 0px rgba(#000, 0.08);
-    border-radius: 12px;
-    > div {
-      @include md() {
-        order: 3 !important;
+  .wpcf7-form-control {
+    // line-height: 1;
+    .wpcf7-list-item {
+      margin-left: 33px;
+      label {
+        margin-bottom: 0;
+        display: inline-flex;
+        align-items: center;
+      }
+      &.first {
+        margin-left: 0;
+      }
+      .wpcf7-list-item-label {
+        color: $text-4;
+        font-size: 18px;
+        margin-left: 15px;
       }
     }
   }
@@ -625,6 +665,26 @@ main {
     }
   }
 }
+
+// reCAPTCHA (v3) 表單驗證
+.grecaptcha-badge {
+  // opacity: 0.1;
+  // width: 80px;
+  // pointer-events: auto;
+  position: static !important;
+  // margin-top: 10px;
+  // opacity: 0.6;
+  // transform: scale(0.8);
+  &.badge-hidden {
+    opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  position: fixed !important;
+  right: -9999px;
+  bottom: -9999px;
+  }
+}
+
 
 
 footer {

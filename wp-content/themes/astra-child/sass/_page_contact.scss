@@ -1,2 +1,193 @@
 @import 'variable';
 @import 'mixin';
+
+
+/****
+諮詢預約
+**/
+// 切換表單
+.tabs-forms {
+    .e-n-tabs-heading {
+      margin-bottom: -38px;
+      z-index: 1;
+      padding: 0 15px;
+      > button {
+        @include md() {
+          order: 1 !important;
+          margin-bottom: 0px !important;
+        }
+      }
+    }
+    .e-n-tab-title {
+      .e-n-tab-title-text {
+        display: flex;
+        flex-direction: column;
+        align-items: self-start;
+        > span {
+          font-size: 14px;
+          font-weight: 600;
+          font-family: 'Crimson Text';
+          color: $primary;
+        }
+      }
+      &[aria-selected="false"] {
+        .e-n-tab-title-text {
+          > span {
+            opacity: 0;
+            @include md() {
+              opacity: 1;
+              color: $text-2;
+            }
+          }
+        }
+      }
+      // &[aria-selected="true"] {
+      //   @include md() {
+      //     order: 2 !important;
+      //   }
+      // }
+    }
+    .e-n-tabs-content {
+      box-shadow: 2px 5px 8px 0px rgba(#000, 0.08);
+      border-radius: 12px;
+      > div {
+        @include md() {
+          order: 3 !important;
+        }
+      }
+    }
+  }
+
+//   預約表單
+.appointment-form-warp {
+  .appointment-form {
+    display: flex;
+    flex-direction: 
+    column;
+    gap: 48px;
+    position: relative;
+    .item {
+        p {
+            margin: 0;
+        }
+    }
+    //是否做過全身健檢
+    .fullcheck {
+      position: relative;
+      // overflow: hidden;
+      .wpcf7-not-valid-tip {
+        margin-top: 15px;
+      }
+      .wpcf7-form-control-wrap {
+          margin-top: 20px;
+      }
+      .wpcf7-form-control {
+        @include md() {
+          display: flex;          ;
+          flex-direction: column;
+        }
+      }
+      .wpcf7-list-item {
+        &.first {
+          margin-right: 420px;
+          @include md() {
+            margin-right: 0px;
+          }
+        }
+        &.last {
+          @include md() {
+            margin-left: 0px;
+            margin-top: 25px;
+          }
+        }
+      }
+      #last-check-time {
+          width: 400px;
+          position: absolute;
+          left: 70px;
+          top: 47px;
+          @include md() {
+            width: calc(100% - 72px);
+          }
+      }
+    }
+    
+    //想了解哪個方案
+    .checkup-plan-list {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        .plan-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0;
+            gap: 36px;
+            @include md() {
+              flex-wrap: wrap;
+              gap: 10px 30px;
+            }
+            .plan-checkbox {
+              flex-shrink: 0;
+            }
+            .plan-price, .line, .plan-link {
+              @include md() {
+                width: 100%;
+                padding-left: 35px;
+              }
+            }
+            .plan-name, .plan-price {
+                font-size: 18px;
+                color: $text-2;
+            }
+            .plan-name {
+                margin-left: -15px;
+            }
+            .plan-price {
+              color: #595757;
+            }
+            .plan-link {
+                font-size: 16px;
+                color: $primary;
+            }
+            .line {
+              @include md() {
+                display: none;
+              }
+            }
+        }
+    }
+    .submit {
+      margin-bottom: -132px;
+      .wpcf7-submit {
+        // @include btn();
+        transition: 0.4s;
+        background-color: $primary !important;
+        color: $text-w;
+        border: 0;
+        border-radius: 4px 4px 16px 4px !important;
+        background-image: url(../img/arrow-2.svg);
+        background-repeat: no-repeat;
+        background-position: right 30px center;
+        background-size: auto;
+        padding: 23px 66px 23px 33px;
+        letter-spacing: 2px;
+        font-weight: 400;
+        &:hover {
+          background-color: #94A17F !important;
+        }
+      }
+    }
+  }
+  .wpcf7-response-output {
+    position: absolute !important;
+    left: 0;
+    bottom: -190px;
+    margin-left: 0 !important;
+    width: 100%;
+    @include md() {
+      bottom: -219px;
+    }
+  }
+}
+  
+  

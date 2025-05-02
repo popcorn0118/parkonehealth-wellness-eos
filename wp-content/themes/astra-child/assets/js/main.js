@@ -48,6 +48,30 @@ jQuery(document).ready(function ($) {
     ]
   });
 
+//中心介紹 > 中心環境 輪播
+ $('.center-carousel .slider-for').slick({
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  arrows: false,
+  dots: false,
+  asNavFor: '.center-carousel .slider-nav'
+});
+$('.center-carousel .slider-nav').slick({
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  asNavFor: '.center-carousel .slider-for',
+  arrows: false,
+  centerMode: true,
+  focusOnSelect: true,
+  fade: true,
+  dots: true,
+  // customPaging: function(slider, i) {
+  //   return '<button type="button">' + (i + 1) + '</button>';
+  // },
+  prevArrow: `<button type="button" class="slick-prev"><svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M-2.10598e-07 0.980724L1.04108 -1.10361e-07L6.71157 5.34495C6.80297 5.43059 6.87551 5.53244 6.92502 5.64462C6.97452 5.7568 7 5.87711 7 5.99861C7 6.12012 6.97452 6.24042 6.92502 6.3526C6.87551 6.46479 6.80297 6.56663 6.71157 6.65227L1.04108 12L0.000980942 11.0193L5.32314 6L-2.10598e-07 0.980724Z" fill="#4B4B4B"/></svg></button>`,
+  nextArrow: `<button type="button" class="slick-next"><svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M-2.10598e-07 0.980724L1.04108 -1.10361e-07L6.71157 5.34495C6.80297 5.43059 6.87551 5.53244 6.92502 5.64462C6.97452 5.7568 7 5.87711 7 5.99861C7 6.12012 6.97452 6.24042 6.92502 6.3526C6.87551 6.46479 6.80297 6.56663 6.71157 6.65227L1.04108 12L0.000980942 11.0193L5.32314 6L-2.10598e-07 0.980724Z" fill="#4B4B4B"/></svg></button>`,
+});
+
 
 
 /**
@@ -161,8 +185,185 @@ const hash = window.location.hash;
     }
   }
 
+// 個人預約諮詢 - 是否做過全身健檢 欄位
+  const $radios = $('input[name="fullcheck"]');
+  const $input = $('#last-check-time input');
+
+  $radios.on('change', function() {
+    if ($(this).val() === '是') {
+      $input.prop('disabled', false);
+    } else {
+      $input.prop('disabled', true).val('');
+    }
+  });
 
 
+
+//搬動 reCAPTCHA v3到表單下方
+var pagesNeedBadgeMove = [
+  'consultation-appointment'
+];
+
+var currentSlug = window.location.pathname.replace(/^\/|\/$/g, '');
+var isMovePage = pagesNeedBadgeMove.includes(currentSlug);
+
+function moveBadge() {
+  var $badge = $('.grecaptcha-badge');
+  var $placeholder = $('.grecaptcha-placeholder');
+
+  if ($badge.length && $placeholder.length) {
+    $badge.appendTo($placeholder);
+    $badge.removeClass('badge-hidden');
+    return true;
+  }
+  return false;
+}
+
+function hideBadge() {
+  var $badge = $('.grecaptcha-badge');
+  if ($badge.length) {
+    $badge.addClass('badge-hidden');
+  }
+}
+
+function waitForBadge() {
+  var checkInterval = setInterval(function() {
+    if (isMovePage) {
+      if (moveBadge()) {
+        clearInterval(checkInterval);
+      }
+    } else {
+      hideBadge();
+      clearInterval(checkInterval);
+    }
+  }, 300);
+}
+
+if (typeof grecaptcha === 'undefined') {
+  var waitForRecaptcha = setInterval(function() {
+    if (typeof grecaptcha !== 'undefined' && grecaptcha.render) {
+      clearInterval(waitForRecaptcha);
+      waitForBadge();
+    }
+  }, 300);
+} else {
+  waitForBadge();
+}
+
+
+
+
+//團體預約諮詢 - 最低跟最高預算判斷
+function validateMinBudget() {
+  var $minBud = $('#min-bud');
+  var minBudget = parseInt($minBud.val(), 10);
+  var maxBudget = parseInt($('#max-bud').val(), 10);
+  var isValid = true;
+
+  $('#error-min-bud').text(''); // ⭐保留你的個別錯誤提示
+
+  if (!isNaN(minBudget) && !isNaN(maxBudget)) {
+    if (minBudget > maxBudget) {
+      $('#error-min-bud').text('最低預算不能高於最高預算');
+      isValid = false;
+    }
+  }
+  return isValid;
+}
+
+function validateMaxBudget() {
+  var $maxBud = $('#max-bud');
+  var minBudget = parseInt($('#min-bud').val(), 10);
+  var maxBudget = parseInt($maxBud.val(), 10);
+  var isValid = true;
+
+  $('#error-max-bud').text(''); // ⭐保留你的個別錯誤提示
+
+  if (!isNaN(minBudget) && !isNaN(maxBudget)) {
+    if (minBudget > maxBudget) {
+      $('#error-max-bud').text('最高預算不能低於最低預算');
+      isValid = false;
+    }
+  }
+  return isValid;
+}
+
+// 👉 只負責控制送出按鈕能不能點，不處理其他 UI
+function updateSubmitButtonStatus() {
+  var isMinValid = validateMinBudget();
+  var isMaxValid = validateMaxBudget();
+  var $submitButton = $('.group.appointment-form-warp .wpcf7-submit');
+
+  if (!isMinValid || !isMaxValid) {
+    $submitButton.prop('disabled', true); // 阻止點擊
+  } else {
+    $submitButton.prop('disabled', false); // 可以點
+  }
+}
+
+// blur 的時候檢查
+$('#min-bud').on('blur', updateSubmitButtonStatus);
+$('#max-bud').on('blur', updateSubmitButtonStatus);
+
+updateSubmitButtonStatus();
+
+
+// function validateMinBudget() {
+//   var $minBud = $('#min-bud');
+//   var minBudget = parseInt($minBud.val(), 10);
+//   var maxBudget = parseInt($('#max-bud').val(), 10);
+//   var isValid = true;
+//   var $submitButton = $('.group.appointment-form-warp .wpcf7-submit');
+
+//   $('#error-min-bud').text('');
+//   $minBud.removeClass('wpcf7-not-valid').attr('aria-invalid', 'false');
+
+//   if (!isNaN(minBudget) && !isNaN(maxBudget)) {
+//     if (minBudget > maxBudget) {
+//       $('#error-min-bud').text('最低預算不能高於最高預算');
+//       $minBud.addClass('wpcf7-not-valid').attr('aria-invalid', 'true');
+//       isValid = false;
+//     }
+//   }
+//   return isValid;
+// }
+
+// function validateMaxBudget() {
+//   var $maxBud = $('#max-bud');
+//   var minBudget = parseInt($('#min-bud').val(), 10);
+//   var maxBudget = parseInt($maxBud.val(), 10);
+//   var isValid = true;
+
+//   $('#error-max-bud').text('');
+//   $maxBud.removeClass('wpcf7-not-valid').attr('aria-invalid', 'false');
+
+//   if (!isNaN(minBudget) && !isNaN(maxBudget)) {
+//     if (minBudget > maxBudget) {
+//       $('#error-max-bud').text('最高預算不能低於最低預算');
+//       $maxBud.addClass('wpcf7-not-valid').attr('aria-invalid', 'true');
+//       isValid = false;
+//     }
+//   }
+//   return isValid;
+// }
+
+// // 即時 blur 檢查
+// $('#min-bud').on('blur', validateMinBudget);
+// $('#max-bud').on('blur', validateMaxBudget);
+
+// $('.group.appointment-form-warp form.wpcf7-form').on('submit', function (e) {
+//   var isMinValid = validateMinBudget();
+//   var isMaxValid = validateMaxBudget();
+
+//   console.log('submit trigger', isMinValid, isMaxValid);
+
+//   if (!isMinValid || !isMaxValid) {
+//     // 阻止表單送出
+//     e.preventDefault();
+//     e.stopImmediatePropagation();
+//     return false;
+//   }
+// });
 
 
 
@@ -172,5 +373,6 @@ const hash = window.location.hash;
 
 
 });
+
 
 

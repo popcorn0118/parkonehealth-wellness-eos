@@ -88,6 +88,82 @@ function create_custom_taxonomy() {
 }
 add_action( 'init', 'create_custom_taxonomy', 0 );
 
+// 個人預約諮詢 - 想了解哪個方案 欄位
+add_shortcode('checkup_plan_list', function () {
+    $args = array(
+        'post_type' => 'checkup-plan',
+        'posts_per_page' => -1,
+        'post_status' => 'publish'
+    );
+    $posts = get_posts($args);
+    $html = '<div class="checkup-plan-list">';
+    foreach ($posts as $post) {
+        $id = $post->ID;
+        $title = esc_html(get_the_title($id));
+        $male = get_field('plan_price_male', $id) ? get_field('plan_price_male', $id) : '未定';
+        $female = get_field('plan_price_female', $id) ? get_field('plan_price_female', $id) : '未定';
+        $url = esc_url(get_permalink($id));
+		$checkup_price_gender_and_items = get_field("checkup_price_gender_and_items", $id);
+
+        $html .= '<label class="plan-item">';
+        $html .= '<input class="plan-checkbox" type="checkbox" name="checkup_plans[]" value="' . esc_attr($title) . '">';
+        $html .= '<span class="plan-name">' . $title . '</span>';
+		foreach ($checkup_price_gender_and_items as $checkup_price_gender_and_item) {
+			if ($checkup_price_gender_and_item['gender'] == 'male') {
+				$html .= '<span class="plan-price male">男性';
+			} else if ($checkup_price_gender_and_item['gender'] == 'female') {
+				$html .= '<span class="plan-price female">女性';
+			}
+			$html .= 'NT$' . $checkup_price_gender_and_item['price'] . '</span>';
+		}
+        $html .= '<span class="line">｜</span>';
+        $html .= '<a href="' . $url . '" target="_blank" class="plan-link">了解方案</a>';
+        $html .= '</label>';
+    }
+    $html .= '</div>';
+    return $html;
+});
+// 想了解哪個方案，用、分隔
+add_filter('wpcf7_mail_tag_replaced', function($replaced, $submitted, $html) {
+    // 確認 submitted 是 array
+    if (is_array($submitted)) {
+        // 這邊可以根據 _wpcf7_container_post 確認是哪一個表單
+        $form_id = isset($submitted['_wpcf7']) ? intval($submitted['_wpcf7']) : 0;
+
+        // 只有特定 ID 的表單才進行處理
+        if ($form_id === '436b503' && isset($submitted['name']) && $submitted['name'] === 'checkup_plans') {
+            if (is_array($replaced)) {
+                $replaced = implode('、', array_map('sanitize_text_field', $replaced));
+            } elseif (is_string($replaced)) {
+                $replaced = sanitize_text_field($replaced);
+            }
+        }
+    }
+    return $replaced;
+}, 10, 3);
+
+//上方選單判斷 非管理員權限隱藏的項目
+add_filter('wp_get_nav_menu_items', 'hide_menu_item_by_class_for_non_admins', 10, 3);
+function hide_menu_item_by_class_for_non_admins($items, $menu, $args) {
+    if (!is_admin() && !current_user_can('administrator')) {
+        foreach ($items as $key => $item) {
+            if (in_array('admin-only', $item->classes)) {
+                unset($items[$key]);
+            }
+        }
+        $items = array_values($items); // 重排索引，避免主題崩
+    }
+    return $items;
+}
+
+
+
+
+
+
+
+
+
 
 
 
