@@ -2151,3 +2151,50 @@ footer .copyright a, footer .copyright .elementor-shortcode {
     bottom: -219px;
   }
 }
+
+/* line 5, ../../sass/_page_appointment_record.scss */
+.appointment-record .table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+@media (min-width: 1200px) {
+  /* line 5, ../../sass/_page_appointment_record.scss */
+  .appointment-record .table-wrapper {
+    overflow-x: visible;
+  }
+}
+/* line 12, ../../sass/_page_appointment_record.scss */
+.appointment-record .responsive-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 800px;
+}
+/* line 17, ../../sass/_page_appointment_record.scss */
+.appointment-record .responsive-table thead th {
+  background-color: #79895F;
+  color: #FEFEFE;
+  text-align: center;
+  padding: 16px;
+  font-size: 18px;
+  z-index: 10;
+  white-space: nowrap;
+}
+@media (min-width: 1200px) {
+  /* line 17, ../../sass/_page_appointment_record.scss */
+  .appointment-record .responsive-table thead th {
+    position: sticky;
+    top: 91px;
+  }
+}
+/* line 31, ../../sass/_page_appointment_record.scss */
+.appointment-record .responsive-table td {
+  padding: 16px;
+  border: 1px solid #DCDCDC;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 16px;
+}
+/* line 39, ../../sass/_page_appointment_record.scss */
+.appointment-record .responsive-table tbody tr:nth-child(odd) {
+  background-color: #f9f9f9;
+}
