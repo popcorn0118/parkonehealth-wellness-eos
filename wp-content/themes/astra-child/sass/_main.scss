@@ -206,11 +206,13 @@ main {
     flex-direction: column;
     justify-content: space-between;
     height: 68vh;
-    z-index: 1000;
+    pointer-events: none;
     .floating-btn-top {
       display: flex;
       flex-direction: column;
       gap: 24px; 
+      position: relative;
+      z-index: 1000;
       .floating-btn-item {
         display: flex;
         flex-direction: column;
@@ -241,6 +243,8 @@ main {
     }
   
     .floating-btn-bottom {
+      position: relative;
+      z-index: 1000;
       .floating-btn-item {
         display: flex;
         justify-content: center;
