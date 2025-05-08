@@ -4,10 +4,10 @@
 get_header();
 
 
-$category_query  = isset($_GET['category']) ? $_GET['category']: null;
+$category_query  = isset($_GET['case-type']) ? $_GET['case-type']: null;
 $page_query = isset($_GET['page-query']) ? $_GET['page-query']: 1 ;
 $search_query = isset($_GET['search-query']) ? $_GET['search-query']: null ;
-$year_query = $_GET['year-query'] ;
+$year_query = isset($_GET['year-query']) ? $_GET['year-query'] : null;
 
 $is_category_query = (empty($category_query) || ($category_query == 'all')) ? null : $category_query;
 
@@ -17,7 +17,7 @@ $is_category_query = (empty($category_query) || ($category_query == 'all')) ? nu
   //文章列表
   $tax_query = array(
       array(
-          'taxonomy' => 'category',
+          'taxonomy' => 'case-type',
           'field' => 'slug',
           'terms' => $is_category_query,
       )
@@ -25,7 +25,7 @@ $is_category_query = (empty($category_query) || ($category_query == 'all')) ? nu
 
   $tag_query = isset($_GET['post_tag']) ? $_GET['post_tag'] : null;
   $args_column_article_s = array(
-      'post_type' => 'post',
+      'post_type' => 'case',
       'post_status' => 'publish',
       'posts_per_page' => 10,
       'paged' => $page_query,
@@ -82,17 +82,17 @@ $is_category_query = (empty($category_query) || ($category_query == 'all')) ? nu
         </div>
       </div>
       <?php 
-        $years = $wpdb->get_col("SELECT DISTINCT YEAR(post_date) FROM $wpdb->posts WHERE post_status = 'publish' AND post_type = 'post' ORDER BY post_date DESC");
+        $years = $wpdb->get_col("SELECT DISTINCT YEAR(post_date) FROM $wpdb->posts WHERE post_status = 'publish' AND post_type = 'case' ORDER BY post_date DESC");
       ?>
         <?php if ($years): ?>
           <div class="dropdown-list">
             <ul>
               <li class="item<?php echo $year_query == 'all' ? ' active' : ''?>">
-                <a href="<?php echo esc_url( home_url( 'article?category=' ) ) . $category_query . '&search-query=' . $search_query . '&year-query=all'; ?>">全部年度</a>
+                <a href="<?php echo esc_url( home_url( 'cases?case-type=' ) ) . $category_query . '&search-query=' . $search_query . '&year-query=all'; ?>">全部年度</a>
               </li>
               <?php foreach ($years as $year): ?>
                   <li class="item<?php echo $year_query == $year ? ' active' : ''?>">
-                    <a href="<?php echo esc_url( home_url( 'article?category=' ) ) . $category_query . '&search-query=' . $search_query . '&year-query=' . $year; ?>"><?php echo esc_html($year); ?></a>
+                    <a href="<?php echo esc_url( home_url( 'cases?case-type=' ) ) . $category_query . '&search-query=' . $search_query . '&year-query=' . $year; ?>"><?php echo esc_html($year); ?></a>
                   </li>
               <?php endforeach; ?>
             </ul>
@@ -100,10 +100,12 @@ $is_category_query = (empty($category_query) || ($category_query == 'all')) ? nu
         <?php endif; ?>
     </div>
 
+
+    <?php /*
     <?php
         //文章分類
         $article_categories = get_terms( array( 
-            'taxonomy' => 'category',
+            'taxonomy' => 'case-type',
             'parent'   => 0
         ) );
     ?>
@@ -111,7 +113,7 @@ $is_category_query = (empty($category_query) || ($category_query == 'all')) ? nu
       <div class="dropdown-title">
         <?php 
           if (!empty($category_query) && $category_query != 'all') {
-            $term = get_term_by('slug', $category_query, 'category');
+            $term = get_term_by('slug', $category_query, 'case-type');
             echo $term ? $term->name : $category_query; 
           } elseif ($category_query === 'all') {
             echo '全部分類';
@@ -125,10 +127,10 @@ $is_category_query = (empty($category_query) || ($category_query == 'all')) ? nu
       </div>
       <div class="dropdown-list">
         <ul>
-          <li class="item<?php echo $category_query == 'all' ? ' active' : ''?>"><a href="<?php echo esc_url( home_url( 'article?category=all' ) ) . '&search-query=' . $search_query . '&year-query=' . $year_query; ?>">全部分類</a></li>
+          <li class="item<?php echo $category_query == 'all' ? ' active' : ''?>"><a href="<?php echo esc_url( home_url( 'cases?case-type=all' ) ) . '&search-query=' . $search_query . '&year-query=' . $year_query; ?>">全部分類</a></li>
           <?php foreach ($article_categories as $item): ?>
             <li class="item<?php echo $category_query == $item->name ? ' active' : ''; ?>">
-                <a href="<?php echo esc_url( home_url( 'article?category=' ) ) . $item->slug . '&search-query=' . $search_query . '&year-query=' . $year_query; ?>"><?php echo $item->name; ?></a>
+                <a href="<?php echo esc_url( home_url( 'cases?case-type=' ) ) . $item->slug . '&search-query=' . $search_query . '&year-query=' . $year_query; ?>"><?php echo $item->name; ?></a>
             </li>
           <?php endforeach ;?>
         </ul>
@@ -136,11 +138,15 @@ $is_category_query = (empty($category_query) || ($category_query == 'all')) ? nu
       
     </div>
 
+    */ ?>
+
+    
+
     <!-- 搜尋關鍵字 -->
     <div class="warp search">
-      <form method="get" class="search-query-box" action="<?php echo esc_url( home_url( '/article' ) ); ?>">
+      <form method="get" class="search-query-box" action="<?php echo esc_url( home_url( '/cases' ) ); ?>">
         <input type="text" value="<?php echo $search_query; ?>" name="search-query" class="search-query" placeholder="搜尋關鍵字..." />
-        <input type="text" value="<?php echo $category_query; ?>" name="category" class="category" placeholder="搜尋分類" hidden />
+        <input type="text" value="<?php echo $category_query; ?>" name="case-type" class="category" placeholder="搜尋分類" hidden />
         <input type="text" value="<?php echo $year_query; ?>" name="year-query" class="year-query" placeholder="搜尋年份" hidden />
         <button type="submit" class="search-btn">
             <svg xmlns="http://www.w3.org/2000/svg" width="24.97" height="24.97" viewBox="0 0 24.97 24.97">
@@ -168,7 +174,7 @@ $is_category_query = (empty($category_query) || ($category_query == 'all')) ? nu
     ?>
 
     <?php if(!empty($category_query) || !empty($search_query)):?>
-      <a class="clear-all" href="<?php echo esc_url( home_url( 'article' ) ); ?>">清除全部篩選詞</a>
+      <a class="clear-all" href="<?php echo esc_url( home_url( 'cases' ) ); ?>">清除全部篩選詞</a>
     <?php endif; ?>
   </div>
 
@@ -184,7 +190,7 @@ $is_category_query = (empty($category_query) || ($category_query == 'all')) ? nu
             $name = $item->post_name;
             $date = strtotime($item->post_date);
             $desc = !empty($item->post_excerpt) ? $item->post_excerpt : $item->post_content;
-            $category = get_the_terms($item->ID, 'category'); // get category
+            $category = get_the_terms($item->ID, 'case-type'); // get case-type
             $tags = get_the_terms($item->ID, 'post_tag'); // get post_tag
             $img = wp_get_attachment_image_src( get_post_thumbnail_id( $item ), 'full' );
       ?>
@@ -202,7 +208,7 @@ $is_category_query = (empty($category_query) || ($category_query == 'all')) ? nu
                 <?php foreach ($category as $key => $cat):?>
                   <li>
                     <?php echo $cat->name; ?>
-                    <!-- <a href="<?php //echo esc_url( home_url( 'article?category=' ) ) . $cat->slug; ?>"><?php //echo $cat->name; ?></a> -->
+                    <!-- <a href="<?php //echo esc_url( home_url( 'cases?case-type=' ) ) . $cat->slug; ?>"><?php //echo $cat->name; ?></a> -->
                   </li>
                   <?php
                       if ($key + 1 != count($category)) {
@@ -233,7 +239,7 @@ $is_category_query = (empty($category_query) || ($category_query == 'all')) ? nu
             <div class="desc">
               <?php echo strip_tags($desc); ?>
             </div>
-            <a class="read-btn btn" href="<?php echo esc_url( home_url( 'article/'.$name ) ); ?>">了解更多
+            <a class="read-btn btn" href="<?php echo esc_url( home_url( 'cases/'.$name ) ); ?>">了解更多
               <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M-2.10598e-07 0.980724L1.04108 -1.10361e-07L6.71157 5.34495C6.80297 5.43059 6.87551 5.53244 6.92502 5.64462C6.97452 5.7568 7 5.87711 7 5.99861C7 6.12012 6.97452 6.24042 6.92502 6.3526C6.87551 6.46479 6.80297 6.56663 6.71157 6.65227L1.04108 12L0.000980942 11.0193L5.32314 6L-2.10598e-07 0.980724Z"/>
               </svg>
@@ -249,7 +255,7 @@ $is_category_query = (empty($category_query) || ($category_query == 'all')) ? nu
     <?php 
       if ($total_count != 0):
 
-        $query_str = '&category=' . $category_query . '&search-query=' . $search_query;
+        $query_str = '&case-type=' . $category_query . '&search-query=' . $search_query;
     ?>
         <div class="page-number-warp">
             <ul class="page-number">

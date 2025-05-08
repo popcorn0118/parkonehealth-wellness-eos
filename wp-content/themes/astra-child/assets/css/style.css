@@ -2567,7 +2567,7 @@ footer .copyright a, footer .copyright .elementor-shortcode {
 .article-list .article-cont .list .item .cont .meta .categories, .article-list .article-cont .list .item .cont .meta .tags {
   display: flex;
   list-style: none;
-  margin: 0 0 3px 0;
+  margin: 0;
 }
 /* line 257, ../../sass/_page_article.scss */
 .article-list .article-cont .list .item .cont .meta .categories > li, .article-list .article-cont .list .item .cont .meta .tags > li {

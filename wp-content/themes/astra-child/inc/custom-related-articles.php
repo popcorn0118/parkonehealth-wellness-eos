@@ -16,7 +16,7 @@ $is_page_type = array(
   'category' => array('post' => 'category', 'case' => 'case-type'),
   'tags' => array('post' => 'post_tag', 'case' => 'case-tag'),
   'list' => array('post' => 'article', 'case' => 'case'),
-  'id' => array('post' => 2375, 'case' => 0000),
+  'id' => array('post' => 2375, 'case' => 2441),
 );
 
 
