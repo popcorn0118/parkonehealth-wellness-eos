@@ -238,6 +238,7 @@ function display_check_plan()
 			background-color: #45a049;
 		}
 	</style>
+	
 	<table class="table">
 		<?php
 		$has_rowspan = array();	// 用來記錄哪些欄位有 rowspan
@@ -894,55 +895,58 @@ function show_plan_compare()
 	if (count($compare_plans) > 0):
 	?>
 		<!-- 做直的比較表 -->
-		<hr />
-		<table class='table'>
-			<tr>
-				<th>項目</th>
-				<?php
-				foreach ($_compare_plans_item_list as $pname => $union_list) {
-					echo "<th>{$pname}</th>";
-				}
-				?>
-			</tr>
-			<?php
-			foreach ($checkup_set_list as $_checkup_plan_id => $checkup_set):
-			?>
-				<tr>
-					<th><?= $checkup_set['title']; ?></th>
-					<?php
-					foreach ($_compare_plans_item_list as $pname => $union_list) {
-						$checkup_set_id = $_checkup_plan_id;
-						// $checkup_set_title = $checkup_set['title'];
-						if (in_array($checkup_set_id, $union_list)) {
-							echo "<td>O</td>";
-						} else {
-							echo "<td></td>";
+		<div class="solution-comparison-results">
+			<div class="cont">
+				<table class='table'>
+					<tr>
+						<th>項目</th>
+						<?php
+						foreach ($_compare_plans_item_list as $pname => $union_list) {
+							echo "<th>{$pname}</th>";
 						}
-					}
+						?>
+					</tr>
+					<?php
+					foreach ($checkup_set_list as $_checkup_plan_id => $checkup_set):
 					?>
-				</tr>
-			<?php
-			endforeach;
-			?>
-			<tr>
-				<th><button type="button" id="btn_remove_from_compare">移除</button></th>
-				<?php
-				foreach ($compare_plans as $pid => $pname):
-				?>
-					<td><input type="checkbox" class="remove_from_compare" value="<?= $pname; ?>"></td>
-				<?php
-				endforeach;
-				?>
-			</tr>
-			<tr>
-				<th>項目</th>
-				<?php
-				foreach ($_compare_plans_item_list as $pname => $union_list) {
-					echo "<th>{$pname}</th>";
-				}
-				?>
-			</tr>
-		</table>
+						<tr>
+							<th><?= $checkup_set['title']; ?></th>
+							<?php
+							foreach ($_compare_plans_item_list as $pname => $union_list) {
+								$checkup_set_id = $_checkup_plan_id;
+								// $checkup_set_title = $checkup_set['title'];
+								if (in_array($checkup_set_id, $union_list)) {
+									echo "<td>O</td>";
+								} else {
+									echo "<td></td>";
+								}
+							}
+							?>
+						</tr>
+					<?php
+					endforeach;
+					?>
+					<tr>
+						<th><button type="button" id="btn_remove_from_compare">移除</button></th>
+						<?php
+						foreach ($compare_plans as $pid => $pname):
+						?>
+							<td><input type="checkbox" class="remove_from_compare" value="<?= $pname; ?>"></td>
+						<?php
+						endforeach;
+						?>
+					</tr>
+					<tr>
+						<th>項目</th>
+						<?php
+						foreach ($_compare_plans_item_list as $pname => $union_list) {
+							echo "<th>{$pname}</th>";
+						}
+						?>
+					</tr>
+				</table>
+			</div>
+		</div>
 		<!-- End of 做直的比較表 -->
 	<?php endif; ?>
 	<script type="text/javascript">
@@ -1105,46 +1109,76 @@ function plan_search_result()
 	// 	}
 	// }
 	// error_log("compare_plans_item_list: " . print_r($compare_plans_item_list, true));
+
+	
 ?>
-	<div id="search_result">
-		<table id="plan_results">
-			<tr id="result_th">
-				<th>搜尋結果</th>
-			</tr>
-			<?php
-			if (is_array($plans_compare) && count($plans_compare) > 0) {
-				foreach ($plans_compare as $pid => $pname) {										
-					$plan_info = get_plan_info_by_id($pid);
-					error_log('$plan_info: ' . var_export($plan_info, true));
-			?>
-					<tr class='compare_row'>
-						<td>
-							<input type='checkbox' class='add_to_plan_compare' value="<?= $pname; ?>" data-pid='<?= $pid; ?>'>							
-							<label><?= $pname; ?></label>
-							<span>[互比方案]</span>
-							<?php 
-							foreach($plan_info['info'] as $info): 
-								$_gender = '';
-								if($info['gender'] == 'female') {
-									$_gender = '女性';
-								} else if ($info['gender'] == 'male') {
-									$_gender = '男性';
-								}
-								?>
-								
-								<label><?= $_gender; ?></label>
-								<label>價格: <?= $info['price']; ?></label>
-							<?php endforeach; ?>
-						</td>
-					</tr>
-			<?php
-				}
-			}
-			?>
-			<tr>
-				<td><button type='button' id='btn_add_to_compare'>方案互比</button></td>
-			</tr>
-		</table>
+	<div id="search_result" class="search-results">
+		<div class="cont">
+			<div class="table-warp">
+				<h3 class="title">搜尋結果</h3>
+				<table id="plan_results" class="form">
+					<!-- <tr id="result_th">
+						<th>搜尋結果</th>
+					</tr> -->
+					<tbody>
+						<?php
+						if (is_array($plans_compare) && count($plans_compare) > 0) {
+							foreach ($plans_compare as $pid => $pname) {
+								$plan_info = get_plan_info_by_id($pid);
+								error_log('$plan_info: ' . var_export($plan_info, true));
+						?>
+								<tr class='compare_row'>
+									<td>
+										<input type='checkbox' class='add_to_plan_compare' value="<?= $pname; ?>" data-pid='<?= $pid; ?>' id="<?= $pid; ?>">
+									</td>
+									<td>							
+										<label class='p-title' for='<?= $pid; ?>'>
+											<span class='p-name'><?= $pname; ?></span>
+											<span class='plan-tag'>互比方案</span>
+										</label>
+										
+										<ul class="p-info">
+											<?php 
+											foreach($plan_info['info'] as $info): 
+												$_gender = '';
+												if($info['gender'] == 'female') {
+													$_gender = '女性';
+												} else if ($info['gender'] == 'male') {
+													$_gender = '男性';
+												}
+												?>
+												<li>
+													<div class="info">
+														<?= $_gender; ?>&nbsp;NT$<?= $info['price']; ?></li>
+													</div>
+
+											<?php endforeach; ?>
+										</ul>
+									</td>
+									<td>
+										<div class="btn-group">
+											<a href="" class="btn booking-btn">立即預約</a>
+											<a href="" class="btn learn-btn">了解方案</a>
+										</div>
+									</td>
+								</tr>
+						<?php
+							}
+						}
+						?>
+						<tr class="tfoot">
+							<td colspan="3">
+								<div class="info">
+									<p>同時間只能最多選擇三個方案進行互比。</p>
+									<button type='button' id=''>清除搜尋結果和互比方案<svg width="16" height="18" viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 18C2.45 18 1.97933 17.8043 1.588 17.413C1.19667 17.0217 1.00067 16.5507 1 16V3H0V1H5V0H11V1H16V3H15V16C15 16.55 14.8043 17.021 14.413 17.413C14.0217 17.805 13.5507 18.0007 13 18H3ZM5 14H7V5H5V14ZM9 14H11V5H9V14Z" fill=""/></svg></button>
+								</div>
+								<button type='button' id='btn_add_to_compare' class='compare-btn'>方案互比</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
 	</div>
 	<script type="text/javascript">
 		document.addEventListener('DOMContentLoaded', function() {
@@ -1174,19 +1208,42 @@ function plan_search_result()
 									// console.log(key);
 									let tr = $("<tr class='result_row'></tr>");
 									let td = $("<td></td>");
-									let content_text = "<input type='checkbox' class='add_to_plan_compare' value=" + key + " data-pid='" + plans["plan_id"] + "'><label>" + key + "</label><span>[最多人選擇]</span>";
+
+
+									// let content_text = "<input type='checkbox' class='add_to_plan_compare' value=" + key + " data-pid='" + plans["plan_id"] + "'><label>" + key + "</label><span>[最多人選擇]</span>";
+
+									let content_text = `
+										<td>
+											<input type="checkbox" class="add_to_plan_compare" value="${key}" data-pid="${plans["plan_id"]}" id="${plans["plan_id"]}">
+										</td>
+										<td>
+											<label class="p-title" for="${plans["plan_id"]}">
+												<span class="p-name">${key}</span>
+												<span class="plan-tag outline">最多人選擇</span>
+											</label>
+										
+									`;
 									console.log(plans);
 
+									content_text += '<ul class="p-info">';
 									plans["info"].forEach(
 										(plan, index) => {
 											var _gender = '';
 											if(plan["gender"] == 'female') { _gender = '女性'; }
 											else if (plan["gender"] == 'male') { _gender = '男性'; }
-											content_text += "<label>" + _gender + "</label><label>價格: " + plan["price"] + "</label>";
+											content_text += "<li><div class='info'>" + _gender + "&nbsp;NT$ " + plan["price"] + "</div></li>";
 										});
-									td.html(content_text);
-									tr.append(td);
-									$("#result_th").after(tr);
+									content_text += '</ul></td>';
+									content_text += `<td>
+										<div class="btn-group">
+											<a href="" class="btn booking-btn">立即預約</a>
+											<a href="" class="btn learn-btn">了解方案</a>
+										</div>
+									</td>`
+									tr.html(content_text);
+									// tr.append(td);
+									// $("#result_th").after(tr);
+									$("tbody > tr:first").before(tr);
 								}
 							}
 						}

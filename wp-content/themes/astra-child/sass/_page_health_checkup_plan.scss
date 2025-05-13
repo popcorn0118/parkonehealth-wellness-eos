@@ -1,0 +1,299 @@
+@import 'variable';
+@import 'mixin';
+
+.health-checkup-plan {
+    .wpcf7, .search-results, .solution-comparison-results {
+        .cont {
+            max-width: 100%;
+            padding: 120px 40px;
+            @media (min-width: 922px) {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            @include md() {
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+        }
+    }
+    .wpcf7 {
+        .quick-search {
+            margin-bottom: 0;
+            p {
+                margin: 0;
+            }
+            .title {
+                color: $text-2;
+                margin-bottom: 40px;
+            }
+            .item {
+                margin-bottom: 40px;
+                * {
+                    color: $text-4;
+                }
+                label.item-title {
+                    font-size: 20px;
+                    margin-bottom: 28px;
+                    line-height: 1;
+                }
+            }
+            .chk-part {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr); 
+                gap: 15px;
+                align-items: start;
+                @include xl() {
+                    grid-template-columns: repeat(2, 1fr); 
+                }
+                @include ml() {
+                    gap: 15px 0px;
+                }
+                @include md() {
+                    gap: 15px;
+                    grid-template-columns: repeat(1, 1fr); 
+                }
+                .wpcf7-list-item {
+                    margin: 0;
+                    letter-spacing: 1.3px;
+                }
+            }
+            button {
+                @include btn($color: $text-w, $bg: $primary, $bg-h: #94A17F, $border: 0px, $border-h: 0px);
+                // margin-bottom: 40px;
+                border-radius: 4px;
+                padding: 11px 25px;
+                font-size: 18px;
+                font-weight: 400;
+            }
+        }
+    }
+
+    .search-results {
+        background-color: $bg;
+        .table-warp {
+            border: 1px solid #DCDCDC;
+            border-radius: 8px;
+            padding: 16px 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+            @include bgGradient(to right bottom, rgba($text-w, 0) 0%,rgba($text-w, 0.75) 100%);
+            box-shadow: 2px 5px 8px rgba(#000, 0.03);
+            @include md() {
+                padding: 0 15px;
+            }
+            @include sm() {
+                // padding: 16px 16px;
+            }
+            > .title {
+                color: $text-2;
+                margin-top: -40px;
+                margin-left: -24px;
+                padding: 0 24px;
+                background-color: $bg;
+                @include md() {
+                    margin-left: -10px;
+                    margin-top: -20px;
+                    margin-bottom: 0;
+                    padding: 0 10px;
+                }
+            }
+            table {
+                border: 0;
+                tr {
+                    td {
+                        padding: 30px 0;
+                        border: 0;
+                        border-bottom: 1px solid #DCDCDC;
+
+                        &:first-of-type {
+                            width: 45px;
+                        }
+                        &:last-of-type {
+                            // text-align: right;
+                        }
+                        .p-title {
+                            margin-bottom: 10px;
+                        }
+                        .plan-tag {
+                            font-size: 16px;
+                            background-color: $primary;
+                            color: $text-w;
+                            border-radius: 4px;
+                            border: 1px solid $primary;
+                            padding: 6px 14px;
+                            margin-left: 40px;
+                            &.outline {
+                                color: $text;
+                                border-color: $text;
+                                background-color: transparent;
+                            }
+                        }
+                        .p-info {
+                            list-style: none;
+                            margin: 0;
+                            display: flex;
+                            gap: 40px;
+                            color: $text;
+                            font-size: 18px;
+                        }
+                        .btn-group {
+                            display: flex;
+                            justify-content: right;
+                            gap: 40px;
+                            .btn {
+                                @include btn($color: $text-w, $bg: $primary, $bg-h: #94A17F, $border: 0, $border-h: 0);
+                                font-size: 16px;
+                                border-radius: 8px;
+                                height: 82px;
+                                align-items: center;
+                                &.booking-btn {
+    
+                                }
+                                &.learn-btn {
+                                    color: $text-4;
+                                    background-color: $text-w;
+                                    box-shadow: 2px 5px 10px rgba(#000, 0.08);
+                                    &:hover {
+                                        color: $text-4;
+                                        background-color: $accent;
+                                      }
+                                }
+                            }
+                        }
+                    }
+                    &.tfoot {
+                        .info {
+                            display: flex;
+                            gap: 24px;
+                            margin: 40px 0;
+                            align-items: center;
+                            > p {
+                                margin: 0;
+                                font-size: 18px;
+                                font-weight: 600;
+                            }
+                            > button {
+                                color: #CD5938;
+                                font-size: 16px;
+                                background-color: transparent;
+                                padding: 0;
+                                display: flex;
+                                align-items: center;
+                                gap: 15px;
+                                transition: 0.4s;
+                                svg {
+                                    fill: #CD5938;
+                                }
+                                &:hover {
+                                    background-color: transparent;
+                                    opacity: 0.5;
+                                    transition: 0.4s;
+                                }
+                            }
+                        }
+                        .compare-btn {
+                            @include btn($color: $text-w, $bg: $primary, $bg-h: #94A17F, $border: 0, $border-h: 0);
+                            font-size: 18px;
+                            font-weight: 500;
+                            padding: 15px 31px;
+                            border-radius: 4px 4px 16px 4px;
+                            margin-bottom: -108px;
+                            &::after {
+                                content: url(../img/arrow-2.svg);
+                                margin-left: 20px;
+                            }
+                            
+                        }
+                        td {
+                            border: 0;
+                            text-align: left;
+                            padding-top: 0;
+                        }
+                    }
+
+                    @include ml {
+                        display: flex;
+                        flex-wrap: wrap;
+                        align-items: center;
+                        td {
+                            border-bottom: 0;
+                            &:last-of-type {
+                                width: 100%;
+                                border-bottom: 1px solid #DCDCDC;
+                                padding-top: 0;
+                            }
+                            .btn-group {
+                                justify-content: start;
+                                .btn {
+                                    height: 50px;
+                                }
+                            }
+                        }
+                        &.tfoot {
+                            .compare-btn {
+                                margin-bottom: -86px;
+                            }
+                            td {
+                                border: 0;
+                            }
+                        }
+                    }
+                    @include md {
+                        align-items: start;
+                        td {
+                            &:first-of-type {
+                                width: 35px;
+                                input {
+                                    margin-top: 7px;
+                                }
+                            }
+                            &:nth-of-type(2) {
+                                width: calc(100% - 35px);
+                            }
+                            .p-title {
+                                display: flex;
+                                flex-direction: column;
+                                justify-content: start;
+                                align-items: start;
+                                gap: 10px;
+                            }
+                            .plan-tag {
+                                padding: 0px 14px;
+                                margin-left: 0;
+                            }
+                            .p-info {
+                                flex-direction: column;
+                                gap: 5px;
+                            }
+                            .btn-group {
+                                gap: 20px;
+                                .btn {
+                                    padding: 10px 20px;
+                                }
+                            }
+                        }
+                        &.tfoot {
+                            td {
+                                &:first-of-type {
+                                    width: 100%;
+                                }
+                                .info {
+                                    align-items: start;
+                                    flex-direction: column;  
+                                }
+                            }
+                            
+                        }
+                    }
+                }
+                
+            }
+        }
+    }
+    
+    .solution-comparison-results {
+
+    }
+
+}
