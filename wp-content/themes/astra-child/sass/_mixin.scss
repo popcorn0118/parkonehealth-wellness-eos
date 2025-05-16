@@ -102,6 +102,20 @@ $xs: 360px;
   text-align: center;
   display: flex;
 }
+
+@mixin cont() {
+  max-width: 100%;
+  padding: 120px 40px;
+  @media (min-width: 922px) {
+      max-width: 1200px;
+      margin: 0 auto;
+  }
+  @include md() {
+      padding-left: 15px;
+      padding-right: 15px;
+  }
+}
+
 @mixin btn(
   $color: $primary,
   $bg: transparent,

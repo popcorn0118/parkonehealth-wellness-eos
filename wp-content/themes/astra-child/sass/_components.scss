@@ -171,7 +171,7 @@
     .elementor-button-text {
       font-size: 16px;
       font-weight: 300;
-      color: $primary;
+      color: $text-4;
       position: relative;
       padding-right: 20px;
       transition: 0.4s;
@@ -180,9 +180,9 @@
         display: inline-block;
         width: 8px;
         height: 8px;
-        border-top: 1px solid $primary;
-        border-right: 1px solid $primary;
-        margin: 0 0 1px 10px;
+        border-top: 1px solid $text-4;
+        border-right: 1px solid $text-4;
+        margin: 1px 0 0px 10px;
         position: absolute;
         right: 2px;
         top: 49%;
@@ -195,12 +195,17 @@
       }
     }
     &:hover {
+      
       &::before {
         background-color: transparent !important;
       }
       .elementor-button-text {
         padding-right: 30px;
-        
+        color: $primary;
+        &::after, &::before {
+          border-top: 1px solid $primary;
+          border-right: 1px solid $primary;
+        }
       }
     }
   }
@@ -266,6 +271,28 @@
 .back-icon-btn {
   svg {
     width: auto !important;
+  }
+}
+
+.back-btn {
+  color: $text-4;
+  font-size: 18px;
+  &::before {
+    content: '';
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-top: 1px solid $text-4;
+      border-right: 1px solid $text-4;
+      margin: 0px 9px 2px 10px;
+      transform: rotate(225deg);
+  }
+  &:hover {
+    color: $primary;
+    &::before {
+      border-top: 1px solid $primary;
+      border-right: 1px solid $primary;
+    }
   }
 }
 

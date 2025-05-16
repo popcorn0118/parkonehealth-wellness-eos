@@ -4,16 +4,7 @@
 .health-checkup-plan {
     .wpcf7, .search-results, .solution-comparison-results {
         .cont {
-            max-width: 100%;
-            padding: 120px 40px;
-            @media (min-width: 922px) {
-                max-width: 1200px;
-                margin: 0 auto;
-            }
-            @include md() {
-                padding-left: 15px;
-                padding-right: 15px;
-            }
+            @include cont();
         }
     }
     .wpcf7 {
@@ -148,7 +139,7 @@
                                 height: 82px;
                                 align-items: center;
                                 &.booking-btn {
-    
+                                    
                                 }
                                 &.learn-btn {
                                     color: $text-4;

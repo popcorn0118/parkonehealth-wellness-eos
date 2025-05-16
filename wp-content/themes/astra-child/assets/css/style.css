@@ -177,7 +177,7 @@ Template: astra
 .btn-text .elementor-button .elementor-button-text {
   font-size: 16px;
   font-weight: 300;
-  color: #79895F;
+  color: #4B4B4B;
   position: relative;
   padding-right: 20px;
   transition: 0.4s;
@@ -188,9 +188,9 @@ Template: astra
   display: inline-block;
   width: 8px;
   height: 8px;
-  border-top: 1px solid #79895F;
-  border-right: 1px solid #79895F;
-  margin: 0 0 1px 10px;
+  border-top: 1px solid #4B4B4B;
+  border-right: 1px solid #4B4B4B;
+  margin: 1px 0 0px 10px;
   position: absolute;
   right: 2px;
   top: 49%;
@@ -203,73 +203,105 @@ Template: astra
 .btn-text .elementor-button .elementor-button-text::before {
   transform: translateY(-50%) rotate(45deg);
 }
-/* line 198, ../../sass/_components.scss */
+/* line 199, ../../sass/_components.scss */
 .btn-text .elementor-button:hover::before {
   background-color: transparent !important;
 }
-/* line 201, ../../sass/_components.scss */
+/* line 202, ../../sass/_components.scss */
 .btn-text .elementor-button:hover .elementor-button-text {
   padding-right: 30px;
+  color: #79895F;
 }
-/* line 209, ../../sass/_components.scss */
+/* line 205, ../../sass/_components.scss */
+.btn-text .elementor-button:hover .elementor-button-text::after, .btn-text .elementor-button:hover .elementor-button-text::before {
+  border-top: 1px solid #79895F;
+  border-right: 1px solid #79895F;
+}
+/* line 214, ../../sass/_components.scss */
 .btn-text.white .elementor-button .elementor-button-text {
   color: #FEFEFE;
 }
-/* line 211, ../../sass/_components.scss */
+/* line 216, ../../sass/_components.scss */
 .btn-text.white .elementor-button .elementor-button-text::before, .btn-text.white .elementor-button .elementor-button-text::after {
   border-top: 1px solid #FEFEFE;
   border-right: 1px solid #FEFEFE;
 }
-/* line 217, ../../sass/_components.scss */
+/* line 222, ../../sass/_components.scss */
 .btn-text.white .elementor-button:hover .elementor-button-text {
   color: #00ADB5;
 }
-/* line 219, ../../sass/_components.scss */
+/* line 224, ../../sass/_components.scss */
 .btn-text.white .elementor-button:hover .elementor-button-text::before, .btn-text.white .elementor-button:hover .elementor-button-text::after {
   border-top: 1px solid #00ADB5;
   border-right: 1px solid #00ADB5;
 }
-/* line 232, ../../sass/_components.scss */
+/* line 237, ../../sass/_components.scss */
 .btn-text:right .elementor-button-text::before {
   display: none;
 }
-/* line 235, ../../sass/_components.scss */
+/* line 240, ../../sass/_components.scss */
 .btn-text:right .elementor-button-text::after {
   transform: translateY(-50%) rotate(45deg);
 }
-/* line 241, ../../sass/_components.scss */
+/* line 246, ../../sass/_components.scss */
 .btn-text.left .elementor-button-text {
   padding-right: 0;
   padding-left: 30px;
 }
-/* line 247, ../../sass/_components.scss */
+/* line 252, ../../sass/_components.scss */
 .btn-text.left .elementor-button-text::before {
   right: unset;
   left: 0px;
   transform: translateY(-50%) rotate(225deg);
 }
-/* line 252, ../../sass/_components.scss */
+/* line 257, ../../sass/_components.scss */
 .btn-text.left .elementor-button-text::after {
   display: none;
 }
 
-/* line 259, ../../sass/_components.scss */
+/* line 264, ../../sass/_components.scss */
 .btn-round {
   width: 48px;
   height: 48px;
 }
 
-/* line 267, ../../sass/_components.scss */
+/* line 272, ../../sass/_components.scss */
 .back-icon-btn svg {
   width: auto !important;
 }
 
-/* line 273, ../../sass/_components.scss */
+/* line 277, ../../sass/_components.scss */
+.back-btn {
+  color: #4B4B4B;
+  font-size: 18px;
+}
+/* line 280, ../../sass/_components.scss */
+.back-btn::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-top: 1px solid #4B4B4B;
+  border-right: 1px solid #4B4B4B;
+  margin: 0px 9px 2px 10px;
+  transform: rotate(225deg);
+}
+/* line 290, ../../sass/_components.scss */
+.back-btn:hover {
+  color: #79895F;
+}
+/* line 292, ../../sass/_components.scss */
+.back-btn:hover::before {
+  border-top: 1px solid #79895F;
+  border-right: 1px solid #79895F;
+}
+
+/* line 300, ../../sass/_components.scss */
 .btn-more {
   min-width: 173px !important;
   flex-shrink: 0;
 }
-/* line 276, ../../sass/_components.scss */
+/* line 303, ../../sass/_components.scss */
 .btn-more .elementor-button {
   border: 1px solid #FEFEFE;
   color: #FEFEFE;
@@ -278,63 +310,63 @@ Template: astra
   border-radius: 16px !important;
   padding: 18px !important;
 }
-/* line 283, ../../sass/_components.scss */
+/* line 310, ../../sass/_components.scss */
 .btn-more .elementor-button .elementor-button-text {
   font-size: 18px;
   font-weight: bold;
   line-height: 1;
   color: #FEFEFE;
 }
-/* line 289, ../../sass/_components.scss */
+/* line 316, ../../sass/_components.scss */
 .btn-more .elementor-button:hover {
   background-color: #FEFEFE !important;
   box-shadow: 2px 5px 8px rgba(0, 0, 0, 0.08);
 }
-/* line 292, ../../sass/_components.scss */
+/* line 319, ../../sass/_components.scss */
 .btn-more .elementor-button:hover .elementor-button-text {
   color: #79895F;
 }
 
-/* line 299, ../../sass/_components.scss */
+/* line 326, ../../sass/_components.scss */
 .line {
   position: relative;
 }
-/* line 308, ../../sass/_components.scss */
+/* line 335, ../../sass/_components.scss */
 .line.left .elementor-divider-separator {
   border: 1px solid transparent;
   border-block-start: 1px solid transparent !important;
   border-image-slice: 1 !important;
   border-image: linear-gradient(to bottom right, rgba(121, 137, 95, 0) 30%, #79895F 100%);
 }
-/* line 314, ../../sass/_components.scss */
+/* line 341, ../../sass/_components.scss */
 .line.right .elementor-divider-separator {
   border: 1px solid transparent;
   border-block-start: 1px solid transparent !important;
   border-image-slice: 1 !important;
   border-image: linear-gradient(to bottom left, rgba(121, 137, 95, 0) 30%, #79895F 100%);
 }
-/* line 319, ../../sass/_components.scss */
+/* line 346, ../../sass/_components.scss */
 .line.left-w .elementor-divider-separator {
   border: 1px solid transparent;
   border-block-start: 1px solid transparent !important;
   border-image-slice: 1 !important;
   border-image: linear-gradient(to bottom right, rgba(254, 254, 254, 0) 30%, #FEFEFE 100%);
 }
-/* line 324, ../../sass/_components.scss */
+/* line 351, ../../sass/_components.scss */
 .line.right-w .elementor-divider-separator {
   border: 1px solid transparent;
   border-block-start: 1px solid transparent !important;
   border-image-slice: 1 !important;
   border-image: linear-gradient(to bottom left, rgba(254, 254, 254, 0) 30%, #FEFEFE 100%);
 }
-/* line 329, ../../sass/_components.scss */
+/* line 356, ../../sass/_components.scss */
 .line.left-grey .elementor-divider-separator {
   border: 1px solid transparent;
   border-block-start: 1px solid transparent !important;
   border-image-slice: 1 !important;
   border-image: linear-gradient(to bottom right, rgba(220, 220, 220, 0) 30%, #dcdcdc 100%);
 }
-/* line 334, ../../sass/_components.scss */
+/* line 361, ../../sass/_components.scss */
 .line.right-grey .elementor-divider-separator {
   border: 1px solid transparent;
   border-block-start: 1px solid transparent !important;
@@ -342,20 +374,20 @@ Template: astra
   border-image: linear-gradient(to bottom left, rgba(220, 220, 220, 0) 30%, #dcdcdc 100%);
 }
 
-/* line 342, ../../sass/_components.scss */
+/* line 369, ../../sass/_components.scss */
 .icon-info-btn .elementor-button {
   background: transparent;
   border: 0;
   padding: 0 !important;
 }
-/* line 346, ../../sass/_components.scss */
+/* line 373, ../../sass/_components.scss */
 .icon-info-btn .elementor-button .elementor-button-text {
   font-size: 18px;
   text-transform: lowercase;
   letter-spacing: 3px;
   position: relative;
 }
-/* line 351, ../../sass/_components.scss */
+/* line 378, ../../sass/_components.scss */
 .icon-info-btn .elementor-button .elementor-button-text::before, .icon-info-btn .elementor-button .elementor-button-text::after {
   content: '';
   display: inline-block;
@@ -366,43 +398,43 @@ Template: astra
   transition: 0.4s;
   opacity: 0;
 }
-/* line 361, ../../sass/_components.scss */
+/* line 388, ../../sass/_components.scss */
 .icon-info-btn .elementor-button .elementor-button-text::before {
   transform: rotate(-135deg);
   margin-right: 8px;
 }
-/* line 365, ../../sass/_components.scss */
+/* line 392, ../../sass/_components.scss */
 .icon-info-btn .elementor-button .elementor-button-text::after {
   transform: rotate(45deg);
   margin-left: 8px;
 }
-/* line 370, ../../sass/_components.scss */
+/* line 397, ../../sass/_components.scss */
 .icon-info-btn .elementor-button:focus {
   outline: 0;
 }
-/* line 374, ../../sass/_components.scss */
+/* line 401, ../../sass/_components.scss */
 .icon-info-btn .elementor-button:hover .elementor-button-text {
   color: #D0917F;
 }
-/* line 376, ../../sass/_components.scss */
+/* line 403, ../../sass/_components.scss */
 .icon-info-btn .elementor-button:hover .elementor-button-text::before, .icon-info-btn .elementor-button:hover .elementor-button-text::after {
   border-color: #D0917F;
 }
 
-/* line 388, ../../sass/_components.scss */
+/* line 415, ../../sass/_components.scss */
 .icon-info-warp:hover .icon-info-btn .elementor-button .elementor-button-text::before, .icon-info-warp:hover .icon-info-btn .elementor-button .elementor-button-text::after {
   opacity: 1;
 }
-/* line 391, ../../sass/_components.scss */
+/* line 418, ../../sass/_components.scss */
 .icon-info-warp:hover .icon-info-btn .elementor-button .elementor-button-text::before {
   margin-right: 15px;
 }
-/* line 395, ../../sass/_components.scss */
+/* line 422, ../../sass/_components.scss */
 .icon-info-warp:hover .icon-info-btn .elementor-button .elementor-button-text::after {
   margin-left: 15px;
 }
 
-/* line 405, ../../sass/_components.scss */
+/* line 432, ../../sass/_components.scss */
 .icon-info .elementor-icon {
   position: relative;
   display: inline-flex;
@@ -413,7 +445,7 @@ Template: astra
   border-radius: 999px;
   box-shadow: 2px 5px 8px rgba(0, 0, 0, 0.08);
 }
-/* line 414, ../../sass/_components.scss */
+/* line 441, ../../sass/_components.scss */
 .icon-info .elementor-icon::before {
   content: "";
   position: absolute;
@@ -428,7 +460,7 @@ Template: astra
   background: linear-gradient(to left top, rgba(254, 254, 254, 0.3) 10%, rgba(254, 254, 254, 0.05) 90%);
   background: -webkit-linear-gradient(to left top, rgba(254, 254, 254, 0.3) 10%, rgba(254, 254, 254, 0.05) 90%);
 }
-/* line 427, ../../sass/_components.scss */
+/* line 454, ../../sass/_components.scss */
 .icon-info .elementor-icon::after {
   content: "";
   position: absolute;
@@ -441,7 +473,7 @@ Template: astra
   background: -webkit-linear-gradient(to left top, rgba(254, 254, 254, 0.25) 90%, rgba(254, 254, 254, 0) 10%);
   -webkit-mask: radial-gradient(farthest-side, rgba(0, 0, 0, 0) calc(100% - 2px), #ffffff 0%);
 }
-/* line 441, ../../sass/_components.scss */
+/* line 468, ../../sass/_components.scss */
 .icon-info > svg {
   position: relative;
   z-index: 1;
@@ -920,7 +952,7 @@ main {
   font-weight: 400;
   letter-spacing: 2px;
 }
-/* line 122, ../../sass/_mixin.scss */
+/* line 136, ../../sass/_mixin.scss */
 .hottest-plan .plan button:hover {
   color: #FEFEFE;
   background-color: #94A17F;
@@ -1228,11 +1260,64 @@ main {
   height: 20px;
 }
 
-/* line 683, ../../sass/_main.scss */
+/* line 681, ../../sass/_main.scss */
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+@media (min-width: 1200px) {
+  /* line 681, ../../sass/_main.scss */
+  .table-wrapper {
+    overflow-x: visible;
+  }
+}
+/* line 687, ../../sass/_main.scss */
+.table-wrapper .responsive-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 800px;
+}
+/* line 692, ../../sass/_main.scss */
+.table-wrapper .responsive-table thead th {
+  background-color: #79895F;
+  color: #FEFEFE;
+  text-align: center;
+  padding: 16px;
+  font-size: 18px;
+  z-index: 10;
+  white-space: nowrap;
+}
+@media (min-width: 1200px) {
+  /* line 692, ../../sass/_main.scss */
+  .table-wrapper .responsive-table thead th {
+    position: sticky;
+    top: 91px;
+  }
+}
+/* line 706, ../../sass/_main.scss */
+.table-wrapper .responsive-table td {
+  padding: 16px;
+  border: 1px solid #DCDCDC;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 16px;
+}
+/* line 718, ../../sass/_main.scss */
+.table-wrapper .responsive-table .icon-check {
+  background-image: url(../img/check-green.svg);
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: inline-block;
+  width: 24px;
+  height: 18px;
+}
+
+/* line 736, ../../sass/_main.scss */
 .grecaptcha-badge {
   position: static !important;
 }
-/* line 691, ../../sass/_main.scss */
+/* line 744, ../../sass/_main.scss */
 .grecaptcha-badge.badge-hidden {
   opacity: 0;
   pointer-events: none;
@@ -1242,44 +1327,44 @@ main {
   bottom: -9999px;
 }
 
-/* line 704, ../../sass/_main.scss */
+/* line 757, ../../sass/_main.scss */
 footer a {
   color: #fff;
 }
-/* line 707, ../../sass/_main.scss */
+/* line 760, ../../sass/_main.scss */
 footer a:hover {
   color: #fff;
 }
-/* line 712, ../../sass/_main.scss */
+/* line 765, ../../sass/_main.scss */
 footer .footer-menu ul.menu {
   list-style: none;
   margin: 0;
   display: grid;
   gap: 26px;
 }
-/* line 718, ../../sass/_main.scss */
+/* line 771, ../../sass/_main.scss */
 footer .footer-menu ul.menu > li > a {
   color: #FFF;
   font-size: 20px;
   font-weight: 600;
 }
 @media screen and (max-width: 767px) {
-  /* line 718, ../../sass/_main.scss */
+  /* line 771, ../../sass/_main.scss */
   footer .footer-menu ul.menu > li > a {
     font-size: 18px;
   }
 }
-/* line 729, ../../sass/_main.scss */
+/* line 782, ../../sass/_main.scss */
 footer .copyright {
   font-size: 14px;
 }
-/* line 731, ../../sass/_main.scss */
+/* line 784, ../../sass/_main.scss */
 footer .copyright a, footer .copyright .elementor-shortcode {
   color: #FEFEFE;
   font-size: 20px;
 }
 @media screen and (max-width: 767px) {
-  /* line 731, ../../sass/_main.scss */
+  /* line 784, ../../sass/_main.scss */
   footer .copyright a, footer .copyright .elementor-shortcode {
     font-size: 18px;
   }
@@ -2220,53 +2305,6 @@ footer .copyright a, footer .copyright .elementor-shortcode {
   }
 }
 
-/* line 5, ../../sass/_page_appointment_record.scss */
-.appointment-record .table-wrapper {
-  width: 100%;
-  overflow-x: auto;
-}
-@media (min-width: 1200px) {
-  /* line 5, ../../sass/_page_appointment_record.scss */
-  .appointment-record .table-wrapper {
-    overflow-x: visible;
-  }
-}
-/* line 12, ../../sass/_page_appointment_record.scss */
-.appointment-record .responsive-table {
-  width: 100%;
-  border-collapse: collapse;
-  min-width: 800px;
-}
-/* line 17, ../../sass/_page_appointment_record.scss */
-.appointment-record .responsive-table thead th {
-  background-color: #79895F;
-  color: #FEFEFE;
-  text-align: center;
-  padding: 16px;
-  font-size: 18px;
-  z-index: 10;
-  white-space: nowrap;
-}
-@media (min-width: 1200px) {
-  /* line 17, ../../sass/_page_appointment_record.scss */
-  .appointment-record .responsive-table thead th {
-    position: sticky;
-    top: 91px;
-  }
-}
-/* line 31, ../../sass/_page_appointment_record.scss */
-.appointment-record .responsive-table td {
-  padding: 16px;
-  border: 1px solid #DCDCDC;
-  text-align: center;
-  vertical-align: middle;
-  font-size: 16px;
-}
-/* line 39, ../../sass/_page_appointment_record.scss */
-.appointment-record .responsive-table tbody tr:nth-child(odd) {
-  background-color: #f9f9f9;
-}
-
 /* line 4, ../../sass/_page_article.scss */
 .article-list {
   padding-bottom: 120px;
@@ -2430,7 +2468,7 @@ footer .copyright a, footer .copyright .elementor-shortcode {
   color: #434343;
   font-weight: bold;
 }
-/* line 148, ../../sass/_mixin.scss */
+/* line 162, ../../sass/_mixin.scss */
 .article-list .article-search .search input:-webkit-autofill {
   background-color: transparent !important;
   box-shadow: 0 0 0px 1000px #F5F5F5 inset !important;
@@ -2438,11 +2476,11 @@ footer .copyright a, footer .copyright .elementor-shortcode {
   -webkit-text-fill-color: #434343 !important;
   /* 確保文字顏色正常 */
 }
-/* line 155, ../../sass/_mixin.scss */
+/* line 169, ../../sass/_mixin.scss */
 .article-list .article-search .search input:-moz-autofill {
   background-color: transparent !important;
 }
-/* line 160, ../../sass/_mixin.scss */
+/* line 174, ../../sass/_mixin.scss */
 .article-list .article-search .search input:-webkit-autofill, .article-list .article-search .search input:-webkit-autofill:hover, .article-list .article-search .search input:-webkit-autofill:focus {
   background-color: transparent !important;
   box-shadow: 0 0 0px 1000px #F5F5F5 inset !important;
@@ -2750,7 +2788,7 @@ footer .copyright a, footer .copyright .elementor-shortcode {
   box-shadow: 2px 5px 8px rgba(0, 0, 0, 0.08);
   padding: 5px 18px;
 }
-/* line 122, ../../sass/_mixin.scss */
+/* line 136, ../../sass/_mixin.scss */
 .single .article-single .categories .item > a:hover, .single .article-single .tags .item > a:hover {
   color: #4B4B4B;
   background-color: rgba(223, 206, 180, 0.8);
@@ -2978,34 +3016,34 @@ footer .copyright a, footer .copyright .elementor-shortcode {
     padding-right: 15px;
   }
 }
-/* line 20, ../../sass/_page_health_checkup_plan.scss */
+/* line 11, ../../sass/_page_health_checkup_plan.scss */
 .health-checkup-plan .wpcf7 .quick-search {
   margin-bottom: 0;
 }
-/* line 22, ../../sass/_page_health_checkup_plan.scss */
+/* line 13, ../../sass/_page_health_checkup_plan.scss */
 .health-checkup-plan .wpcf7 .quick-search p {
   margin: 0;
 }
-/* line 25, ../../sass/_page_health_checkup_plan.scss */
+/* line 16, ../../sass/_page_health_checkup_plan.scss */
 .health-checkup-plan .wpcf7 .quick-search .title {
   color: #1a1a1a;
   margin-bottom: 40px;
 }
-/* line 29, ../../sass/_page_health_checkup_plan.scss */
+/* line 20, ../../sass/_page_health_checkup_plan.scss */
 .health-checkup-plan .wpcf7 .quick-search .item {
   margin-bottom: 40px;
 }
-/* line 31, ../../sass/_page_health_checkup_plan.scss */
+/* line 22, ../../sass/_page_health_checkup_plan.scss */
 .health-checkup-plan .wpcf7 .quick-search .item * {
   color: #4B4B4B;
 }
-/* line 34, ../../sass/_page_health_checkup_plan.scss */
+/* line 25, ../../sass/_page_health_checkup_plan.scss */
 .health-checkup-plan .wpcf7 .quick-search .item label.item-title {
   font-size: 20px;
   margin-bottom: 28px;
   line-height: 1;
 }
-/* line 40, ../../sass/_page_health_checkup_plan.scss */
+/* line 31, ../../sass/_page_health_checkup_plan.scss */
 .health-checkup-plan .wpcf7 .quick-search .chk-part {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -3013,30 +3051,30 @@ footer .copyright a, footer .copyright .elementor-shortcode {
   align-items: start;
 }
 @media screen and (max-width: 1200px) {
-  /* line 40, ../../sass/_page_health_checkup_plan.scss */
+  /* line 31, ../../sass/_page_health_checkup_plan.scss */
   .health-checkup-plan .wpcf7 .quick-search .chk-part {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 @media screen and (max-width: 921px) {
-  /* line 40, ../../sass/_page_health_checkup_plan.scss */
+  /* line 31, ../../sass/_page_health_checkup_plan.scss */
   .health-checkup-plan .wpcf7 .quick-search .chk-part {
     gap: 15px 0px;
   }
 }
 @media screen and (max-width: 767px) {
-  /* line 40, ../../sass/_page_health_checkup_plan.scss */
+  /* line 31, ../../sass/_page_health_checkup_plan.scss */
   .health-checkup-plan .wpcf7 .quick-search .chk-part {
     gap: 15px;
     grid-template-columns: repeat(1, 1fr);
   }
 }
-/* line 55, ../../sass/_page_health_checkup_plan.scss */
+/* line 46, ../../sass/_page_health_checkup_plan.scss */
 .health-checkup-plan .wpcf7 .quick-search .chk-part .wpcf7-list-item {
   margin: 0;
   letter-spacing: 1.3px;
 }
-/* line 60, ../../sass/_page_health_checkup_plan.scss */
+/* line 51, ../../sass/_page_health_checkup_plan.scss */
 .health-checkup-plan .wpcf7 .quick-search button {
   color: #FEFEFE;
   border-radius: 80px;
@@ -3052,17 +3090,17 @@ footer .copyright a, footer .copyright .elementor-shortcode {
   font-size: 18px;
   font-weight: 400;
 }
-/* line 122, ../../sass/_mixin.scss */
+/* line 136, ../../sass/_mixin.scss */
 .health-checkup-plan .wpcf7 .quick-search button:hover {
   color: #FEFEFE;
   background-color: #94A17F;
   border: 1px solid 0px;
 }
-/* line 71, ../../sass/_page_health_checkup_plan.scss */
+/* line 62, ../../sass/_page_health_checkup_plan.scss */
 .health-checkup-plan .search-results {
   background-color: #F5F5F5;
 }
-/* line 73, ../../sass/_page_health_checkup_plan.scss */
+/* line 64, ../../sass/_page_health_checkup_plan.scss */
 .health-checkup-plan .search-results .table-warp {
   border: 1px solid #DCDCDC;
   border-radius: 8px;
@@ -3075,12 +3113,12 @@ footer .copyright a, footer .copyright .elementor-shortcode {
   box-shadow: 2px 5px 8px rgba(0, 0, 0, 0.03);
 }
 @media screen and (max-width: 767px) {
-  /* line 73, ../../sass/_page_health_checkup_plan.scss */
+  /* line 64, ../../sass/_page_health_checkup_plan.scss */
   .health-checkup-plan .search-results .table-warp {
     padding: 0 15px;
   }
 }
-/* line 88, ../../sass/_page_health_checkup_plan.scss */
+/* line 79, ../../sass/_page_health_checkup_plan.scss */
 .health-checkup-plan .search-results .table-warp > .title {
   color: #1a1a1a;
   margin-top: -40px;
@@ -3089,7 +3127,7 @@ footer .copyright a, footer .copyright .elementor-shortcode {
   background-color: #F5F5F5;
 }
 @media screen and (max-width: 767px) {
-  /* line 88, ../../sass/_page_health_checkup_plan.scss */
+  /* line 79, ../../sass/_page_health_checkup_plan.scss */
   .health-checkup-plan .search-results .table-warp > .title {
     margin-left: -10px;
     margin-top: -20px;
@@ -3097,25 +3135,25 @@ footer .copyright a, footer .copyright .elementor-shortcode {
     padding: 0 10px;
   }
 }
-/* line 101, ../../sass/_page_health_checkup_plan.scss */
+/* line 92, ../../sass/_page_health_checkup_plan.scss */
 .health-checkup-plan .search-results .table-warp table {
   border: 0;
 }
-/* line 104, ../../sass/_page_health_checkup_plan.scss */
+/* line 95, ../../sass/_page_health_checkup_plan.scss */
 .health-checkup-plan .search-results .table-warp table tr td {
   padding: 30px 0;
   border: 0;
   border-bottom: 1px solid #DCDCDC;
 }
-/* line 109, ../../sass/_page_health_checkup_plan.scss */
+/* line 100, ../../sass/_page_health_checkup_plan.scss */
 .health-checkup-plan .search-results .table-warp table tr td:first-of-type {
   width: 45px;
 }
-/* line 115, ../../sass/_page_health_checkup_plan.scss */
+/* line 106, ../../sass/_page_health_checkup_plan.scss */
 .health-checkup-plan .search-results .table-warp table tr td .p-title {
   margin-bottom: 10px;
 }
-/* line 118, ../../sass/_page_health_checkup_plan.scss */
+/* line 109, ../../sass/_page_health_checkup_plan.scss */
 .health-checkup-plan .search-results .table-warp table tr td .plan-tag {
   font-size: 16px;
   background-color: #79895F;
@@ -3125,13 +3163,13 @@ footer .copyright a, footer .copyright .elementor-shortcode {
   padding: 6px 14px;
   margin-left: 40px;
 }
-/* line 126, ../../sass/_page_health_checkup_plan.scss */
+/* line 117, ../../sass/_page_health_checkup_plan.scss */
 .health-checkup-plan .search-results .table-warp table tr td .plan-tag.outline {
   color: #595757;
   border-color: #595757;
   background-color: transparent;
 }
-/* line 132, ../../sass/_page_health_checkup_plan.scss */
+/* line 123, ../../sass/_page_health_checkup_plan.scss */
 .health-checkup-plan .search-results .table-warp table tr td .p-info {
   list-style: none;
   margin: 0;
@@ -3140,13 +3178,13 @@ footer .copyright a, footer .copyright .elementor-shortcode {
   color: #595757;
   font-size: 18px;
 }
-/* line 140, ../../sass/_page_health_checkup_plan.scss */
+/* line 131, ../../sass/_page_health_checkup_plan.scss */
 .health-checkup-plan .search-results .table-warp table tr td .btn-group {
   display: flex;
   justify-content: right;
   gap: 40px;
 }
-/* line 144, ../../sass/_page_health_checkup_plan.scss */
+/* line 135, ../../sass/_page_health_checkup_plan.scss */
 .health-checkup-plan .search-results .table-warp table tr td .btn-group .btn {
   color: #FEFEFE;
   border-radius: 80px;
@@ -3162,37 +3200,37 @@ footer .copyright a, footer .copyright .elementor-shortcode {
   height: 82px;
   align-items: center;
 }
-/* line 122, ../../sass/_mixin.scss */
+/* line 136, ../../sass/_mixin.scss */
 .health-checkup-plan .search-results .table-warp table tr td .btn-group .btn:hover {
   color: #FEFEFE;
   background-color: #94A17F;
   border: 1px solid 0;
 }
-/* line 153, ../../sass/_page_health_checkup_plan.scss */
+/* line 144, ../../sass/_page_health_checkup_plan.scss */
 .health-checkup-plan .search-results .table-warp table tr td .btn-group .btn.learn-btn {
   color: #4B4B4B;
   background-color: #FEFEFE;
   box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.08);
 }
-/* line 157, ../../sass/_page_health_checkup_plan.scss */
+/* line 148, ../../sass/_page_health_checkup_plan.scss */
 .health-checkup-plan .search-results .table-warp table tr td .btn-group .btn.learn-btn:hover {
   color: #4B4B4B;
   background-color: #DFCEB4;
 }
-/* line 166, ../../sass/_page_health_checkup_plan.scss */
+/* line 157, ../../sass/_page_health_checkup_plan.scss */
 .health-checkup-plan .search-results .table-warp table tr.tfoot .info {
   display: flex;
   gap: 24px;
   margin: 40px 0;
   align-items: center;
 }
-/* line 171, ../../sass/_page_health_checkup_plan.scss */
+/* line 162, ../../sass/_page_health_checkup_plan.scss */
 .health-checkup-plan .search-results .table-warp table tr.tfoot .info > p {
   margin: 0;
   font-size: 18px;
   font-weight: 600;
 }
-/* line 176, ../../sass/_page_health_checkup_plan.scss */
+/* line 167, ../../sass/_page_health_checkup_plan.scss */
 .health-checkup-plan .search-results .table-warp table tr.tfoot .info > button {
   color: #CD5938;
   font-size: 16px;
@@ -3203,17 +3241,17 @@ footer .copyright a, footer .copyright .elementor-shortcode {
   gap: 15px;
   transition: 0.4s;
 }
-/* line 185, ../../sass/_page_health_checkup_plan.scss */
+/* line 176, ../../sass/_page_health_checkup_plan.scss */
 .health-checkup-plan .search-results .table-warp table tr.tfoot .info > button svg {
   fill: #CD5938;
 }
-/* line 188, ../../sass/_page_health_checkup_plan.scss */
+/* line 179, ../../sass/_page_health_checkup_plan.scss */
 .health-checkup-plan .search-results .table-warp table tr.tfoot .info > button:hover {
   background-color: transparent;
   opacity: 0.5;
   transition: 0.4s;
 }
-/* line 195, ../../sass/_page_health_checkup_plan.scss */
+/* line 186, ../../sass/_page_health_checkup_plan.scss */
 .health-checkup-plan .search-results .table-warp table tr.tfoot .compare-btn {
   color: #FEFEFE;
   border-radius: 80px;
@@ -3230,75 +3268,75 @@ footer .copyright a, footer .copyright .elementor-shortcode {
   border-radius: 4px 4px 16px 4px;
   margin-bottom: -108px;
 }
-/* line 122, ../../sass/_mixin.scss */
+/* line 136, ../../sass/_mixin.scss */
 .health-checkup-plan .search-results .table-warp table tr.tfoot .compare-btn:hover {
   color: #FEFEFE;
   background-color: #94A17F;
   border: 1px solid 0;
 }
-/* line 202, ../../sass/_page_health_checkup_plan.scss */
+/* line 193, ../../sass/_page_health_checkup_plan.scss */
 .health-checkup-plan .search-results .table-warp table tr.tfoot .compare-btn::after {
   content: url(../img/arrow-2.svg);
   margin-left: 20px;
 }
-/* line 208, ../../sass/_page_health_checkup_plan.scss */
+/* line 199, ../../sass/_page_health_checkup_plan.scss */
 .health-checkup-plan .search-results .table-warp table tr.tfoot td {
   border: 0;
   text-align: left;
   padding-top: 0;
 }
 @media screen and (max-width: 921px) {
-  /* line 103, ../../sass/_page_health_checkup_plan.scss */
+  /* line 94, ../../sass/_page_health_checkup_plan.scss */
   .health-checkup-plan .search-results .table-warp table tr {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
   }
-  /* line 219, ../../sass/_page_health_checkup_plan.scss */
+  /* line 210, ../../sass/_page_health_checkup_plan.scss */
   .health-checkup-plan .search-results .table-warp table tr td {
     border-bottom: 0;
   }
-  /* line 221, ../../sass/_page_health_checkup_plan.scss */
+  /* line 212, ../../sass/_page_health_checkup_plan.scss */
   .health-checkup-plan .search-results .table-warp table tr td:last-of-type {
     width: 100%;
     border-bottom: 1px solid #DCDCDC;
     padding-top: 0;
   }
-  /* line 226, ../../sass/_page_health_checkup_plan.scss */
+  /* line 217, ../../sass/_page_health_checkup_plan.scss */
   .health-checkup-plan .search-results .table-warp table tr td .btn-group {
     justify-content: start;
   }
-  /* line 228, ../../sass/_page_health_checkup_plan.scss */
+  /* line 219, ../../sass/_page_health_checkup_plan.scss */
   .health-checkup-plan .search-results .table-warp table tr td .btn-group .btn {
     height: 50px;
   }
-  /* line 234, ../../sass/_page_health_checkup_plan.scss */
+  /* line 225, ../../sass/_page_health_checkup_plan.scss */
   .health-checkup-plan .search-results .table-warp table tr.tfoot .compare-btn {
     margin-bottom: -86px;
   }
-  /* line 237, ../../sass/_page_health_checkup_plan.scss */
+  /* line 228, ../../sass/_page_health_checkup_plan.scss */
   .health-checkup-plan .search-results .table-warp table tr.tfoot td {
     border: 0;
   }
 }
 @media screen and (max-width: 767px) {
-  /* line 103, ../../sass/_page_health_checkup_plan.scss */
+  /* line 94, ../../sass/_page_health_checkup_plan.scss */
   .health-checkup-plan .search-results .table-warp table tr {
     align-items: start;
   }
-  /* line 245, ../../sass/_page_health_checkup_plan.scss */
+  /* line 236, ../../sass/_page_health_checkup_plan.scss */
   .health-checkup-plan .search-results .table-warp table tr td:first-of-type {
     width: 35px;
   }
-  /* line 247, ../../sass/_page_health_checkup_plan.scss */
+  /* line 238, ../../sass/_page_health_checkup_plan.scss */
   .health-checkup-plan .search-results .table-warp table tr td:first-of-type input {
     margin-top: 7px;
   }
-  /* line 251, ../../sass/_page_health_checkup_plan.scss */
+  /* line 242, ../../sass/_page_health_checkup_plan.scss */
   .health-checkup-plan .search-results .table-warp table tr td:nth-of-type(2) {
     width: calc(100% - 35px);
   }
-  /* line 254, ../../sass/_page_health_checkup_plan.scss */
+  /* line 245, ../../sass/_page_health_checkup_plan.scss */
   .health-checkup-plan .search-results .table-warp table tr td .p-title {
     display: flex;
     flex-direction: column;
@@ -3306,31 +3344,427 @@ footer .copyright a, footer .copyright .elementor-shortcode {
     align-items: start;
     gap: 10px;
   }
-  /* line 261, ../../sass/_page_health_checkup_plan.scss */
+  /* line 252, ../../sass/_page_health_checkup_plan.scss */
   .health-checkup-plan .search-results .table-warp table tr td .plan-tag {
     padding: 0px 14px;
     margin-left: 0;
   }
-  /* line 265, ../../sass/_page_health_checkup_plan.scss */
+  /* line 256, ../../sass/_page_health_checkup_plan.scss */
   .health-checkup-plan .search-results .table-warp table tr td .p-info {
     flex-direction: column;
     gap: 5px;
   }
-  /* line 269, ../../sass/_page_health_checkup_plan.scss */
+  /* line 260, ../../sass/_page_health_checkup_plan.scss */
   .health-checkup-plan .search-results .table-warp table tr td .btn-group {
     gap: 20px;
   }
-  /* line 271, ../../sass/_page_health_checkup_plan.scss */
+  /* line 262, ../../sass/_page_health_checkup_plan.scss */
   .health-checkup-plan .search-results .table-warp table tr td .btn-group .btn {
     padding: 10px 20px;
   }
-  /* line 278, ../../sass/_page_health_checkup_plan.scss */
+  /* line 269, ../../sass/_page_health_checkup_plan.scss */
   .health-checkup-plan .search-results .table-warp table tr.tfoot td:first-of-type {
     width: 100%;
   }
-  /* line 281, ../../sass/_page_health_checkup_plan.scss */
+  /* line 272, ../../sass/_page_health_checkup_plan.scss */
   .health-checkup-plan .search-results .table-warp table tr.tfoot td .info {
     align-items: start;
     flex-direction: column;
   }
+}
+
+/* line 5, ../../sass/_page_checkup_plan.scss */
+.checkup-plan-single .cont {
+  max-width: 100%;
+  padding: 120px 40px;
+}
+@media (min-width: 922px) {
+  /* line 5, ../../sass/_page_checkup_plan.scss */
+  .checkup-plan-single .cont {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+}
+@media screen and (max-width: 767px) {
+  /* line 5, ../../sass/_page_checkup_plan.scss */
+  .checkup-plan-single .cont {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+/* line 8, ../../sass/_page_checkup_plan.scss */
+.checkup-plan-single .breadcrumbs {
+  background: linear-gradient(#F5F5F5);
+  background: -webkit-linear-gradient(#F5F5F5);
+  background: linear-gradient(to left, rgba(245, 245, 245, 0) 0%, #F5F5F5 100%);
+  background: -webkit-linear-gradient(to left, rgba(245, 245, 245, 0) 0%, #F5F5F5 100%);
+}
+/* line 11, ../../sass/_page_checkup_plan.scss */
+.checkup-plan-single .breadcrumbs .cont {
+  padding-top: 21px;
+  padding-bottom: 21px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 24px;
+  font-size: 18px;
+}
+@media screen and (max-width: 576px) {
+  /* line 11, ../../sass/_page_checkup_plan.scss */
+  .checkup-plan-single .breadcrumbs .cont {
+    gap: 6px 12px;
+  }
+  /* line 21, ../../sass/_page_checkup_plan.scss */
+  .checkup-plan-single .breadcrumbs .cont .back-btn {
+    width: 100%;
+  }
+}
+/* line 25, ../../sass/_page_checkup_plan.scss */
+.checkup-plan-single .breadcrumbs .cont .line {
+  border-right: 1px solid #4B4B4B;
+  height: 13px;
+}
+@media screen and (max-width: 576px) {
+  /* line 25, ../../sass/_page_checkup_plan.scss */
+  .checkup-plan-single .breadcrumbs .cont .line {
+    opacity: 0;
+    margin-right: 13px;
+  }
+}
+/* line 36, ../../sass/_page_checkup_plan.scss */
+.checkup-plan-single .checkup-plan-single-header .cont {
+  display: flex;
+  gap: 80px;
+  padding-top: 80px;
+  padding-bottom: 64px;
+}
+@media screen and (max-width: 921px) {
+  /* line 36, ../../sass/_page_checkup_plan.scss */
+  .checkup-plan-single .checkup-plan-single-header .cont {
+    flex-direction: column;
+  }
+}
+/* line 44, ../../sass/_page_checkup_plan.scss */
+.checkup-plan-single .checkup-plan-single-header .cont .info {
+  width: 100%;
+  padding: 48px 0 0 0;
+}
+@media screen and (max-width: 921px) {
+  /* line 44, ../../sass/_page_checkup_plan.scss */
+  .checkup-plan-single .checkup-plan-single-header .cont .info {
+    padding-top: 0;
+  }
+}
+/* line 50, ../../sass/_page_checkup_plan.scss */
+.checkup-plan-single .checkup-plan-single-header .cont .info .plan-name {
+  color: #79895F;
+}
+/* line 53, ../../sass/_page_checkup_plan.scss */
+.checkup-plan-single .checkup-plan-single-header .cont .info .gender {
+  display: flex;
+}
+@media screen and (max-width: 576px) {
+  /* line 53, ../../sass/_page_checkup_plan.scss */
+  .checkup-plan-single .checkup-plan-single-header .cont .info .gender {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+/* line 59, ../../sass/_page_checkup_plan.scss */
+.checkup-plan-single .checkup-plan-single-header .cont .info .gender .item {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+}
+@media screen and (max-width: 576px) {
+  /* line 59, ../../sass/_page_checkup_plan.scss */
+  .checkup-plan-single .checkup-plan-single-header .cont .info .gender .item {
+    width: 100%;
+  }
+}
+/* line 66, ../../sass/_page_checkup_plan.scss */
+.checkup-plan-single .checkup-plan-single-header .cont .info .gender .item > span {
+  font-size: 20px;
+  color: #4B4B4B;
+  font-weight: 600;
+}
+/* line 71, ../../sass/_page_checkup_plan.scss */
+.checkup-plan-single .checkup-plan-single-header .cont .info .gender .item > strong {
+  font-size: 24px;
+  color: #1a1a1a;
+  font-weight: 600;
+}
+/* line 78, ../../sass/_page_checkup_plan.scss */
+.checkup-plan-single .checkup-plan-single-header .cont .info .tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  margin-top: 32px;
+}
+/* line 83, ../../sass/_page_checkup_plan.scss */
+.checkup-plan-single .checkup-plan-single-header .cont .info .tags .tag {
+  color: #4B4B4B;
+  border-radius: 80px;
+  background-color: #DFCEB4;
+  padding: 10px 30px;
+  border: 1px solid 0px;
+  text-align: center;
+  display: flex;
+  font-size: 16px;
+  transition: 0.4s;
+  border-radius: 4px;
+  font-size: 18px;
+  font-weight: 600;
+  padding: 6px 19px;
+}
+/* line 136, ../../sass/_mixin.scss */
+.checkup-plan-single .checkup-plan-single-header .cont .info .tags .tag:hover {
+  color: #4B4B4B;
+  background-color: rgba(223, 206, 180, 0.8);
+  border: 1px solid 0px;
+}
+/* line 91, ../../sass/_page_checkup_plan.scss */
+.checkup-plan-single .checkup-plan-single-header .cont .info .suitable {
+  border-top: 1px solid #BEBEBE;
+  border-bottom: 1px solid #BEBEBE;
+  padding-top: 48px;
+  padding-bottom: 48px;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+/* line 98, ../../sass/_page_checkup_plan.scss */
+.checkup-plan-single .checkup-plan-single-header .cont .info .suitable .title {
+  color: #4B4B4B;
+  margin-bottom: 10px;
+}
+/* line 106, ../../sass/_page_checkup_plan.scss */
+.checkup-plan-single .checkup-plan-single-header .cont .info .btn-group {
+  display: flex;
+  gap: 40px;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+/* line 111, ../../sass/_page_checkup_plan.scss */
+.checkup-plan-single .checkup-plan-single-header .cont .info .btn-group .btn {
+  color: #FEFEFE;
+  border-radius: 80px;
+  background-color: #79895F;
+  padding: 10px 30px;
+  border: 1px solid #79895F;
+  text-align: center;
+  display: flex;
+  font-size: 16px;
+  transition: 0.4s;
+  border-radius: 4px;
+  align-items: center;
+  justify-content: center;
+  padding: 11px 15px;
+  font-size: 18px;
+  min-width: 161px;
+}
+/* line 136, ../../sass/_mixin.scss */
+.checkup-plan-single .checkup-plan-single-header .cont .info .btn-group .btn:hover {
+  color: #FEFEFE;
+  background-color: #94A17F;
+  border: 1px solid #94A17F;
+}
+@media screen and (max-width: 1024px) {
+  /* line 111, ../../sass/_page_checkup_plan.scss */
+  .checkup-plan-single .checkup-plan-single-header .cont .info .btn-group .btn {
+    min-width: auto;
+  }
+}
+/* line 125, ../../sass/_page_checkup_plan.scss */
+.checkup-plan-single .checkup-plan-single-header .cont .info .btn-group .btn.compare-btn {
+  color: #79895F;
+  background-color: #FEFEFE;
+  font-weight: 400;
+}
+/* line 129, ../../sass/_page_checkup_plan.scss */
+.checkup-plan-single .checkup-plan-single-header .cont .info .btn-group .btn.compare-btn:hover {
+  color: #FEFEFE;
+  background-color: #79895F;
+}
+/* line 137, ../../sass/_page_checkup_plan.scss */
+.checkup-plan-single .checkup-plan-single-header .cont .img {
+  width: 480px;
+  margin-left: 40px;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: flex-end;
+  position: relative;
+}
+@media screen and (max-width: 1200px) {
+  /* line 137, ../../sass/_page_checkup_plan.scss */
+  .checkup-plan-single .checkup-plan-single-header .cont .img {
+    width: 45%;
+  }
+}
+@media screen and (max-width: 921px) {
+  /* line 137, ../../sass/_page_checkup_plan.scss */
+  .checkup-plan-single .checkup-plan-single-header .cont .img {
+    width: 440px;
+    max-width: calc(100% - 40px);
+  }
+}
+/* line 152, ../../sass/_page_checkup_plan.scss */
+.checkup-plan-single .checkup-plan-single-header .cont .img .img-warp {
+  width: 100%;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+@media screen and (max-width: 921px) {
+  /* line 152, ../../sass/_page_checkup_plan.scss */
+  .checkup-plan-single .checkup-plan-single-header .cont .img .img-warp {
+    padding-top: calc(560 / 480 * 100%);
+  }
+}
+/* line 160, ../../sass/_page_checkup_plan.scss */
+.checkup-plan-single .checkup-plan-single-header .cont .img .img-warp::before {
+  content: '';
+  background-color: #DFCEB4;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: -1;
+  bottom: -64px;
+  left: -40px;
+}
+/* line 170, ../../sass/_page_checkup_plan.scss */
+.checkup-plan-single .checkup-plan-single-header .cont .img .img-warp img {
+  box-shadow: -2px 5px 8px 0 rgba(0, 0, 0, 0.15);
+}
+/* line 175, ../../sass/_page_checkup_plan.scss */
+.checkup-plan-single .checkup-plan-single-header .cont .image-block {
+  position: relative;
+  width: fit-content;
+  display: inline-block;
+}
+/* line 179, ../../sass/_page_checkup_plan.scss */
+.checkup-plan-single .checkup-plan-single-header .cont .image-block::before {
+  content: "";
+  position: absolute;
+  left: -20px;
+  bottom: -20px;
+  width: 100%;
+  height: 100%;
+  background-color: #e6d9c6;
+  z-index: 0;
+  border-radius: 4px;
+}
+/* line 190, ../../sass/_page_checkup_plan.scss */
+.checkup-plan-single .checkup-plan-single-header .cont .image-block img {
+  display: block;
+  width: 100%;
+  height: auto;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 1;
+  border-radius: 4px;
+}
+/* line 207, ../../sass/_page_checkup_plan.scss */
+.checkup-plan-single .checkup-plan-single-instrument .cont {
+  padding-top: 0;
+}
+/* line 210, ../../sass/_page_checkup_plan.scss */
+.checkup-plan-single .checkup-plan-single-instrument .list {
+  margin: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+}
+/* line 216, ../../sass/_page_checkup_plan.scss */
+.checkup-plan-single .checkup-plan-single-instrument .list .item {
+  display: flex;
+}
+@media screen and (max-width: 767px) {
+  /* line 216, ../../sass/_page_checkup_plan.scss */
+  .checkup-plan-single .checkup-plan-single-instrument .list .item {
+    flex-direction: column;
+  }
+}
+/* line 221, ../../sass/_page_checkup_plan.scss */
+.checkup-plan-single .checkup-plan-single-instrument .list .item .img, .checkup-plan-single .checkup-plan-single-instrument .list .item .info {
+  width: 50%;
+}
+@media screen and (max-width: 767px) {
+  /* line 221, ../../sass/_page_checkup_plan.scss */
+  .checkup-plan-single .checkup-plan-single-instrument .list .item .img, .checkup-plan-single .checkup-plan-single-instrument .list .item .info {
+    width: 100%;
+  }
+}
+@media screen and (max-width: 767px) {
+  /* line 227, ../../sass/_page_checkup_plan.scss */
+  .checkup-plan-single .checkup-plan-single-instrument .list .item .img {
+    margin-bottom: 20px;
+  }
+}
+/* line 232, ../../sass/_page_checkup_plan.scss */
+.checkup-plan-single .checkup-plan-single-instrument .list .item .info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 64px;
+  gap: 24px;
+}
+@media screen and (max-width: 767px) {
+  /* line 232, ../../sass/_page_checkup_plan.scss */
+  .checkup-plan-single .checkup-plan-single-instrument .list .item .info {
+    padding-left: 0;
+  }
+}
+/* line 241, ../../sass/_page_checkup_plan.scss */
+.checkup-plan-single .checkup-plan-single-instrument .list .item .info .title {
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  color: #1a1a1a;
+  margin-bottom: 0;
+  line-height: 1.8;
+}
+/* line 247, ../../sass/_page_checkup_plan.scss */
+.checkup-plan-single .checkup-plan-single-instrument .list .item .info .desc {
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  color: #4B4B4B;
+}
+/* line 256, ../../sass/_page_checkup_plan.scss */
+.checkup-plan-single .checkup-plan-single-details .cont {
+  padding-top: 0;
+}
+/* line 259, ../../sass/_page_checkup_plan.scss */
+.checkup-plan-single .checkup-plan-single-details .title {
+  color: #4B4B4B;
+  margin-bottom: 30px;
+}
+/* line 264, ../../sass/_page_checkup_plan.scss */
+.checkup-plan-single .checkup-plan-single-details table th {
+  font-size: 24px;
+}
+/* line 266, ../../sass/_page_checkup_plan.scss */
+.checkup-plan-single .checkup-plan-single-details table th:first-of-type {
+  width: 24%;
+}
+/* line 270, ../../sass/_page_checkup_plan.scss */
+.checkup-plan-single .checkup-plan-single-details table th:nth-of-type(2) {
+  width: 25%;
+}
+/* line 273, ../../sass/_page_checkup_plan.scss */
+.checkup-plan-single .checkup-plan-single-details table th:nth-of-type(3), .checkup-plan-single .checkup-plan-single-details table th:nth-of-type(4) {
+  width: calc(25% / 2);
+}
+/* line 277, ../../sass/_page_checkup_plan.scss */
+.checkup-plan-single .checkup-plan-single-details table td {
+  font-size: 20px;
+}
+/* line 283, ../../sass/_page_checkup_plan.scss */
+.checkup-plan-single .checkup-plan-single-popular-add .cont {
+  padding-top: 0;
 }
