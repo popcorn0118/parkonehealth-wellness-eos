@@ -116,7 +116,6 @@ $thumbnail = $plan_info['thumbnail'];
                 </div>
                 <div class="btn-group">
                     <a href="<?php echo esc_url( home_url( '/health-check-up-appointment' ) ); ?>" class="btn booking-btn">立即預約方案</a>
-                    <!-- <a href="" class="btn compare-btn">加入方案互比</a> -->
                     <button class="btn compare-btn" type="button">加入方案互比</button>
                 </div>
             </div>
@@ -138,7 +137,7 @@ $thumbnail = $plan_info['thumbnail'];
 
     <!-- 儀器 -->
     <?php
-        $device_list = get_field('plan_checkup_device_list');
+        $device_list = get_field('plan_checkup_device_list', $post_id);
     ?>
     <div class="checkup-plan-single-instrument">
         <div class="cont">
@@ -247,7 +246,7 @@ $thumbnail = $plan_info['thumbnail'];
 
     <!-- 熱門加選 -->
     <?php
-        $hot_additional_list = get_field('hot_additional_list');
+        $hot_additional_list = get_field('hot_additional_list', $post_id);
     ?>
      <div class="checkup-plan-single-popular-add">
         <div class="cont">
@@ -286,6 +285,105 @@ $thumbnail = $plan_info['thumbnail'];
             <?php endif; ?>
         </div>
     </div>
+
+    <!-- 注意事項 -->
+    <?php
+        $precautions = get_field('precautions', $post_id);
+    ?>
+     <div class="checkup-plan-single-precautions">
+        <div class="cont">
+            <div class="left">
+                <div class="desc no-br">
+                    如已經了解方案內容，可以立即此預約方案；<br/>也可以利用互比功能，了解方案之間的不同。
+                </div>
+                <div class="btn-group">
+                    <a href="<?php echo esc_url( home_url( '/health-check-up-appointment' ) ); ?>" class="btn booking-btn">立即預約方案</a>
+                    <button class="btn compare-btn" type="button">加入方案互比</button>
+                </div>
+            </div>
+            <div class="right">
+                <h4 class="title">注意事項</h4>
+                <?php if(!empty($precautions)): ?>
+                    <div class="desc">
+                        <?php echo $precautions;  ?>
+                    </div>
+                <?php endif; ?>
+            </div>
+           
+        </div>
+    </div>
+
+     <!-- 類似方案 -->
+     <?php
+        $similar_plan = get_field('similar_plan', $post_id);
+        $hottest_plans = get_field('hottest_plans', 'option');
+        $hottest_plans_bg = get_field('hottest_plans_bg', 'option');
+        // error_log(print_r($hottest_plans, true));	
+        $count = 3;	// 只取前三筆
+        $plans = array();
+        for ($i = 0; $i < $count; $i++) {
+            $plan = array();
+            $_title = $hottest_plans[$i]['plan']->post_title;
+            $plan['tag_name'] = $hottest_plans[$i]['tag_name'];
+            $plan['title'] = $_title;
+            $plan['detail'] = array();
+            $plan['id'] = $hottest_plans[$i]['plan']->ID;
+
+            // 取得acf資料
+            $checkup_price_gender_and_items = get_field("checkup_price_gender_and_items", $hottest_plans[$i]['plan']->ID);
+            foreach ($checkup_price_gender_and_items as $checkup_price_gender_and_item) {
+                $_plan = array();
+                $_gender = "";
+                if ($checkup_price_gender_and_item['gender'] == 'male') {
+                    $_gender = "男";
+                } else if ($checkup_price_gender_and_item['gender'] == 'female') {
+                    $_gender = "女";
+                }
+
+                $_plan['sex'] = $_gender;
+                $_plan['price'] = number_format($checkup_price_gender_and_item['price']);
+                array_push($plan['detail'], $_plan);
+            }
+            array_push($plans, $plan);
+        }
+    ?>
+    <div class="checkup-plan-single-plans">
+        <div class="cont">
+            <h2 class="title">類似方案</h2>
+            
+            <div class="list plan-card">
+                <?php
+                $bg_keys = ['img_bg_1', 'img_bg_2', 'img_bg_3'];
+                foreach ($plans as $index => $plan):
+                    $bg_key = $bg_keys[$index] ?? 'img_bg_1'; // 防呆：超出3筆時仍抓第一張
+                    $bg_url = $hottest_plans_bg[$bg_key]['link'];
+                ?>
+                <div class="plan">
+                    <h4 class="sub-title"><?= $plan['tag_name']; ?></h4>
+                    <h3 class="title"><?= $plan['title']; ?></h3>
+                    <div class="line"></div>
+                    <?php
+                    foreach ($plan['detail'] as $detail):
+                    ?>
+                        <ul class="list">
+                            <li class="sex"><?= $detail['sex']; ?>性</li>
+                            <li class="price">NT$<?= $detail['price']; ?></li>
+                        </ul>
+                    <?php
+                    endforeach;
+                    ?>
+                    <button type="button" class="program_content" data-pname="<?= $plan['title']; ?>" data-pid="<?= $plan['id']; ?>">了解方案內容</button>
+                    <button type="button" data-pname="<?= $plan['title']; ?>" data-pid="<?= $plan['id']; ?>" class="add_to_plans_compare">加入方案互比</button>
+                    <div class="img" style="background-image: url(<?php echo $bg_url; ?>);"></div>
+                </div>
+            <?php
+            endforeach;
+            ?>
+        </div>
+            
+        </div>
+    </div>
+
 
 </main>
 

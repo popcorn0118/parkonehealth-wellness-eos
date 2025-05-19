@@ -821,7 +821,7 @@ function get_hottest_plan()
 
 	wp_enqueue_script('jquery');
 ?>
-	<div class="hottest-plan">
+	<div class="hottest-plan plan-card">
 		<?php
 		$bg_keys = ['img_bg_1', 'img_bg_2', 'img_bg_3'];
 		foreach ($plans as $index => $plan):
