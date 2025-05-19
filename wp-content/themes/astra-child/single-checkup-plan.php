@@ -131,7 +131,19 @@ $thumbnail = $plan_info['thumbnail'];
     
     <!-- Elementor 內容 -->
     <div class="checkup-plan-single-cont">
-        <?php the_content(); ?>
+        
+        <?php 
+        if ( \Elementor\Plugin::instance()->db->is_built_with_elementor( get_the_ID() ) ) {
+            // 是用 Elementor 編輯的頁面
+            the_content(); 
+        } else {
+            // 不是 Elementor
+            echo '<div class="cont">';
+                the_content(); 
+            echo '</div>';
+        }
+        
+        ?>
     </div>
 
 
@@ -187,56 +199,56 @@ $thumbnail = $plan_info['thumbnail'];
                         <tr>
                             <td rowspan="4">一般身體質量</td>
                             <td>身高、體重、腰圍、血壓、脈搏、呼吸、體溫</td>
-                            <td><i class="icon-check"></i></td>
-                            <td><i class="icon-check"></i></td>
+                            <td class="icon"><i class="icon-check"></i></td>
+                            <td class="icon"><i class="icon-check"></i></td>
                         </tr>
                         <tr>
                             <td>身體質量指數 / 身體成分分析</td>
-                            <td><i class="icon-check"></i></td>
-                            <td><i class="icon-check"></i></td>
+                            <td class="icon"><i class="icon-check"></i></td>
+                            <td class="icon"><i class="icon-check"></i></td>
                         </tr>
                         <tr>
                             <td>身體理學檢查綜合評估</td>
-                            <td><i class="icon-check"></i></td>
-                            <td><i class="icon-check"></i></td>
+                            <td class="icon"><i class="icon-check"></i></td>
+                            <td class="icon"><i class="icon-check"></i></td>
                         </tr>
                         <tr>
                             <td>醫師問診</td>
-                            <td><i class="icon-check"></i></td>
-                            <td><i class="icon-check"></i></td>
+                            <td class="icon"><i class="icon-check"></i></td>
+                            <td class="icon"><i class="icon-check"></i></td>
                         </tr>
                         <tr>
                             <td rowspan="4">眼科</td>
                             <td>視力、眼壓、辨色力</td>
-                            <td><i class="icon-check"></i></td>
-                            <td><i class="icon-check"></i></td>
+                            <td class="icon"><i class="icon-check"></i></td>
+                            <td class="icon"><i class="icon-check"></i></td>
                         </tr>
                         <tr>
                             <td>眼底線、細隙燈檢查</td>
-                            <td><i class="icon-check"></i></td>
-                            <td><i class="icon-check"></i></td>
+                            <td class="icon"><i class="icon-check"></i></td>
+                            <td class="icon"><i class="icon-check"></i></td>
                         </tr>
                         <tr>
                             <td>免散瞳彩色數位眼底檢查</td>
-                            <td><i class="icon-check"></i></td>
-                            <td><i class="icon-check"></i></td>
+                            <td class="icon"><i class="icon-check"></i></td>
+                            <td class="icon"><i class="icon-check"></i></td>
                         </tr>
                         <tr>
                             <td>眼科醫師問診</td>
-                            <td><i class="icon-check"></i></td>
-                            <td><i class="icon-check"></i></td>
+                            <td class="icon"><i class="icon-check"></i></td>
+                            <td class="icon"><i class="icon-check"></i></td>
                         </tr>
                         <tr>
                             <td>心電圖檢測</td>
                             <td>靜態心電圖</td>
-                            <td><i class="icon-check"></i></td>
-                            <td><i class="icon-check"></i></td>
+                            <td class="icon"><i class="icon-check"></i></td>
+                            <td class="icon"><i class="icon-check"></i></td>
                         </tr>
                         <tr>
                             <td>血液常規項目</td>
                             <td>紅血球、白血球、血色素、血小板、紅血球容積、平均紅血球體積、平均紅血球血色素量、平均紅血球色素濃度、白血球分類計數</td>
-                            <td><i class="icon-check"></i></td>
-                            <td><i class="icon-check"></i></td>
+                            <td class="icon"><i class="icon-check"></i></td>
+                            <td class="icon"><i class="icon-check"></i></td>
                         </tr>
                     </tbody>
                 </table>
@@ -248,43 +260,44 @@ $thumbnail = $plan_info['thumbnail'];
     <?php
         $hot_additional_list = get_field('hot_additional_list', $post_id);
     ?>
-     <div class="checkup-plan-single-popular-add">
-        <div class="cont">
-            <h3 class="title">熱門加選</h3>
-            <div class="desc">
-            說明文字，位蝴次拍友抄三裏未候親室點愛法我何裝。給位找已夕條牙里那，意出雞生交助木央毛細兄見，要完巴定親娘親：免出頭弟畫止皮水向叫己，怕羊東間海冒路文坡陽胡未的安葉只貓反！去麻洋，村快下，四士員校里。
-            </div>
-            <?php if(!empty($hot_additional_list)): ?>
-                <div class="table-wrapper">
-                    <table class="responsive-table">
-                        <thead>
-                            <tr>
-                                <th>類別</th>
-                                <th>項目</th>
-                                <th>男生</th>
-                                <th>女生</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                                foreach ($hot_additional_list as $item): 
-                                    $post = $item['hot_additional_item_name'];
-                                    $title = $post->post_title;
-                                    $price = $item['hot_additional_item_price'];
-                            ?>
-                                <tr>
-                                    <td><?php echo $title; ?></td>
-                                    <td>NT$<?php echo $price; ?></td>
-                                    <td><i class="icon-check"></i></td>
-                                    <td><i class="icon-check"></i></td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
+    <?php if(!empty($hot_additional_list)): ?>
+        <div class="checkup-plan-single-popular-add">
+            <div class="cont">
+                <h3 class="title">熱門加選</h3>
+                <div class="desc">
+                說明文字，位蝴次拍友抄三裏未候親室點愛法我何裝。給位找已夕條牙里那，意出雞生交助木央毛細兄見，要完巴定親娘親：免出頭弟畫止皮水向叫己，怕羊東間海冒路文坡陽胡未的安葉只貓反！去麻洋，村快下，四士員校里。
                 </div>
-            <?php endif; ?>
+                
+                    <div class="table-wrapper">
+                        <table class="responsive-table">
+                            <thead>
+                                <tr>
+                                    <th>類別</th>
+                                    <th>項目</th>
+                                    <th>男生</th>
+                                    <th>女生</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                    foreach ($hot_additional_list as $item): 
+                                        $post = $item['hot_additional_item_name'];
+                                        $title = $post->post_title;
+                                        $price = $item['hot_additional_item_price'];
+                                ?>
+                                    <tr>
+                                        <td><?php echo $title; ?></td>
+                                        <td>NT$<?php echo $price; ?></td>
+                                        <td><i class="icon-check"></i></td>
+                                        <td><i class="icon-check"></i></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+            </div>
         </div>
-    </div>
+    <?php endif; ?>
 
     <!-- 注意事項 -->
     <?php
@@ -301,14 +314,14 @@ $thumbnail = $plan_info['thumbnail'];
                     <button class="btn compare-btn" type="button">加入方案互比</button>
                 </div>
             </div>
-            <div class="right">
-                <h4 class="title">注意事項</h4>
-                <?php if(!empty($precautions)): ?>
+            <?php if(!empty($precautions)): ?>
+                <div class="right">
+                    <h4 class="title">注意事項</h4>
                     <div class="desc">
                         <?php echo $precautions;  ?>
                     </div>
-                <?php endif; ?>
-            </div>
+                </div>
+            <?php endif; ?>
            
         </div>
     </div>
