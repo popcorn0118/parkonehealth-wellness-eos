@@ -1,4 +1,5 @@
 <?php
+// 健檢方案內頁
 // 導覽列
 get_header();
 
@@ -329,21 +330,20 @@ $thumbnail = $plan_info['thumbnail'];
      <!-- 類似方案 -->
      <?php
         $similar_plan = get_field('similar_plan', $post_id);
-        $hottest_plans = get_field('hottest_plans', 'option');
-        $hottest_plans_bg = get_field('hottest_plans_bg', 'option');
+        $plans_bg = get_field('hottest_plans_bg', 'option');
         // error_log(print_r($hottest_plans, true));	
         $count = 3;	// 只取前三筆
         $plans = array();
         for ($i = 0; $i < $count; $i++) {
             $plan = array();
-            $_title = $hottest_plans[$i]['plan']->post_title;
-            $plan['tag_name'] = $hottest_plans[$i]['tag_name'];
+            $_title = $similar_plan[$i]['plan']->post_title;
+            $plan['tag_name'] = $similar_plan[$i]['tag_name'];
             $plan['title'] = $_title;
             $plan['detail'] = array();
-            $plan['id'] = $hottest_plans[$i]['plan']->ID;
+            $plan['id'] = $similar_plan[$i]['plan']->ID;
 
             // 取得acf資料
-            $checkup_price_gender_and_items = get_field("checkup_price_gender_and_items", $hottest_plans[$i]['plan']->ID);
+            $checkup_price_gender_and_items = get_field("checkup_price_gender_and_items", $similar_plan[$i]['plan']->ID);
             foreach ($checkup_price_gender_and_items as $checkup_price_gender_and_item) {
                 $_plan = array();
                 $_gender = "";
@@ -369,7 +369,7 @@ $thumbnail = $plan_info['thumbnail'];
                 $bg_keys = ['img_bg_1', 'img_bg_2', 'img_bg_3'];
                 foreach ($plans as $index => $plan):
                     $bg_key = $bg_keys[$index] ?? 'img_bg_1'; // 防呆：超出3筆時仍抓第一張
-                    $bg_url = $hottest_plans_bg[$bg_key]['link'];
+                    $bg_url = $plans_bg[$bg_key]['link'];
                 ?>
                 <div class="plan">
                     <h4 class="sub-title"><?= $plan['tag_name']; ?></h4>

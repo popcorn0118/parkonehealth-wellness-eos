@@ -62,33 +62,33 @@
             }
         }
     }
-    .breadcrumbs {
-        @include bgGradient($bg);
-        @include bgGradient(to left, rgba($bg, 0) 0%, $bg 100%);
-        .cont {
-            padding-top: 21px;
-            padding-bottom: 21px;
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 24px;
-            font-size: 18px;
-            @include sm() {
-                gap: 6px 12px;
-                .back-btn {
-                    width: 100%;
-                }
-            }
-            .line {
-                border-right: 1px solid $text-4;
-                height: 13px;
-                @include sm() {
-                    opacity: 0;
-                    margin-right: 13px;
-                }
-            }
-        }
-    }
+    // .breadcrumbs {
+    //     @include bgGradient($bg);
+    //     @include bgGradient(to left, rgba($bg, 0) 0%, $bg 100%);
+    //     .cont {
+    //         padding-top: 21px;
+    //         padding-bottom: 21px;
+    //         display: flex;
+    //         align-items: center;
+    //         flex-wrap: wrap;
+    //         gap: 24px;
+    //         font-size: 18px;
+    //         @include sm() {
+    //             gap: 6px 12px;
+    //             .back-btn {
+    //                 width: 100%;
+    //             }
+    //         }
+    //         .line {
+    //             border-right: 1px solid $text-4;
+    //             height: 13px;
+    //             @include sm() {
+    //                 opacity: 0;
+    //                 margin-right: 13px;
+    //             }
+    //         }
+    //     }
+    // }
     
     .checkup-plan-single-header {
         .cont {

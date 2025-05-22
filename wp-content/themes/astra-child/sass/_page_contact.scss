@@ -83,7 +83,7 @@
       }
       .wpcf7-form-control {
         @include md() {
-          display: flex;          ;
+          display: flex;
           flex-direction: column;
         }
       }

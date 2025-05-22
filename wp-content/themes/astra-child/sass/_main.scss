@@ -101,6 +101,36 @@ main {
   }
 }
 
+.breadcrumbs {
+  @include bgGradient($bg);
+  @include bgGradient(to left, rgba($bg, 0) 0%, $bg 100%);
+  .cont {
+      padding-top: 21px !important;
+      padding-bottom: 21px !important;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 18px;
+      @include sm() {
+          gap: 6px 12px;
+          .back-btn {
+              width: 100%;
+          }
+      }
+      .line {
+          border-right: 1px solid $text-4;
+          height: 13px;
+          padding-left: 12px;
+          margin-right: 12px;
+          @include sm() {
+              opacity: 0;
+              margin-right: 13px;
+          }
+      }
+  }
+}
+
 // 表單
 .wpcf7-form, .form {
   .text, label {
@@ -176,6 +206,8 @@ main {
   }
   .wpcf7-form-control {
     // line-height: 1;
+    display: flex;
+    gap: 1em;
     &.wpcf7-checkbox {
       display: flex;
       flex-wrap: wrap;

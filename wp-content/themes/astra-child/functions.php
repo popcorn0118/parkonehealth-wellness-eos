@@ -156,6 +156,9 @@ function hide_menu_item_by_class_for_non_admins($items, $menu, $args) {
     return $items;
 }
 
+//全站停用 contact form 7 自動加上的<p>、<br>...
+add_filter('wpcf7_autop_or_not', '__return_false');
+
 
 
 
@@ -789,7 +792,7 @@ function get_hottest_plan()
 {
 	ob_start();
 	$hottest_plans = get_field('hottest_plans', 'option');
-	$hottest_plans_bg = get_field('hottest_plans_bg', 'option');
+	$plans_bg = get_field('hottest_plans_bg', 'option');
 	// error_log(print_r($hottest_plans, true));	
 	$count = 3;	// 只取前三筆
 	$plans = array();
@@ -826,7 +829,7 @@ function get_hottest_plan()
 		$bg_keys = ['img_bg_1', 'img_bg_2', 'img_bg_3'];
 		foreach ($plans as $index => $plan):
 			$bg_key = $bg_keys[$index] ?? 'img_bg_1'; // 防呆：超出3筆時仍抓第一張
-			$bg_url = $hottest_plans_bg[$bg_key]['link'];
+			$bg_url = $plans_bg[$bg_key]['link'];
 		?>
 			<div class="plan">
 				<h4 class="sub-title"><?= $plan['tag_name']; ?></h4>
@@ -1468,6 +1471,12 @@ function remove_from_compare()
 add_shortcode('list_of_parts_search', 'list_of_parts_search');
 function list_of_parts_search()
 {
+
+	// // Elementor 編輯器內就不執行內容避免 crash
+	// if ( defined( 'ELEMENTOR_VERSION' ) && \Elementor\Plugin::$instance->editor->is_edit_mode() ) {
+	// 	return '<!-- parts search disabled in editor mode -->';
+	// }
+
 	ob_start();
 	// 取得所有 posttype = body_parts 的 posts, 以上傳時間排序
 	$args = array(
@@ -1478,23 +1487,41 @@ function list_of_parts_search()
 		'order' => 'DESC',
 	);
 	$query = new WP_Query($args);
-
+	
+	echo '<div class="part-warp">';
 	// 只要存 title 與 content 到陣列 parts 裡
 	if ($query->have_posts()) {
 		while ($query->have_posts()) {
 			$query->the_post();
 			$_title = get_the_title();
 			$_content = get_the_content();
+			$_id = get_the_ID();
 			// $parts[get_the_title()] = get_the_content();
+			$excerpt = get_the_excerpt();
+			$_link = get_permalink();
+			// $image = get_the_post_thumbnail_url(get_the_ID(), 'full');
+			$body_parts_img = get_field('body_parts_img', $_id);
+			$image_male = $body_parts_img['male']['url'];
+			$image_female = $body_parts_img['female']['url'];
+			
+			$image = !empty($image_male) ? $image_male : $image_female;
 
 	?>
-			<div class="part">
-				<h3><?= $_title; ?><span class="s_part" data-part="<?= $_title; ?>" style="color: darkred; display: none;">[推薦]</span></h3>
+			<a href="<?= esc_url($_link); ?>" class="part"
+				data-title="<?= esc_attr(get_the_title()); ?>"
+				data-excerpt="<?= esc_attr($excerpt); ?>"
+				data-img-male="<?= esc_url($image_male); ?>"
+				data-img-female="<?= esc_url($image_female); ?>">
+			
+				<h4 class="part_title"><span><?= $_title; ?></span><span class="part_tag" data-part="<?= $_title; ?>">建議檢測項目</span></h4>
+				<div class="part-arrow"></div>
 				<!-- <p><?= $_content; ?></p> -->
-			</div>
+			</a>
 <?php
 		}
+		wp_reset_postdata();
 	}
+	echo '</div>';
 
 	$parts_options_list = get_field('parts_options_list', 'option');
 	error_log(print_r($parts_options_list, true));
@@ -1504,4 +1531,27 @@ function list_of_parts_search()
 	return ob_get_clean();
 }
 
+
+
+function part_preview_block() {
+	$img_url_male = get_stylesheet_directory_uri() . '/assets/img/default_male.png';
+	$img_url_female = get_stylesheet_directory_uri() . '/assets/img/default_female.png';
+    $html = '<div class="part-preview">
+				<div class="preview-info">
+					<h3 class="preview-title"></h3>
+					<div class="preview-excerpt"></div>
+					<a class="preview-btn" href=""></a>
+				</div>
+				<div class="preview-img">
+					<img class="male show" src="' . esc_url($img_url_male) . '" alt="男性部位預設圖">
+					<img class="female" src="' . esc_url($img_url_female) . '" alt="女性部位預設圖">
+				</div>
+		   </div>';
+
+    return $html;
+}
+add_shortcode('part_preview', 'part_preview_block');
+
+
 ?>
+
