@@ -366,8 +366,18 @@ updateSubmitButtonStatus();
 // });
 
 
+function goBack(url) {
+  if (document.referrer && window.history.length > 1) {
+      window.history.back();
+  } else {
+      window.location.href = url;
+  }
+}
 
-
+$('.back-btn').on('click', function () {
+  const fallbackUrl = $(this).data('fallback-url');
+  goBack(fallbackUrl);
+});
 
 
 

@@ -17,7 +17,7 @@ $thumbnail = get_the_post_thumbnail_url($post_id, 'full');
 <main class="checkup-body-parts-single animated-slow animated fadeInUp">
     <div class="breadcrumbs">
         <div class="cont">
-            <a href="javascript:window.history.back()" class="back-btn">返回上頁</a>
+        <a href="javascript:void(0);" class="back-btn" data-fallback-url="<?php echo esc_url( home_url( '/parts-search/' ) ); ?>">返回上頁</a>
             <span class="line"></span>
             <span>部位檢所</span>
             <span>/</span>
