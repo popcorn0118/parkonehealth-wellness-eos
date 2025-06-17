@@ -148,6 +148,40 @@ $thumbnail = get_the_post_thumbnail_url($post_id, 'full');
 
 </main>
 
+<script>
+    jQuery(function($){
+        // 點擊加入方案互比
+        $('.add_to_plans_compare').on('click', function() {
+            var plan_name = $(this).data('pname');
+            var plan_id = $(this).data('pid');
+            
+            $.ajax({
+                url: '<?= admin_url('admin-ajax.php'); ?>',
+                type: 'post',
+                dataType: 'json',
+                cache: false,
+                async: false,
+                data: {
+                    action: 'add_to_plans_compare',
+                    pname: plan_name,
+                    pid: plan_id,
+                },
+                success: function(response) {
+                    // console.log(response);
+                    location.href = '<?= site_url('search_plan'); ?>';
+                }
+            });
+        });
+
+        // 點擊了解方案內容
+        $('.program_content').on('click', function() {
+            var plan_id = $(this).data('pid');
+            var plan_name = $(this).data('pname');
+            window.location.href = "<?php echo esc_url( home_url( '/single-checkup-plan/' ) ); ?>" + plan_name;
+        });
+    });
+</script>
+
 <?php
 
 // 頁尾

@@ -876,26 +876,54 @@ function show_plan_compare()
 	ob_start();
 	wp_enqueue_script('jquery');
 	$checkup_set_list = get_health_checkup_set_list(true);
+	// error_log('$checkup_set_list: ' . var_export($checkup_set_list, true));
 	$compare_plans_item_list = [];
 	$_compare_plans_item_list = [];
+	// if (isset($_COOKIE['plans_compare'])) {
+	// 	$compare_plans = $_COOKIE['plans_compare'];
+	// 	$compare_plans = json_decode(wp_unslash($compare_plans), true);
+	// 	// error_log('$compare_plans: ' . print_r($compare_plans, true));
+	// 	if (is_array($compare_plans)) {
+	// 		foreach ($compare_plans as $pid => $pname) {
+	// 			$plan_info = get_plan_info_by_id($pid);
+	// 			error_log("{$pname} plan_info: " . print_r($plan_info, true));
+	// 			$compare_plans_item_list[$pname] = $plan_info;
+
+	// 			$_compare_plans_item_list[$pname] = $plan_info['check_item_union_list'];
+	// 		}
+	// 	}
+	// } else {
+	// 	$compare_plans = [];
+	// }
+	// $compare_plans_item_list = [];
+	$show_plans = [];
 	if (isset($_COOKIE['plans_compare'])) {
 		$compare_plans = $_COOKIE['plans_compare'];
 		$compare_plans = json_decode(wp_unslash($compare_plans), true);
 		if (is_array($compare_plans)) {
 			foreach ($compare_plans as $pid => $pname) {
 				$plan_info = get_plan_info_by_id($pid);
-				error_log('$plan_info: ' . print_r($plan_info, true));
-				$compare_plans_item_list[$pname] = $plan_info;
-
-				$_compare_plans_item_list[$pname] = $plan_info['check_item_union_list'];
+				// error_log("{$pname} plan_info: " . print_r($plan_info, true));
+				$show_plans[] = $plan_info;
+				if (isset($plan_info['info'])) {
+					foreach ($plan_info['info'] as $info) {
+						$gender = ($info['gender'] === 'male') ? '男' : '女';
+						$col_key = $pname . '-' . $gender; // 例如 "尊爵菁英-男"
+						$compare_plans_item_list[$col_key] = $info['checkup_item_list'];
+						$_compare_plans_item_list[$pname] = $plan_info['check_item_union_list'];
+					}
+				}
 			}
+		} else {
+			$compare_plans = [];
 		}
-	} else {
-		$compare_plans = [];
 	}
 
+	error_log('$show_plans: ' . print_r($show_plans, true));
+
+
 	// 組合成 table
-	if (count($compare_plans) > 0):
+	if (is_array($compare_plans) && count($compare_plans) > 0):
 	?>
 		<!-- 做直的比較表 -->
 		<div class="solution-comparison-results">
@@ -905,7 +933,7 @@ function show_plan_compare()
 						<th>項目</th>
 						<?php
 						foreach ($_compare_plans_item_list as $pname => $union_list) {
-							echo "<th>{$pname}</th>";
+							echo "<th colspan='2'>{$pname}</th>";
 						}
 						?>
 					</tr>
@@ -915,15 +943,40 @@ function show_plan_compare()
 						<tr>
 							<th><?= $checkup_set['title']; ?></th>
 							<?php
-							foreach ($_compare_plans_item_list as $pname => $union_list) {
-								$checkup_set_id = $_checkup_plan_id;
-								// $checkup_set_title = $checkup_set['title'];
-								if (in_array($checkup_set_id, $union_list)) {
-									echo "<td>O</td>";
-								} else {
-									echo "<td></td>";
+							foreach($show_plans as $plan_info):
+								$plan_name = $plan_info['plan_name'];
+								foreach ($plan_info['info'] as $info) {
+									
+									$_gender = ($info['gender'] === 'male') ? '男' : '女';
+									error_log("_gender: ".var_export($_gender, true));
+									$_price = number_format($info['price']);
+									// error_log("info: " . print_r($info, true));
+									$union_list = $plan_info['check_item_union_list'];
+									// error_log("union_list: " . print_r($union_list, true));
+									if(in_array($_checkup_plan_id, $union_list)){
+										echo "<td>O</td>";
+									} else {
+										echo "<td></td>";
+									}
+									// foreach($info['checkup_item_list'] as $checkup_item_id){
+									// 	if( in_array($checkup_item_id, $union_list) ){
+									// 		echo "<td>O</td>";
+									// 	} else {
+									// 		echo "<td></td>";
+									// 	}
+									// }
+									
 								}
-							}
+							endforeach;
+							// foreach ($_compare_plans_item_list as $pname => $union_list) {
+							// 	$checkup_set_id = $_checkup_plan_id;
+							// 	// $checkup_set_title = $checkup_set['title'];
+							// 	if (in_array($checkup_set_id, $union_list)) {
+							// 		echo "<td>O</td>";
+							// 	} else {
+							// 		echo "<td></td>";
+							// 	}
+							// }
 							?>
 						</tr>
 					<?php
@@ -934,7 +987,7 @@ function show_plan_compare()
 						<?php
 						foreach ($compare_plans as $pid => $pname):
 						?>
-							<td><input type="checkbox" class="remove_from_compare" value="<?= $pname; ?>"></td>
+							<td colspan="2"><input type="checkbox" class="remove_from_compare" value="<?= $pname; ?>"></td>
 						<?php
 						endforeach;
 						?>
@@ -943,7 +996,7 @@ function show_plan_compare()
 						<th>項目</th>
 						<?php
 						foreach ($_compare_plans_item_list as $pname => $union_list) {
-							echo "<th>{$pname}</th>";
+							echo "<th colspan='2'>{$pname}</th>";
 						}
 						?>
 					</tr>
@@ -1103,7 +1156,12 @@ function plan_search_result()
 	// $plans_compare = get_user_meta(get_current_user_id(), 'plans_compare', true);
 	$plans_compare = $_COOKIE['plans_compare'];
 	$plans_compare = json_decode(wp_unslash($plans_compare), true);
-	// var_dump($plans_compare);
+	error_log("plans_compare: ".var_export($plans_compare, true));
+	if(!is_array($plans_compare) || count($plans_compare) == 0):
+		error_log("yes");
+	else:
+		error_log("no");
+	endif;
 	// $compare_plans_item_list = [];
 	// if (is_array($plans_compare)) {
 	// 	foreach ($plans_compare as $pid => $pname) {
@@ -1112,7 +1170,6 @@ function plan_search_result()
 	// 	}
 	// }
 	// error_log("compare_plans_item_list: " . print_r($compare_plans_item_list, true));
-
 	
 ?>
 	<div id="search_result" class="search-results">
@@ -1128,7 +1185,7 @@ function plan_search_result()
 						if (is_array($plans_compare) && count($plans_compare) > 0) {
 							foreach ($plans_compare as $pid => $pname) {
 								$plan_info = get_plan_info_by_id($pid);
-								error_log('$plan_info: ' . var_export($plan_info, true));
+								// error_log('$plan_info: ' . var_export($plan_info, true));
 						?>
 								<tr class='compare_row'>
 									<td>
@@ -1173,7 +1230,7 @@ function plan_search_result()
 							<td colspan="3">
 								<div class="info">
 									<p>同時間只能最多選擇三個方案進行互比。</p>
-									<button type='button' id=''>清除搜尋結果和互比方案<svg width="16" height="18" viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 18C2.45 18 1.97933 17.8043 1.588 17.413C1.19667 17.0217 1.00067 16.5507 1 16V3H0V1H5V0H11V1H16V3H15V16C15 16.55 14.8043 17.021 14.413 17.413C14.0217 17.805 13.5507 18.0007 13 18H3ZM5 14H7V5H5V14ZM9 14H11V5H9V14Z" fill=""/></svg></button>
+									<button type='button' id='clear_all_compare_plans'>清除搜尋結果和互比方案<svg width="16" height="18" viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 18C2.45 18 1.97933 17.8043 1.588 17.413C1.19667 17.0217 1.00067 16.5507 1 16V3H0V1H5V0H11V1H16V3H15V16C15 16.55 14.8043 17.021 14.413 17.413C14.0217 17.805 13.5507 18.0007 13 18H3ZM5 14H7V5H5V14ZM9 14H11V5H9V14Z" fill=""/></svg></button>
 								</div>
 								<button type='button' id='btn_add_to_compare' class='compare-btn'>方案互比</button>
 							</td>
@@ -1183,11 +1240,19 @@ function plan_search_result()
 			</div>
 		</div>
 	</div>
+
 	<script type="text/javascript">
 		document.addEventListener('DOMContentLoaded', function() {
 			jQuery(function($) {
+				<?php if(!is_array($plans_compare) || count($plans_compare) == 0): ?>
+					$("#search_result").hide();				
+				<?php endif; ?>
+
 				let form = $("form.wpcf7-form.init");
+				// console.log('form: ', form);
 				$("#btn_search").on('click', function() {
+					// console.log('btn_search clicked');
+					// console.log(form.serialize());
 					$.ajax({
 						url: '<?= admin_url('admin-ajax.php'); ?>',
 						type: 'post',
@@ -1199,7 +1264,7 @@ function plan_search_result()
 							data: form.serialize(),
 						},
 						success: function(response) {
-							// console.log(response);
+							console.log(response);
 							$(".result_row").remove();
 							for (const key in response) {
 								if (response.hasOwnProperty(key)) {
@@ -1207,6 +1272,8 @@ function plan_search_result()
 									let exists_plan_compare = $('.add_to_plan_compare[data-pid="' + plans["plan_id"] + '"]');
 									if (exists_plan_compare.length > 0) {											
 										return;
+									} else {
+										$("#search_result").show();
 									}
 									// console.log(key);
 									let tr = $("<tr class='result_row'></tr>");
@@ -1239,8 +1306,8 @@ function plan_search_result()
 									content_text += '</ul></td>';
 									content_text += `<td>
 										<div class="btn-group">
-											<a href="" class="btn booking-btn">立即預約</a>
-											<a href="" class="btn learn-btn">了解方案</a>
+											<a href="<?=site_url('checkup-plan');?>/health-check-up-appointment/" class="btn booking-btn" target="plan_appointment">立即預約</a>
+											<a href="<?=site_url('checkup-plan');?>/${plans["plan_name"]}/" class="btn learn-btn" target="know_plan">了解方案</a>
 										</div>
 									</td>`
 									tr.html(content_text);
@@ -1305,6 +1372,29 @@ function plan_search_result()
 						}
 					});
 				});
+
+				$("#clear_all_compare_plans").on('mouseup', function() {
+					// console.log('clear_all_compare_plans clicked');
+					$.ajax({
+						url: '<?= admin_url('admin-ajax.php'); ?>',
+						type: 'post',
+						dataType: 'json',
+						cache: false,
+						async: false,
+						data: {
+							action: 'clear_all_plan_compare',
+						},
+						success: function(response) {
+							// console.log(response);
+							if( response.success) {
+								$("#search_result").hide();
+								location.reload();
+							} else {
+								alert(response.message);
+							}							
+						}
+					});
+				});
 			});
 		});
 	</script>
@@ -1318,7 +1408,7 @@ function get_plan_search_result()
 {
 	$postdata = array();
 	parse_str($_POST['data'], $postdata);
-	error_log(var_export($postdata, true));
+	error_log('plan_search_result: '.var_export($postdata, true));
 	// 處理性別
 	$gender = "";
 	foreach($postdata['gender'] as $_gender){
@@ -1333,7 +1423,7 @@ function get_plan_search_result()
 	// 處理搜尋關鍵字
 	$keywords = array();
 	$parts = $postdata['parts_of_body'];
-	error_log(var_export($parts, true));
+	error_log('parts_of_body: '.var_export($parts, true));
 	foreach ($parts as $part) {
 		// 只取"｜"前面的部分
 		$_part = explode('｜', $part);
@@ -1374,7 +1464,7 @@ function get_plan_search_result()
 		}
 	}
 	$table = $wpdb->prefix . 'postmeta';
-	$sql = "SELECT post_id FROM `{$table}` WHERE `meta_key` LIKE 'checkup_price_gender_and_items_%_price' AND `meta_value` BETWEEN {$min} AND {$max};";
+	$sql = "SELECT post_id FROM `{$table}` WHERE `meta_key` LIKE 'checkup_price_gender_and_items_%_price' AND (`meta_value` BETWEEN {$min} AND {$max});";
 	error_log($sql);
 	$price_post_id_list = $wpdb->get_col($sql);
 	error_log('price_post_id_list: '.var_export($price_post_id_list, true));
@@ -1393,7 +1483,7 @@ function get_plan_search_result()
 	$table = $wpdb->prefix . 'posts';
 	$sql = "SELECT ID FROM `{$table}` WHERE `post_title` IN ({$checkup_part_keywords}) AND `post_type` = 'checkup_body_parts' AND `post_status` = 'publish';";
 	$checkup_part_keywords_id_list = $wpdb->get_col($sql);
-	error_log(var_export($checkup_part_keywords_id_list, true));
+	error_log('checkup_part_keywords_id_list: '.var_export($checkup_part_keywords_id_list, true));
 	$table = $wpdb->prefix . 'postmeta';
 	$sql = "SELECT post_id, meta_value FROM `{$table}` WHERE `meta_key` = 'checkup_parts'";
 	$_checkup_part_list = $wpdb->get_results($sql);
@@ -1436,15 +1526,15 @@ function get_plan_search_result()
 // }
 // add_action('init', 'add_tags_to_checkup_plan_type');
 
-// ajax 移除全部方案互比
-add_action('wp_ajax_remove_plan_compare', 'remove_plan_compare');
-add_action('wp_ajax_nopriv_remove_plan_compare', 'remove_plan_compare');
-function remove_plan_compare()
-{
-	delete_user_meta(get_current_user_id(), 'plans_compare');
-	// 回傳成功
-	exit(json_encode(['success' => true], JSON_UNESCAPED_UNICODE + JSON_UNESCAPED_SLASHES + JSON_PRETTY_PRINT));
-}
+// // ajax 移除全部方案互比
+// add_action('wp_ajax_remove_plan_compare', 'remove_plan_compare');
+// add_action('wp_ajax_nopriv_remove_plan_compare', 'remove_plan_compare');
+// function remove_plan_compare()
+// {
+// 	delete_user_meta(get_current_user_id(), 'plans_compare');
+// 	// 回傳成功
+// 	exit(json_encode(['success' => true], JSON_UNESCAPED_UNICODE + JSON_UNESCAPED_SLASHES + JSON_PRETTY_PRINT));
+// }
 
 // ajax 移除方案互比
 add_action('wp_ajax_remove_from_compare', 'remove_from_compare');
@@ -1463,6 +1553,19 @@ function remove_from_compare()
 	// 存入 cookie
 	$plans_compare = json_encode($plans_compare, JSON_UNESCAPED_UNICODE + JSON_UNESCAPED_SLASHES + JSON_PRETTY_PRINT);
 	setcookie('plans_compare', $plans_compare, time() + 3600, '/');
+	// 回傳成功
+	exit(json_encode(['success' => true], JSON_UNESCAPED_UNICODE + JSON_UNESCAPED_SLASHES + JSON_PRETTY_PRINT));
+}
+
+// 清除全部方案互比
+add_action('wp_ajax_clear_all_plan_compare', 'clear_all_plan_compare');
+add_action('wp_ajax_nopriv_clear_all_plan_compare', 'clear_all_plan_compare');
+function clear_all_plan_compare()
+{
+	// 清除 cookie
+	setcookie('plans_compare', '', time() - 3600, '/');
+	// 清除 user meta
+	// delete_user_meta(get_current_user_id(), 'plans_compare');
 	// 回傳成功
 	exit(json_encode(['success' => true], JSON_UNESCAPED_UNICODE + JSON_UNESCAPED_SLASHES + JSON_PRETTY_PRINT));
 }

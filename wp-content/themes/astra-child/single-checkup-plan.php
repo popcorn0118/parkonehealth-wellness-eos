@@ -7,6 +7,8 @@ $post_id = get_the_ID(); // 取得文章 ID
 $plan_name = get_the_title($post_id); // 取得文章標題
 $plan_info = get_plan_info_by_id($post_id); // 取得方案資訊
 
+error_log(print_r($plan_info, true));
+
 // 取得文章精選圖片
 $thumbnail = $plan_info['thumbnail'];
 // var_dump($thumbnail);
@@ -117,7 +119,7 @@ $thumbnail = $plan_info['thumbnail'];
                 </div>
                 <div class="btn-group">
                     <a href="<?php echo esc_url( home_url( '/health-check-up-appointment' ) ); ?>" class="btn booking-btn">立即預約方案</a>
-                    <button class="btn compare-btn" type="button">加入方案互比</button>
+                    <button class="btn compare-btn add_to_plans_compare" type="button" data-pname="<?= $plan_name ?>" data-pid="<?= $post_id ?>">加入方案互比</button>
                 </div>
             </div>
            
@@ -311,8 +313,8 @@ $thumbnail = $plan_info['thumbnail'];
                     如已經了解方案內容，可以立即此預約方案；<br/>也可以利用互比功能，了解方案之間的不同。
                 </div>
                 <div class="btn-group">
-                    <a href="<?php echo esc_url( home_url( '/health-check-up-appointment' ) ); ?>" class="btn booking-btn">立即預約方案</a>
-                    <button class="btn compare-btn" type="button">加入方案互比</button>
+                    <a href="<?php echo esc_url( home_url( '/health-check-up-appointment' ) ); ?>" class="btn booking-btn">立即預約方案</a>                    
+                    <button class="btn compare-btn add_to_plans_compare" type="button" data-pname="<?= $plan_name ?>" data-pid="<?= $post_id ?>">加入方案互比</button>
                 </div>
             </div>
             <?php if(!empty($precautions)): ?>
@@ -385,8 +387,8 @@ $thumbnail = $plan_info['thumbnail'];
                     <?php
                     endforeach;
                     ?>
-                    <button type="button" class="program_content" data-pname="<?= $plan['title']; ?>" data-pid="<?= $plan['id']; ?>">了解方案內容</button>
-                    <button type="button" data-pname="<?= $plan['title']; ?>" data-pid="<?= $plan['id']; ?>" class="add_to_plans_compare">加入方案互比</button>
+                    <button type="button" class="program_content" data-pname="<?= $plan['title']; ?>" data-pid="<?= $plan['id']; ?>">了解方案內容</button>                    
+                    <button class="add_to_plans_compare" type="button" data-pname="<?= $plan_name ?>" data-pid="<?= $post_id ?>">加入方案互比</button>
                     <div class="img" style="background-image: url(<?php echo $bg_url; ?>);"></div>
                 </div>
             <?php
@@ -399,6 +401,41 @@ $thumbnail = $plan_info['thumbnail'];
 
 
 </main>
+
+<script>
+    jQuery(function($){
+        var plan_name = "<?= $plan_name; ?>"; // 使用 json_encode 以避免特殊字元問題
+        var plan_id = <?= $post_id; ?>;
+        console.log(plan_name, plan_id);
+
+        // 點擊加入方案互比
+        $('.add_to_plans_compare').on('click', function() {
+            
+            $.ajax({
+                url: '<?= admin_url('admin-ajax.php'); ?>',
+                type: 'post',
+                dataType: 'json',
+                cache: false,
+                async: false,
+                data: {
+                    action: 'add_to_plans_compare',
+                    pname: plan_name,
+                    pid: plan_id,
+                },
+                success: function(response) {
+                    // console.log(response);
+                    location.href = '<?= site_url('search_plan'); ?>';
+                }
+            });
+        });
+
+        // 點擊了解方案內容
+        $('.program_content').on('click', function() {
+            var plan_id = $(this).data('pid');
+            window.location.href = "<?php echo esc_url( home_url( '/single-checkup-plan/' ) ); ?>" + plan_name;
+        });
+    });
+</script>
 
 <?php
 
