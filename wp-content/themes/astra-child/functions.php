@@ -930,16 +930,36 @@ function show_plan_compare()
 			<div class="cont">
 				<table class='table'>
 					<tr>
-						<th>項目</th>
+						<th rowspan="2">項目</th>
 						<?php
 						foreach ($_compare_plans_item_list as $pname => $union_list) {
 							echo "<th colspan='2'>{$pname}</th>";
 						}
 						?>
 					</tr>
+					<tr><?php foreach($show_plans as $plan_info): 
+						$_gender = ($plan_info['info']['gender'] === 'male') ? '男' : '女';
+						if($_gender === '女') {$__gender = '男';} else { $__gender = '女';}
+						echo "<th>$_gender</th>";
+						echo "<th>$__gender</th>";
+						?>
+					<?php endforeach;?></tr>
+					<tr>
+						<th>定價</th>
+						<?php
+						foreach($show_plans as $plan_info){
+							foreach ($plan_info['info'] as $info) {
+								$_price = $info['price'] ?? 0;							
+								echo "<td>NT$" . number_format($_price) . "</td>";
+							}	
+						}
+						// $_price = number_format($info['price']);
+						// error_log("info: " . print_r($info, true));
+						?>
+					</tr>
 					<?php
 					foreach ($checkup_set_list as $_checkup_plan_id => $checkup_set):
-					?>
+					?>						
 						<tr>
 							<th><?= $checkup_set['title']; ?></th>
 							<?php
@@ -947,9 +967,9 @@ function show_plan_compare()
 								$plan_name = $plan_info['plan_name'];
 								foreach ($plan_info['info'] as $info) {
 									
-									$_gender = ($info['gender'] === 'male') ? '男' : '女';
-									error_log("_gender: ".var_export($_gender, true));
-									$_price = number_format($info['price']);
+									// $_gender = ($info['gender'] === 'male') ? '男' : '女';
+									// error_log("_gender: ".var_export($_gender, true));
+									// $_price = number_format($info['price']);
 									// error_log("info: " . print_r($info, true));
 									$union_list = $plan_info['check_item_union_list'];
 									// error_log("union_list: " . print_r($union_list, true));
@@ -983,20 +1003,22 @@ function show_plan_compare()
 					endforeach;
 					?>
 					<tr>
-						<th><button type="button" id="btn_remove_from_compare">移除</button></th>
+						<th>了解方案</th>
 						<?php
-						foreach ($compare_plans as $pid => $pname):
+						foreach ($compare_plans as $pid => $pname){
 						?>
-							<td colspan="2"><input type="checkbox" class="remove_from_compare" value="<?= $pname; ?>"></td>
+							<td colspan="2"><button type="button" class="describe_case" data-pname="<?=$pname;?>" data-pid="<?=$pid;?>">方案介紹</button></td>
 						<?php
-						endforeach;
+						}
 						?>
 					</tr>
 					<tr>
-						<th>項目</th>
+						<th>線上預約</th>
 						<?php
-						foreach ($_compare_plans_item_list as $pname => $union_list) {
-							echo "<th colspan='2'>{$pname}</th>";
+						foreach ($compare_plans as $pid => $pname){
+						?>
+							<td colspan="2"><button type="button" class="reserve_this_case" data-pname="<?=$pname;?>" data-pid="<?=$pid;?>">預約此方案</button></td>
+						<?php
 						}
 						?>
 					</tr>
@@ -1058,6 +1080,19 @@ function show_plan_compare()
 						}
 					});
 				});
+
+				$(".describe_case").click(function() {
+					var pname = $(this).data('pname');
+					var pid = $(this).data('pid');
+					location.href = '<?= site_url('checkup-plan'); ?>/' + pname;
+				});
+
+				$(".reserve_this_case").click(function() {
+					var pname = $(this).data('pname');
+					var pid = $(this).data('pid');
+					location.href = '<?= site_url('checkup-plan'); ?>/' + pname + '/reserve';
+				});
+
 			});
 		});
 	</script>
