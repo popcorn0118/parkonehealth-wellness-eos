@@ -288,3 +288,33 @@
     }
 
 }
+
+//搜尋結果表格
+.solution-comparison-results {
+    .table {
+        td, th {
+            font-size: 20px;
+            padding: 24px 32px;
+        }
+        thead {
+            th {
+                font-size: 24px;
+            }
+        }
+        .th {
+            width: calc(100% / 3);
+            font-weight: 500;
+        }
+        button {
+            @include btn($color: $text-w, $bg: $primary, $bg-h: #94A17F, $border: 0px, $border-h: 0px);
+            font-size: 20px;
+            border-radius: 4px;
+            justify-content: center;
+            padding: 13px 25px;
+            border: 0;
+            font-weight: 400;
+            letter-spacing: 2px;
+            margin: 0 auto;
+        }
+    }
+}

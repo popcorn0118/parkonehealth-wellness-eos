@@ -928,101 +928,107 @@ function show_plan_compare()
 		<!-- 做直的比較表 -->
 		<div class="solution-comparison-results">
 			<div class="cont">
-				<table class='table'>
-					<tr>
-						<th rowspan="2">項目</th>
-						<?php
-						foreach ($_compare_plans_item_list as $pname => $union_list) {
-							echo "<th colspan='2'>{$pname}</th>";
-						}
-						?>
-					</tr>
-					<tr><?php foreach($show_plans as $plan_info): 
-						$_gender = ($plan_info['info']['gender'] === 'male') ? '男' : '女';
-						if($_gender === '女') {$__gender = '男';} else { $__gender = '女';}
-						echo "<th>$_gender</th>";
-						echo "<th>$__gender</th>";
-						?>
-					<?php endforeach;?></tr>
-					<tr>
-						<th>定價</th>
-						<?php
-						foreach($show_plans as $plan_info){
-							foreach ($plan_info['info'] as $info) {
-								$_price = $info['price'] ?? 0;							
-								echo "<td>NT$" . number_format($_price) . "</td>";
-							}	
-						}
-						// $_price = number_format($info['price']);
-						// error_log("info: " . print_r($info, true));
-						?>
-					</tr>
-					<?php
-					foreach ($checkup_set_list as $_checkup_plan_id => $checkup_set):
-					?>						
-						<tr>
-							<th><?= $checkup_set['title']; ?></th>
+				<div class="table-wrapper">
+					<table class='table responsive-table'>
+						<thead>
+							<tr>
+								<th class="th" rowspan="2">項目</th>
+								<?php
+								foreach ($_compare_plans_item_list as $pname => $union_list) {
+									echo "<th class='th' colspan='2'>{$pname}</th>";
+								}
+								?>
+							</tr>
+							<tr><?php foreach($show_plans as $plan_info): 
+								$_gender = ($plan_info['info']['gender'] === 'male') ? '男' : '女';
+								if($_gender === '女') {$__gender = '男';} else { $__gender = '女';}
+								echo "<th>$_gender</th>";
+								echo "<th>$__gender</th>";
+								?>
+							<?php endforeach;?></tr>
+						</thead>
+						<tbody>
+							<tr>
+								<th>定價</th>
+								<?php
+								foreach($show_plans as $plan_info){
+									foreach ($plan_info['info'] as $info) {
+										$_price = $info['price'] ?? 0;							
+										echo "<td>NT$" . number_format($_price) . "</td>";
+									}	
+								}
+								// $_price = number_format($info['price']);
+								// error_log("info: " . print_r($info, true));
+								?>
+							</tr>
 							<?php
-							foreach($show_plans as $plan_info):
-								$plan_name = $plan_info['plan_name'];
-								foreach ($plan_info['info'] as $info) {
-									
-									// $_gender = ($info['gender'] === 'male') ? '男' : '女';
-									// error_log("_gender: ".var_export($_gender, true));
-									// $_price = number_format($info['price']);
-									// error_log("info: " . print_r($info, true));
-									$union_list = $plan_info['check_item_union_list'];
-									// error_log("union_list: " . print_r($union_list, true));
-									if(in_array($_checkup_plan_id, $union_list)){
-										echo "<td>O</td>";
-									} else {
-										echo "<td></td>";
-									}
-									// foreach($info['checkup_item_list'] as $checkup_item_id){
-									// 	if( in_array($checkup_item_id, $union_list) ){
+							foreach ($checkup_set_list as $_checkup_plan_id => $checkup_set):
+							?>						
+								<tr>
+									<th><?= $checkup_set['title']; ?></th>
+									<?php
+									foreach($show_plans as $plan_info):
+										$plan_name = $plan_info['plan_name'];
+										foreach ($plan_info['info'] as $info) {
+											
+											// $_gender = ($info['gender'] === 'male') ? '男' : '女';
+											// error_log("_gender: ".var_export($_gender, true));
+											// $_price = number_format($info['price']);
+											// error_log("info: " . print_r($info, true));
+											$union_list = $plan_info['check_item_union_list'];
+											// error_log("union_list: " . print_r($union_list, true));
+											if(in_array($_checkup_plan_id, $union_list)){
+												echo '<td class="icon"><i class="icon-check"></i></td>';
+											} else {
+												echo "<td></td>";
+											}
+											// foreach($info['checkup_item_list'] as $checkup_item_id){
+											// 	if( in_array($checkup_item_id, $union_list) ){
+											// 		echo "<td>O</td>";
+											// 	} else {
+											// 		echo "<td></td>";
+											// 	}
+											// }
+											
+										}
+									endforeach;
+									// foreach ($_compare_plans_item_list as $pname => $union_list) {
+									// 	$checkup_set_id = $_checkup_plan_id;
+									// 	// $checkup_set_title = $checkup_set['title'];
+									// 	if (in_array($checkup_set_id, $union_list)) {
 									// 		echo "<td>O</td>";
 									// 	} else {
 									// 		echo "<td></td>";
 									// 	}
 									// }
-									
-								}
+									?>
+								</tr>
+							<?php
 							endforeach;
-							// foreach ($_compare_plans_item_list as $pname => $union_list) {
-							// 	$checkup_set_id = $_checkup_plan_id;
-							// 	// $checkup_set_title = $checkup_set['title'];
-							// 	if (in_array($checkup_set_id, $union_list)) {
-							// 		echo "<td>O</td>";
-							// 	} else {
-							// 		echo "<td></td>";
-							// 	}
-							// }
 							?>
-						</tr>
-					<?php
-					endforeach;
-					?>
-					<tr>
-						<th>了解方案</th>
-						<?php
-						foreach ($compare_plans as $pid => $pname){
-						?>
-							<td colspan="2"><button type="button" class="describe_case" data-pname="<?=$pname;?>" data-pid="<?=$pid;?>">方案介紹</button></td>
-						<?php
-						}
-						?>
-					</tr>
-					<tr>
-						<th>線上預約</th>
-						<?php
-						foreach ($compare_plans as $pid => $pname){
-						?>
-							<td colspan="2"><button type="button" class="reserve_this_case" data-pname="<?=$pname;?>" data-pid="<?=$pid;?>">預約此方案</button></td>
-						<?php
-						}
-						?>
-					</tr>
-				</table>
+							<tr>
+								<th>了解方案</th>
+								<?php
+								foreach ($compare_plans as $pid => $pname){
+								?>
+									<td colspan="2"><button type="button" class="describe_case" data-pname="<?=$pname;?>" data-pid="<?=$pid;?>">方案介紹</button></td>
+								<?php
+								}
+								?>
+							</tr>
+							<tr>
+								<th>線上預約</th>
+								<?php
+								foreach ($compare_plans as $pid => $pname){
+								?>
+									<td colspan="2"><button type="button" class="reserve_this_case" data-pname="<?=$pname;?>" data-pid="<?=$pid;?>">預約此方案</button></td>
+								<?php
+								}
+								?>
+							</tr>
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
 		<!-- End of 做直的比較表 -->

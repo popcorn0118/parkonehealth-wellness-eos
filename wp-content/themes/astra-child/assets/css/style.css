@@ -1324,7 +1324,14 @@ main {
   border-collapse: collapse;
   min-width: 800px;
 }
-/* line 724, ../../sass/_main.scss */
+@media (min-width: 1200px) {
+  /* line 724, ../../sass/_main.scss */
+  .table-wrapper .responsive-table thead {
+    position: sticky;
+    top: 91px;
+  }
+}
+/* line 729, ../../sass/_main.scss */
 .table-wrapper .responsive-table thead th {
   background-color: #79895F;
   color: #FEFEFE;
@@ -1334,14 +1341,7 @@ main {
   z-index: 10;
   white-space: nowrap;
 }
-@media (min-width: 1200px) {
-  /* line 724, ../../sass/_main.scss */
-  .table-wrapper .responsive-table thead th {
-    position: sticky;
-    top: 91px;
-  }
-}
-/* line 738, ../../sass/_main.scss */
+/* line 740, ../../sass/_main.scss */
 .table-wrapper .responsive-table td {
   padding: 16px;
   border: 1px solid #DCDCDC;
@@ -1349,7 +1349,7 @@ main {
   vertical-align: middle;
   font-size: 16px;
 }
-/* line 750, ../../sass/_main.scss */
+/* line 752, ../../sass/_main.scss */
 .table-wrapper .responsive-table .icon-check {
   background-image: url(../img/check-green.svg);
   background-size: auto;
@@ -1360,11 +1360,11 @@ main {
   height: 18px;
 }
 
-/* line 768, ../../sass/_main.scss */
+/* line 770, ../../sass/_main.scss */
 .grecaptcha-badge {
   position: static !important;
 }
-/* line 776, ../../sass/_main.scss */
+/* line 778, ../../sass/_main.scss */
 .grecaptcha-badge.badge-hidden {
   opacity: 0;
   pointer-events: none;
@@ -1374,44 +1374,44 @@ main {
   bottom: -9999px;
 }
 
-/* line 789, ../../sass/_main.scss */
+/* line 791, ../../sass/_main.scss */
 footer a {
   color: #fff;
 }
-/* line 792, ../../sass/_main.scss */
+/* line 794, ../../sass/_main.scss */
 footer a:hover {
   color: #fff;
 }
-/* line 797, ../../sass/_main.scss */
+/* line 799, ../../sass/_main.scss */
 footer .footer-menu ul.menu {
   list-style: none;
   margin: 0;
   display: grid;
   gap: 26px;
 }
-/* line 803, ../../sass/_main.scss */
+/* line 805, ../../sass/_main.scss */
 footer .footer-menu ul.menu > li > a {
   color: #FFF;
   font-size: 20px;
   font-weight: 600;
 }
 @media screen and (max-width: 767px) {
-  /* line 803, ../../sass/_main.scss */
+  /* line 805, ../../sass/_main.scss */
   footer .footer-menu ul.menu > li > a {
     font-size: 18px;
   }
 }
-/* line 814, ../../sass/_main.scss */
+/* line 816, ../../sass/_main.scss */
 footer .copyright {
   font-size: 14px;
 }
-/* line 816, ../../sass/_main.scss */
+/* line 818, ../../sass/_main.scss */
 footer .copyright a, footer .copyright .elementor-shortcode {
   color: #FEFEFE;
   font-size: 20px;
 }
 @media screen and (max-width: 767px) {
-  /* line 816, ../../sass/_main.scss */
+  /* line 818, ../../sass/_main.scss */
   footer .copyright a, footer .copyright .elementor-shortcode {
     font-size: 18px;
   }
@@ -3418,6 +3418,47 @@ footer .copyright a, footer .copyright .elementor-shortcode {
     align-items: start;
     flex-direction: column;
   }
+}
+
+/* line 295, ../../sass/_page_health_checkup_plan.scss */
+.solution-comparison-results .table td, .solution-comparison-results .table th {
+  font-size: 20px;
+  padding: 24px 32px;
+}
+/* line 300, ../../sass/_page_health_checkup_plan.scss */
+.solution-comparison-results .table thead th {
+  font-size: 24px;
+}
+/* line 304, ../../sass/_page_health_checkup_plan.scss */
+.solution-comparison-results .table .th {
+  width: calc(100% / 3);
+  font-weight: 500;
+}
+/* line 308, ../../sass/_page_health_checkup_plan.scss */
+.solution-comparison-results .table button {
+  color: #FEFEFE;
+  border-radius: 80px;
+  background-color: #79895F;
+  padding: 10px 30px;
+  border: 1px solid 0px;
+  text-align: center;
+  display: flex;
+  font-size: 16px;
+  transition: 0.4s;
+  font-size: 20px;
+  border-radius: 4px;
+  justify-content: center;
+  padding: 13px 25px;
+  border: 0;
+  font-weight: 400;
+  letter-spacing: 2px;
+  margin: 0 auto;
+}
+/* line 136, ../../sass/_mixin.scss */
+.solution-comparison-results .table button:hover {
+  color: #FEFEFE;
+  background-color: #94A17F;
+  border: 1px solid 0px;
 }
 
 /* line 5, ../../sass/_page_checkup_plan.scss */

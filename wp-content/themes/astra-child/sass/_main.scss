@@ -721,19 +721,21 @@ main {
     border-collapse: collapse;
     min-width: 800px;
   
-    thead th {
-      background-color: $primary;
-      color: $text-w;
-      text-align: center;
-      padding: 16px;
-      font-size: 18px;
-      z-index: 10;
-      white-space: nowrap; 
+    thead {
       @media (min-width: $xl) {
-          position: sticky;
-          top: 91px;
+        position: sticky;
+        top: 91px;
       }
-    }
+      th {
+        background-color: $primary;
+        color: $text-w;
+        text-align: center;
+        padding: 16px;
+        font-size: 18px;
+        z-index: 10;
+        white-space: nowrap; 
+      }
+    } 
   
     td {
       padding: 16px;
