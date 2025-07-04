@@ -19,7 +19,7 @@ $thumbnail = get_the_post_thumbnail_url($post_id, 'full');
         <div class="cont">
         <a href="javascript:void(0);" class="back-btn" data-fallback-url="<?php echo esc_url( home_url( '/parts-search/' ) ); ?>">返回上頁</a>
             <span class="line"></span>
-            <span>部位檢所</span>
+            <span>部位檢索</span>
             <span>/</span>
             <span><?php echo $post_title; ?></span>
         </div>
