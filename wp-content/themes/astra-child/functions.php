@@ -926,7 +926,7 @@ function show_plan_compare()
 	if (is_array($compare_plans) && count($compare_plans) > 0):
 	?>
 		<!-- 做直的比較表 -->
-		<div class="solution-comparison-results">
+		<div id="compare" class="solution-comparison-results">
 			<div class="cont">
 				<div class="table-wrapper">
 					<table class='table responsive-table'>
@@ -1273,7 +1273,7 @@ function plan_search_result()
 									<p>同時間只能最多選擇三個方案進行互比。</p>
 									<button type='button' id='clear_all_compare_plans'>清除搜尋結果和互比方案<svg width="16" height="18" viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 18C2.45 18 1.97933 17.8043 1.588 17.413C1.19667 17.0217 1.00067 16.5507 1 16V3H0V1H5V0H11V1H16V3H15V16C15 16.55 14.8043 17.021 14.413 17.413C14.0217 17.805 13.5507 18.0007 13 18H3ZM5 14H7V5H5V14ZM9 14H11V5H9V14Z" fill=""/></svg></button>
 								</div>
-								<button type='button' id='btn_add_to_compare' class='compare-btn'>方案互比</button>
+								<button type='button' id='btn_add_to_compare' class='compare-btn is-loading-btn'>方案互比</button>
 							</td>
 						</tr>
 					</tbody>

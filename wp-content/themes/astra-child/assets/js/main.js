@@ -380,7 +380,14 @@ $('.back-btn').on('click', function () {
 });
 
 
+$('.is-loading-btn').on('click', function () {
+  $('.is-loading').fadeIn();
 
+  // 模擬任務完成後移除 loading（如 ajax 完成）
+  setTimeout(function () {
+    $('.is-loading').fadeOut();
+  }, 3000);
+});
 
 });
 
