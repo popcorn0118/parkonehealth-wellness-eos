@@ -402,6 +402,7 @@ $thumbnail = $plan_info['thumbnail'];
 
 </main>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     jQuery(function($){
         var plan_name = "<?= $plan_name; ?>"; // 使用 json_encode 以避免特殊字元問題
@@ -424,7 +425,39 @@ $thumbnail = $plan_info['thumbnail'];
                 },
                 success: function(response) {
                     // console.log(response);
-                    location.href = '<?= site_url('search_plan'); ?>';
+                    // location.href = '<?= site_url('search_plan'); ?>';
+                    if (response.success) {
+                        // location.reload();
+                        Swal.fire({
+                            title: '方案已加入互比',
+                            text: '您可以在方案互比頁面查看已加入的方案。',
+                            icon: 'success',
+                            showCancelButton: true,
+                            confirmButtonText: '前往方案互比',
+                            confirmButtonColor: '#79895F',
+                            cancelButtonText: '繼續瀏覽'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                location.href = '<?= site_url('search_plan'); ?>';
+                            }
+                        });
+                        //location.href = '<?= site_url('search_plan'); ?>';
+                    } else {
+                        //alert(response.message);
+                        Swal.fire({
+                            title: '加入失敗',
+                            text: response.message,
+                            icon: 'error',
+                            showCancelButton: true,
+                            confirmButtonText: '前往方案互比',
+                            confirmButtonColor: '#79895F',
+                            cancelButtonText: '繼續瀏覽'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                location.href = '<?= site_url('search_plan'); ?>';
+                            }
+                        });
+                    }
                 }
             });
         });
