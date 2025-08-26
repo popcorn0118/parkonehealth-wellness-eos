@@ -200,6 +200,12 @@ main {
         transform: rotate(45deg);
       }
     }
+    &.disabled {
+      opacity:0.3;
+      + .wpcf7-list-item-label {
+        opacity:0.3;
+      }
+    }
   }
   .wpcf7-form-control-wrap {
     // line-height: 1;
