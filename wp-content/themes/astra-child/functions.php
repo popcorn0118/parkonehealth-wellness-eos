@@ -1822,6 +1822,102 @@ function part_preview_block() {
 }
 add_shortcode('part_preview', 'part_preview_block');
 
+function show_parts_in_search_plan_page( $tag, $unused ) {
+    // 檢查欄位名稱是否為 'parts_of_body'，請根據你的表單欄位名稱修改
+    if ( $tag['name'] != 'parts_of_body' ) {
+        return $tag;
+    }
+
+    $checkup_body_parts = array();
+	$args = array(
+		'post_type' => 'checkup_body_parts',
+		'post_status' => 'publish',
+		'posts_per_page' => -1,
+		'orderby' => 'date',
+		'order' => 'DESC',
+	);
+	$query = new WP_Query($args);
+	if ($query->have_posts()) {
+		while ($query->have_posts()) {
+			$query->the_post();
+			$checkup_body_parts [] = get_the_title() . '|' . get_the_title();
+		}
+	}
+	wp_reset_postdata();
+
+    // 將動態產生的選項設定回 Contact Form 7 的 $tag 物件
+    $tag['raw_values'] = $checkup_body_parts;
+    $tag['pipes']      = new WPCF7_Pipes( $checkup_body_parts );
+    $tag['labels']     = $tag['pipes']->collect_befores();
+    $tag['values']     = $tag['pipes']->collect_afters();
+
+    return $tag;
+}
+add_filter( 'wpcf7_form_tag', 'show_parts_in_search_plan_page', 10, 2 );
+
+// 20250822 檢查選擇的健檢項目是否有設定性別
+add_action('wp_footer', 'search_plan_page_option_check');
+function search_plan_page_option_check(){
+	if(is_page('search_plan')){
+		$js_mod_ts = fileatime(get_stylesheet_directory() . '/static/js/search_plan_page_option_check.js');
+		wp_enqueue_script(
+			'search_plan_page_option_check',
+			get_stylesheet_directory_uri() . '/static/js/search_plan_page_option_check.js',
+			array('jquery'),
+			$js_mod_ts,
+			true
+		);
+
+		wp_localize_script(
+			'search_plan_page_option_check',
+			'search_plan_ajax',
+			array(
+				'ajax_url' => admin_url('admin-ajax.php'),
+				'nonce'    => wp_create_nonce('search_plan_nonce_action'),
+			)
+		);
+	}
+}
+
+add_action('wp_ajax_check_body_part_gender', 'check_body_part_gender_callback');
+add_action('wp_ajax_nopriv_check_body_part_gender', 'check_body_part_gender_callback');
+function check_body_part_gender_callback() {
+    // 驗證 Nonce
+    if (!check_ajax_referer('search_plan_nonce_action', 'nonce', false)) {
+        wp_send_json_error('Nonce 驗證失敗。');
+    }
+
+    // 這裡放入你的業務邏輯，例如查詢資料庫
+    $parts = $_POST['parts'];
+	// 查詢 posttype = checkup_body_parts, title = $part 的 post_id
+	global $wpdb;
+	$sql = "SELECT ID FROM $wpdb->posts WHERE post_type = 'checkup_body_parts' AND post_title IN (" . implode(',', array_fill(0, count($parts), '%s')) . ")";
+	$sql = $wpdb->prepare($sql, $parts);
+	$post_id_list = $wpdb->get_col($sql);
+	// error_log("post_id_list: ".var_export($post_id_list, true));
+	if (!$post_id_list) {
+		wp_send_json_error('找不到對應的健檢部位。');
+	}
+
+	$gender = [];
+	foreach($post_id_list as $pid) {
+		// 查詢 post_id 的 acf 欄位
+		$_gender = get_field("body_part_gender", $pid);
+		if(!$_gender){
+			$gender = ['male', 'female'];
+		} else {
+			$gender = $_gender;
+			if(count($_gender) == 1) {
+				break;
+			}
+		}
+	}
+
+    // 返回成功的回應
+    wp_send_json_success(array(
+        'gender' => $gender
+    ));
+}
 
 ?>
 
