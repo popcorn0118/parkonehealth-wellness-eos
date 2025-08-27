@@ -1271,9 +1271,7 @@ function plan_search_result_fn()
 										<label class='p-title' for='<?= $pid; ?>'>
 											<span class='p-name'><?= $pname; ?></span>
 											<?php if (in_array($pname, $plans_compare)): ?>
-												<span class='plan-tag'>互比方案</span>
-											<?php else: ?>
-												<span class='plan-tag outline'>最多人選擇</span>
+												<span class='plan-tag'>互比方案</span>											
 											<?php endif; ?>
 										</label>
 										
@@ -1775,13 +1773,19 @@ function list_of_parts_search()
 			$image_female = $body_parts_img['female']['url'];
 			
 			$image = !empty($image_male) ? $image_male : $image_female;
+			
+			$_part_gender = get_field("body_part_gender", $_id);
+			if(!$_part_gender){
+				$_part_gender = ['male', 'female'];
+			}
 
 	?>
 			<a href="<?= esc_url($_link); ?>" class="part"
 				data-title="<?= esc_attr(get_the_title()); ?>"
 				data-excerpt="<?= esc_attr($excerpt); ?>"
 				data-img-male="<?= esc_url($image_male); ?>"
-				data-img-female="<?= esc_url($image_female); ?>">
+				data-img-female="<?= esc_url($image_female); ?>"
+				data-gender="<?= esc_attr(json_encode($_part_gender)); ?>">
 			
 				<h4 class="part_title"><span><?= $_title; ?></span><span class="part_tag" data-part="<?= $_title; ?>">建議檢測項目</span></h4>
 				<div class="part-arrow"></div>
@@ -1867,14 +1871,51 @@ function search_plan_page_option_check(){
 			$js_mod_ts,
 			true
 		);
+		
+		// 讀取性別
+		$checkup_body_parts = [];
+		$args = array(
+			'post_type' => 'checkup_body_parts',
+			'post_status' => 'publish',
+			'posts_per_page' => -1,
+			'orderby' => 'date',
+			'order' => 'DESC',
+		);
+		$query = new WP_Query($args);
+		if ($query->have_posts()) {
+			while ($query->have_posts()) {
+				$query->the_post();				
+				$_gender = get_field("body_part_gender", get_the_ID());
+				if(!$_gender){
+					$gender = ['male', 'female'];
+				} else {
+					$gender = $_gender;				
+				}
+				$checkup_body_parts [] = ["part_name" => get_the_title(), "gender" => $gender];
+			}
+		}
+		wp_reset_postdata();
 
 		wp_localize_script(
 			'search_plan_page_option_check',
 			'search_plan_ajax',
 			array(
 				'ajax_url' => admin_url('admin-ajax.php'),
+				'checkup_body_parts' => $checkup_body_parts,
 				'nonce'    => wp_create_nonce('search_plan_nonce_action'),
 			)
+		);
+	}
+	
+	if(is_page('parts-search')){
+		$js_mod_ts = fileatime(get_stylesheet_directory() . '/static/js/parts_search_page_option_check.js');
+
+		wp_enqueue_script(
+			'parts_search_page_option_check',
+			get_stylesheet_directory_uri() . '/static/js/parts_search_page_option_check.js',
+			array('jquery'),
+			$js_mod_ts,
+			true
 		);
 	}
 }
