@@ -169,7 +169,7 @@ $thumbnail = get_the_post_thumbnail_url($post_id, 'full');
                 },
                 success: function(response) {
                     // console.log(response);
-                    // location.href = '<?= site_url('search_plan'); ?>';
+                    // location.href = '<?= site_url('choices'); ?>';
                     if (response.success) {
                         // location.reload();
                         Swal.fire({
@@ -182,12 +182,10 @@ $thumbnail = get_the_post_thumbnail_url($post_id, 'full');
                             cancelButtonText: '繼續瀏覽'
                         }).then((result) => {
                             if (result.isConfirmed) {
-                                location.href = '<?= site_url('search_plan'); ?>';
+                                location.href = '<?= site_url('choices'); ?>';
                             }
                         });
-                        //location.href = '<?= site_url('search_plan'); ?>';
                     } else {
-                        //alert(response.message);
                         Swal.fire({
                             title: '加入失敗',
                             text: response.message,
@@ -198,7 +196,7 @@ $thumbnail = get_the_post_thumbnail_url($post_id, 'full');
                             cancelButtonText: '繼續瀏覽'
                         }).then((result) => {
                             if (result.isConfirmed) {
-                                location.href = '<?= site_url('search_plan'); ?>';
+                                location.href = '<?= site_url('choices'); ?>';
                             }
                         });
                     }

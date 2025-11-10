@@ -67,7 +67,7 @@ $thumbnail = $plan_info['thumbnail'];
 <main class="checkup-plan-single animated-slow animated fadeInUp">
     <div class="breadcrumbs">
         <div class="cont">
-        <a href="javascript:void(0);" class="back-btn" data-fallback-url="<?php echo esc_url( home_url( '/search_plan/' ) ); ?>">返回上頁</a>
+        <a href="javascript:void(0);" class="back-btn" data-fallback-url="<?php echo esc_url( home_url( '/choices/' ) ); ?>">返回上頁</a>
             <span class="line"></span>
             <span>健檢方案</span>
             <span> / </span>
@@ -423,11 +423,8 @@ $thumbnail = $plan_info['thumbnail'];
                     pname: plan_name,
                     pid: plan_id,
                 },
-                success: function(response) {
-                    // console.log(response);
-                    // location.href = '<?= site_url('search_plan'); ?>';
+                success: function(response) {                    
                     if (response.success) {
-                        // location.reload();
                         Swal.fire({
                             title: '方案已加入互比',
                             text: '您可以在方案互比頁面查看已加入的方案。',
@@ -438,10 +435,9 @@ $thumbnail = $plan_info['thumbnail'];
                             cancelButtonText: '繼續瀏覽'
                         }).then((result) => {
                             if (result.isConfirmed) {
-                                location.href = '<?= site_url('search_plan'); ?>';
+                                location.href = '<?= site_url('choices'); ?>';
                             }
                         });
-                        //location.href = '<?= site_url('search_plan'); ?>';
                     } else {
                         //alert(response.message);
                         Swal.fire({
@@ -454,7 +450,7 @@ $thumbnail = $plan_info['thumbnail'];
                             cancelButtonText: '繼續瀏覽'
                         }).then((result) => {
                             if (result.isConfirmed) {
-                                location.href = '<?= site_url('search_plan'); ?>';
+                                location.href = '<?= site_url('choices'); ?>';
                             }
                         });
                     }

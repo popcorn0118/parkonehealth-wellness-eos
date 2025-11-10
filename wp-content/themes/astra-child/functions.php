@@ -1061,12 +1061,10 @@ function show_plan_compare()
 									cancelButtonText: '繼續瀏覽'
 								}).then((result) => {
 									if (result.isConfirmed) {
-										location.href = '<?= site_url('search_plan'); ?>';
+										location.href = '<?= site_url('choices'); ?>';
 									}
 								});
-								//location.href = '<?= site_url('search_plan'); ?>';
 							} else {
-								//alert(response.message);
 								Swal.fire({
 									title: '加入失敗',
 									text: response.message,
@@ -1077,7 +1075,7 @@ function show_plan_compare()
 									cancelButtonText: '繼續瀏覽'
 								}).then((result) => {
 									if (result.isConfirmed) {
-										location.href = '<?= site_url('search_plan'); ?>';
+										location.href = '<?= site_url('choices'); ?>';
 									}
 								});
 							}
@@ -1241,11 +1239,24 @@ function get_health_checkup_set_list($all = false)
 
 add_shortcode('plan_search_result', 'plan_search_result_fn');
 function plan_search_result_fn()
-{	
-	$plans_compare = $_COOKIE['plans_compare'];
-	$plans_compare = json_decode(wp_unslash($plans_compare), true);
-	$plan_name_list = $_COOKIE['plan_name_list'];
-	$plan_name_list = json_decode(wp_unslash($plan_name_list), true);
+{
+	// 讀取 cookie
+	$plans_compare = array();
+	if (isset($_COOKIE['plans_compare'])) {
+		$plans_compare = json_decode(wp_unslash($_COOKIE['plans_compare']), true);
+	}
+	// 讀取方案名稱列表
+	$plan_name_list = array();
+	if (isset($_COOKIE['plan_name_list'])) {
+		$plan_name_list = json_decode(wp_unslash($_COOKIE['plan_name_list']), true);
+	}
+
+	foreach ($plans_compare as $pid => $pname) {
+		if (!in_array($pname, $plan_name_list)) {
+			$plan_name_list[$pid] = $pname;
+		}
+	}
+
 	error_log("plans_compare: ".var_export($plans_compare, true));
 	error_log("plan_name_list: ".var_export($plan_name_list, true));
 	wp_enqueue_script('jquery');
@@ -1271,7 +1282,7 @@ function plan_search_result_fn()
 										<label class='p-title' for='<?= $pid; ?>'>
 											<span class='p-name'><?= $pname; ?></span>
 											<?php if (in_array($pname, $plans_compare)): ?>
-												<span class='plan-tag'>互比方案</span>											
+												<span class='plan-tag'>互比方案</span>
 											<?php endif; ?>
 										</label>
 										
@@ -1341,7 +1352,7 @@ function plan_search_result_fn()
 			}
 
 			jQuery(function($) {
-				console.log("plan_search_result.js loaded");
+				// console.log("plan_search_result.js loaded");
 				function show_search_result(search_result){
 					$(".result_row").remove();
 					for (const key in search_result) {
@@ -1353,9 +1364,9 @@ function plan_search_result_fn()
 							} else {
 								$("#search_result").show();
 								// 畫面移動到 #search_result
-								$('html, body').animate({
-									scrollTop: $("#search_result").offset().top
-								}, 500);
+								// $('html, body').animate({
+								// 	scrollTop: $("#search_result").offset().top
+								// }, 500);
 							}
 							// console.log(key);
 							let tr = $("<tr class='result_row'></tr>");
@@ -1436,7 +1447,9 @@ function plan_search_result_fn()
 						},
 						success: function(response) {
 							// console.log(response);							
-							show_search_result(response);
+							// show_search_result(response);
+							// 我要強制條轉到 choices/#search_result 頁面
+							location.href = '<?= site_url('choices#search_result'); ?>';
 						}
 					});
 				});
@@ -1445,7 +1458,7 @@ function plan_search_result_fn()
 					// console.log($(".add_to_plan_compare"));
 					let add_to_plan_compare = $(".add_to_plan_compare");
 					let add_to_plan_compare_checked = add_to_plan_compare.filter(":checked");
-					let err_msgs = [];
+					let err_msgs = [];					
 
 					// 沒有選擇方案
 					if (add_to_plan_compare.length == 0) {
@@ -1495,12 +1508,13 @@ function plan_search_result_fn()
 									pid: $(this).data('pid'),
 								},
 								success: function(response) {
-									// console.log(response);
-									location.href = '<?= site_url('search_plan#compare'); ?>';
+									// console.log(response);									
 								}
 							});
 						}
 					});
+
+					location.href = '<?= site_url('choices#compare'); ?>';
 				});
 
 				$("#clear_all_compare_plans").on('mouseup', function() {
@@ -1518,7 +1532,7 @@ function plan_search_result_fn()
 							// console.log(response);
 							if( response.success) {
 								$("#search_result").hide();
-								location.href = '<?= site_url('search_plan'); ?>';
+								location.href = '<?= site_url('choices'); ?>';
 							} else {
 								alert(response.message);
 							}							
@@ -1536,36 +1550,33 @@ add_action('wp_ajax_get_plan_search_result', 'get_plan_search_result');
 add_action('wp_ajax_nopriv_get_plan_search_result', 'get_plan_search_result');
 function get_plan_search_result()
 {
-	// 先讀取 cookie 中的方案列表
-	// $exists_plans = isset($_COOKIE['plans_compare']) ? explode(',', $_COOKIE['plans_compare']) : array();	
-
 	$postdata = array();
 	parse_str($_POST['data'], $postdata);
-	error_log('get_plan_search_result: '.var_export($postdata, true));
+	error_log('plan_search_result: '.var_export($postdata, true));
 	// 處理性別
 	$gender = "";
-	foreach($postdata['gender'] as $_gender){
+
+	if(!isset($postdata['gender'])) {
+		$postdata['gender'] = array('女生', '男生');
+	}
+	foreach($postdata['gender'] as $_gender) {
 		if($_gender == '女生'){
 			$gender.= "'female',";
 		} else if ($_gender == '男生'){
 			$gender.= "'male',";
 		}
 	}
-	$gender = rtrim($gender, ',');
-	// 先清除上次的搜尋變數後，將搜尋變數存在 cookie
-	setcookie('plan_search_data', '', time() - 3600, '/');
-	setcookie('plan_search_data', json_encode($postdata), time() + 7200, '/');
-	error_log('plan_search_data: '.var_export($postdata, true));
+	$gender = rtrim($gender, ',');	
 
 	// 處理搜尋關鍵字
-	$keywords = array();
-	$parts = $postdata['parts_of_body'];
+	// $keywords = array();
+	// $parts = $postdata['parts_of_body'];
 	// error_log('parts_of_body: '.var_export($parts, true));
-	foreach ($parts as $part) {
-		// 只取"｜"前面的部分
-		$_part = explode('｜', $part);
-		$keywords[] = $_part[0];
-	}
+	// foreach ($parts as $part) {
+	// 	// 只取"｜"前面的部分
+	// 	$_part = explode('｜', $part);
+	// 	$keywords[] = $_part[0];
+	// }
 
 	$plan_id_list = array();
 
@@ -1573,73 +1584,103 @@ function get_plan_search_result()
 	// 搜尋方案 - 性別
 	$table = $wpdb->prefix . 'postmeta';
 	$sql = "SELECT post_id FROM `{$table}` WHERE `meta_key` LIKE 'checkup_price_gender_and_items_%_gender' AND `meta_value` IN ({$gender});";
+	error_log($sql);
 	$gender_post_id_list = $wpdb->get_col($sql);
-	// error_log('gender_post_id_list: '.var_export($gender_post_id_list, true));
+	error_log('gender_post_id_list: '.var_export($gender_post_id_list, true));
 
 	// 搜尋方案 - 價格, 選項有 : <2萬, 2-5萬, 5-11萬; 複選
-	$price_choices = $postdata['price'];
+	if(!isset($postdata['price'])) {
+		$postdata['price'] = array('<2萬', '2-5萬', '5-11萬');
+	}
+	$price_choices = $postdata['price'];	
 	$max = null;
 	$min = null;
+	$sql_condition = "";
 	foreach($price_choices as $price_choice){
 		switch($price_choice){
 			case '<2萬':
 				$max = 20000;
 				$min = 0;
+				$sql_condition = "(`meta_value` BETWEEN {$min} AND {$max})";
 				break;
 			case '2-5萬':
 				if($min === null){
 					$min = 20000;
+				} else if ($min < 20000) {
+					$min = 20000;
 				}
 				$max = 50000;
+				if($sql_condition === ""){
+					$sql_condition = "(`meta_value` BETWEEN {$min} AND {$max})";
+				} else {
+					$sql_condition .= " OR (`meta_value` BETWEEN {$min} AND {$max})";
+				}				
 				break;
 			case '5-11萬':
 				if($min === null){
 					$min = 50000;
+				} else if ($min < 50000) {
+					$min = 50000;
 				}
 				$max = 110000;
-				break;			
+				if($sql_condition === ""){
+					$sql_condition = "(`meta_value` BETWEEN {$min} AND {$max})";
+				} else {
+					$sql_condition .= " OR (`meta_value` BETWEEN {$min} AND {$max})";
+				}
+				break;
 		}
 	}
 	$table = $wpdb->prefix . 'postmeta';
-	$sql = "SELECT post_id FROM `{$table}` WHERE `meta_key` LIKE 'checkup_price_gender_and_items_%_price' AND (`meta_value` BETWEEN {$min} AND {$max});";
-	// error_log($sql);
+	$sql = "SELECT post_id FROM `{$table}` WHERE `meta_key` LIKE 'checkup_price_gender_and_items_%_price' AND ({$sql_condition});";
+	error_log($sql);
 	$price_post_id_list = $wpdb->get_col($sql);
-	// error_log('price_post_id_list: '.var_export($price_post_id_list, true));
+	error_log('price_post_id_list: '.var_export($price_post_id_list, true));
 
 	// 搜尋方案 - 健檢部位
 	$checkup_part_id_list = array();
-	$checkup_parts = $postdata['parts_of_body'];
-	$checkup_part_keywords = "";
-	foreach ($checkup_parts as $checkup_part) {
-		// 只取"｜"前面的部分
-		$_part = explode('｜', $checkup_part);
-		$checkup_part_keywords .= "'".$_part[0]."',";
-	}
-	$checkup_part_keywords = rtrim($checkup_part_keywords, ',');
 
-	$table = $wpdb->prefix . 'posts';
-	$sql = "SELECT ID FROM `{$table}` WHERE `post_title` IN ({$checkup_part_keywords}) AND `post_type` = 'checkup_body_parts' AND `post_status` = 'publish';";
-	$checkup_part_keywords_id_list = $wpdb->get_col($sql);
-	// error_log('checkup_part_keywords_id_list: '.var_export($checkup_part_keywords_id_list, true));
-	$table = $wpdb->prefix . 'postmeta';
-	$sql = "SELECT post_id, meta_value FROM `{$table}` WHERE `meta_key` = 'checkup_parts'";
-	$_checkup_part_list = $wpdb->get_results($sql);
-	// error_log('_checkup_part_list: '.var_export($_checkup_part_list, true));
-	foreach($_checkup_part_list as $_checkup_part){
-		// 解開格式為 a:3:{i:0;s:3:"203";i:1;s:3:"205";i:2;s:3:"202";} 的資料
-		// error_log(var_export($_checkup_part, true));
-		$__checkup_part_list = unserialize($_checkup_part->meta_value);
-		// error_log('$_checkup_part->post_id: '.var_export($_checkup_part->post_id, true));
-		// error_log('__checkup_part_list: '.var_export($__checkup_part_list, true));
-		if(is_array($__checkup_part_list)){
-			foreach($checkup_part_keywords_id_list as $checkup_part_keywords_id){
-				if(in_array($checkup_part_keywords_id, $__checkup_part_list)){
-					$checkup_part_id_list[] = $_checkup_part->post_id;
-					break;
+	// 如果沒有選擇任何部位, 預設選擇全部
+	if(isset($postdata['parts_of_body'])) {
+		$checkup_parts = $postdata['parts_of_body'];
+		$checkup_part_keywords = "";
+		foreach ($checkup_parts as $checkup_part) {
+			// 只取"｜"前面的部分
+			$_part = explode('｜', $checkup_part);
+			$checkup_part_keywords .= "'".$_part[0]."',";
+		}
+		$checkup_part_keywords = rtrim($checkup_part_keywords, ',');
+
+		$table = $wpdb->prefix . 'posts';
+		$sql = "SELECT ID FROM `{$table}` WHERE `post_title` IN ({$checkup_part_keywords}) AND `post_type` = 'checkup_body_parts' AND `post_status` = 'publish';";
+		$checkup_part_keywords_id_list = $wpdb->get_col($sql);
+		// error_log('checkup_part_keywords_id_list: '.var_export($checkup_part_keywords_id_list, true));
+		$table = $wpdb->prefix . 'postmeta';
+		$sql = "SELECT post_id, meta_value FROM `{$table}` WHERE `meta_key` = 'checkup_parts'";
+		$_checkup_part_list = $wpdb->get_results($sql);
+		// error_log('_checkup_part_list: '.var_export($_checkup_part_list, true));
+		foreach($_checkup_part_list as $_checkup_part){
+			// 解開格式為 a:3:{i:0;s:3:"203";i:1;s:3:"205";i:2;s:3:"202";} 的資料
+			// error_log(var_export($_checkup_part, true));
+			$__checkup_part_list = unserialize($_checkup_part->meta_value);
+			// error_log('$_checkup_part->post_id: '.var_export($_checkup_part->post_id, true));
+			// error_log('__checkup_part_list: '.var_export($__checkup_part_list, true));
+			if(is_array($__checkup_part_list)){
+				foreach($checkup_part_keywords_id_list as $checkup_part_keywords_id){
+					if(in_array($checkup_part_keywords_id, $__checkup_part_list)){
+						$checkup_part_id_list[] = $_checkup_part->post_id;
+						break;
+					}
 				}
 			}
 		}
-	}	
+	} else {
+		// 沒有選擇任何部位, 預設選擇全部
+		$table = $wpdb->prefix . 'posts';
+		$sql = "SELECT ID FROM `{$table}` WHERE `post_type` = 'checkup-plan' AND `post_status` = 'publish';";
+		$checkup_part_id_list = $wpdb->get_col($sql);		
+	}
+	
 	// error_log('checkup_part_id_list: '.var_export($checkup_part_id_list, true));
 	
 	// 找出 $gender_post_id_list, $price_post_id_list, $checkup_part_id_list 的交集
@@ -1650,22 +1691,15 @@ function get_plan_search_result()
 	$plan_name_list = array();
 	foreach ($plan_id_list as $plan_id) {
 		$plan = get_plan_info_by_id($plan_id);
-		// if (empty($plan)) {
-		// 	continue; // 如果沒有找到方案，則跳過
-		// }
-		// 如果方案名稱已經存在於 $exists_plans 中，則跳過
-		// if (in_array($plan['plan_name'], $exists_plans)) {
-		// 	continue;
-		// }
 		$plan_list[$plan['plan_name']] = $plan;
 		if(!in_array($plan['plan_name'], $plan_name_list)){
 			$plan_name_list[$plan_id] = $plan['plan_name'];
 		}
 	}
+	
 	setcookie('plan_name_list', '', time() - 3600, '/');
 	setcookie('plan_name_list', json_encode($plan_name_list, JSON_UNESCAPED_UNICODE + JSON_UNESCAPED_SLASHES + JSON_PRETTY_PRINT), time() + 7200, '/');
-	// error_log('plan_list: '.var_export($plan_list, true));
-	// 將 plan_list 放到 cookie, 下次回頁面先顯示	
+	// error_log('plan_list: '.print_r($plan_list, true));
 	header('Content-Type: application/json; charset=utf-8');
 	exit(json_encode($plan_list, JSON_UNESCAPED_UNICODE + JSON_UNESCAPED_SLASHES + JSON_PRETTY_PRINT));
 }
@@ -1862,7 +1896,7 @@ add_filter( 'wpcf7_form_tag', 'show_parts_in_search_plan_page', 10, 2 );
 // 20250822 檢查選擇的健檢項目是否有設定性別
 add_action('wp_footer', 'search_plan_page_option_check');
 function search_plan_page_option_check(){
-	if(is_page('search_plan')){
+	if(is_page('choices')){
 		$js_mod_ts = fileatime(get_stylesheet_directory() . '/static/js/search_plan_page_option_check.js');
 		wp_enqueue_script(
 			'search_plan_page_option_check',
