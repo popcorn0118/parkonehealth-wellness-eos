@@ -13,7 +13,7 @@
 <?php if ( current_user_can('administrator') ) : ?>
 	<div class="appointment-record">
 		<div class="table-wrapper">
-			<table class="responsive-table">
+			<table class="table responsive-table">
 				<thead>
 				<tr>
 					<th>提交日期</th>

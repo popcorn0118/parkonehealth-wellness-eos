@@ -716,45 +716,66 @@ main {
     }
   }
 }
+
 .table-wrapper {
   width: 100%;
   overflow-x: auto; 
   @media (min-width: $xl) {
       overflow-x: visible; 
   }
+}
+
   .responsive-table {
-    width: 100%;
     border-collapse: collapse;
     min-width: 800px;
-  
+  }
+  .table {
+    width: 100%;
+    th, td {
+      text-align: center;
+      vertical-align: middle;
+      &.left {
+        text-align: left;
+      }
+    }
     thead {
       @media (min-width: $xl) {
-        position: sticky;
-        top: 91px;
+        // position: sticky;
+        // top: 91px;
       }
       th {
         background-color: $primary;
         color: $text-w;
-        text-align: center;
-        padding: 16px;
+        padding: 8px 16px;
+        line-height: 1.8;
         font-size: 18px;
         z-index: 10;
         white-space: nowrap; 
+        font-weight: bold;
+        @include md() {
+          font-size: 16px;
+        }
       }
     } 
   
     td {
-      padding: 16px;
-      border: 1px solid #DCDCDC;
-      text-align: center;
-      vertical-align: middle;
+      padding: 8px 16px;
+      // border: 1px solid #DCDCDC;
       font-size: 16px;
+      @include md() {
+        font-size: 14px;
+      }
+    }
+
+    tbody {
+      th, td {
+        font-size: 16px;
+      }
     }
   
     // tbody tr:nth-child(odd) {
     //   background-color: #f9f9f9;
     // }
-  
     .icon-check {
       background-image: url(../img/check-green.svg);
       background-size: auto;
@@ -765,8 +786,35 @@ main {
       height: 18px;
     }
   }
+  .circle {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 16px;
+    height: 16px;
+    border-radius: 100%;
+    color: #FEFEFE;
+    background-color: #E36D24;
+    font-size: 14px;
+    font-weight: 400;
+    padding: 0 0 2px 2px;
+    &.n-2 {
+        background-color: #E39724;
+    }
+    &.n-3 {
+        background-color: #F2C515;
+    }
+    &.unisex {
+        background-color: #79895F;
+    }
+    &.male {
+        background-color: #7F99D0;
+    }
+    &.female {
+        background-color: #D0917F;
+    }
+  }
 
-}
 
 
 

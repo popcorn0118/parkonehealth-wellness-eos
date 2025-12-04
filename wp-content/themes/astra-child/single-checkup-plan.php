@@ -189,7 +189,7 @@ $thumbnail = $plan_info['thumbnail'];
         <div class="cont">
             <h3 class="title">項目詳細說明</h3>
             <div class="table-wrapper">
-                <table class="responsive-table">
+                <table class="table responsive-table">
                     <thead>
                         <tr>
                             <th>類別</th>
@@ -272,7 +272,7 @@ $thumbnail = $plan_info['thumbnail'];
                 </div>
                 
                     <div class="table-wrapper">
-                        <table class="responsive-table">
+                        <table class="table responsive-table">
                             <thead>
                                 <tr>
                                     <th>類別</th>

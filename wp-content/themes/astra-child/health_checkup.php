@@ -1121,32 +1121,40 @@ function show_plan_compare_v2()
 	?>
 		<!-- 做直的比較表 -->
         <div id="plan_list_title" class="section-title">
-            <h4 class="title">方案互比結果</h4>
-            <p class='sub-title'>方案代號：
-            <?php
-            $i = 1;
-            foreach ($compare_plans as $pid => $pname) {                
-                echo "<span class='sub-title'>{$i} : {$pname}</span>";
-                // echo "<span class='sub-title'><img src='plan_{$i}.png'> : {$pname}</span>";
-                $i++;
-            }            
-            ?>
-            </p>
-            <p> 性別代號 ：男 (Male) 、女 (Female) 、通用 (Unisex)</p>
-            <!-- <p> 性別代號 ：男 <img src="male_icon.png"> 、女 <img src="female_icon.png"> 、通用 <img src="unisex_icon.png"></p> -->
+			<div class="cont">
+				<h3 class="title">方案互比結果</h3>
+				<div class='item'>
+					<h5 class="item-title"><strong>方案代號</strong></h5>
+				<?php
+				$i = 1;
+				foreach ($compare_plans as $pid => $pname) {                
+					echo "<span class='item-sub'><span class='circle n-{$i}'>{$i}</span>{$pname}</span>";
+					// echo "<span class='sub-title'><img src='plan_{$i}.png'> : {$pname}</span>";
+					$i++;
+				}            
+				?>
+				</div>
+				<div class='item'> <h5 class="item-title">
+					<strong>性別代號</strong></h5>
+					<span class='item-sub'><span class='circle unisex'></span>不拘性別</span>
+					<span class='item-sub'><span class='circle male'></span>男</span>
+					<span class='item-sub'><span class='circle female'></span>女</span>
+				</div>
+				<!-- <p> 性別代號 ：男 <img src="male_icon.png"> 、女 <img src="female_icon.png"> 、通用 <img src="unisex_icon.png"></p> -->
+			</div>
         </div>
 		<div id="compare" class="solution-comparison-results">
 			<div class="cont">
-				<div class="table-wrapper">
-					<table class='table responsive-table'>
+				<div class="">
+					<table class='table'>
 						<thead>
 							<tr>
-								<th class="th">項目</th>
+								<th class="th left">項目</th>
 								<?php
                                 $i = 1;
 								foreach ($_compare_plans_item_list as $pname => $union_list) {
 									// echo "<th class='th'>{$pname}</th>";
-                                    echo "<th class='th'>{$i}</th>";
+                                    echo "<th class='th'><span class='circle n-{$i}'>{$i}</span></th>";
                                     // echo "<th class='th'><img src='plan_{$i}.png'></th>";
                                     $i++;
 								}                                
@@ -1157,17 +1165,17 @@ function show_plan_compare_v2()
 							<?php
 							// 跑全部的健檢項目, $term_name 為 健檢項目類型名稱, $checkup_set 為該類型底下的健檢項目
 							foreach ($new_checkup_set_list as $term_name => $checkup_set){
-								echo "<tr><th class='plan_term_name' colspan='{$compare_plans_count}' style='background-color: #f0f0f0; text-align: left; padding-left: 10px;'>{$term_name}</th></tr>";
+								echo "<tr><th class='plan_term_name left' colspan='{$compare_plans_count}'>{$term_name}</th></tr>";
 								// 跑該類型底下的健檢項目								
 								foreach ($checkup_set as $_checkup_plan_id => $checkup_set_title){
-									echo "<tr><th>{$checkup_set_title}</th>";
+									echo "<tr><th class='left'>{$checkup_set_title}</th>";
 									// 進行比對
 									foreach ($show_plans as $plan_info){
 										$plan_name = $plan_info['plan_name'];
 										$union_list = $plan_info['check_item_union_list'];
 										// error_log("{$plan_name} {$_checkup_plan_id} union_list: " . print_r($union_list, true));
 										if (key_exists($_checkup_plan_id, $union_list)) {
-											echo "<td class='icon'>{$union_list[$_checkup_plan_id]}</td>";
+											echo "<td class='icon'><span class='circle {$union_list[$_checkup_plan_id]}'></span></td>";
 										} else {
 											echo "<td></td>";
 										}
@@ -1176,7 +1184,7 @@ function show_plan_compare_v2()
 								}						
 							}
 							?>
-							<tr>
+							<!-- <tr>
 								<th>了解方案</th>
 								<?php
 								foreach ($compare_plans as $pid => $pname) {
@@ -1195,7 +1203,7 @@ function show_plan_compare_v2()
 								<?php
 								}
 								?>
-							</tr>
+							</tr> -->
 						</tbody>
 					</table>
 				</div>

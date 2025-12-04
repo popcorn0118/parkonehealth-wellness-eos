@@ -1319,50 +1319,71 @@ main {
   height: 20px;
 }
 
-/* line 719, ../../sass/_main.scss */
+/* line 720, ../../sass/_main.scss */
 .table-wrapper {
   width: 100%;
   overflow-x: auto;
 }
 @media (min-width: 1200px) {
-  /* line 719, ../../sass/_main.scss */
+  /* line 720, ../../sass/_main.scss */
   .table-wrapper {
     overflow-x: visible;
   }
 }
-/* line 725, ../../sass/_main.scss */
-.table-wrapper .responsive-table {
-  width: 100%;
+
+/* line 728, ../../sass/_main.scss */
+.responsive-table {
   border-collapse: collapse;
   min-width: 800px;
 }
-@media (min-width: 1200px) {
-  /* line 730, ../../sass/_main.scss */
-  .table-wrapper .responsive-table thead {
-    position: sticky;
-    top: 91px;
-  }
+
+/* line 732, ../../sass/_main.scss */
+.table {
+  width: 100%;
 }
-/* line 735, ../../sass/_main.scss */
-.table-wrapper .responsive-table thead th {
+/* line 734, ../../sass/_main.scss */
+.table th, .table td {
+  text-align: center;
+  vertical-align: middle;
+}
+/* line 737, ../../sass/_main.scss */
+.table th.left, .table td.left {
+  text-align: left;
+}
+/* line 746, ../../sass/_main.scss */
+.table thead th {
   background-color: #79895F;
   color: #FEFEFE;
-  text-align: center;
-  padding: 16px;
+  padding: 8px 16px;
+  line-height: 1.8;
   font-size: 18px;
   z-index: 10;
   white-space: nowrap;
+  font-weight: bold;
 }
-/* line 746, ../../sass/_main.scss */
-.table-wrapper .responsive-table td {
-  padding: 16px;
-  border: 1px solid #DCDCDC;
-  text-align: center;
-  vertical-align: middle;
+@media screen and (max-width: 767px) {
+  /* line 746, ../../sass/_main.scss */
+  .table thead th {
+    font-size: 16px;
+  }
+}
+/* line 761, ../../sass/_main.scss */
+.table td {
+  padding: 8px 16px;
   font-size: 16px;
 }
-/* line 758, ../../sass/_main.scss */
-.table-wrapper .responsive-table .icon-check {
+@media screen and (max-width: 767px) {
+  /* line 761, ../../sass/_main.scss */
+  .table td {
+    font-size: 14px;
+  }
+}
+/* line 771, ../../sass/_main.scss */
+.table tbody th, .table tbody td {
+  font-size: 16px;
+}
+/* line 779, ../../sass/_main.scss */
+.table .icon-check {
   background-image: url(../img/check-green.svg);
   background-size: auto;
   background-repeat: no-repeat;
@@ -1372,11 +1393,46 @@ main {
   height: 18px;
 }
 
-/* line 776, ../../sass/_main.scss */
+/* line 789, ../../sass/_main.scss */
+.circle {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 100%;
+  color: #FEFEFE;
+  background-color: #E36D24;
+  font-size: 14px;
+  font-weight: 400;
+  padding: 0 0 2px 2px;
+}
+/* line 801, ../../sass/_main.scss */
+.circle.n-2 {
+  background-color: #E39724;
+}
+/* line 804, ../../sass/_main.scss */
+.circle.n-3 {
+  background-color: #F2C515;
+}
+/* line 807, ../../sass/_main.scss */
+.circle.unisex {
+  background-color: #79895F;
+}
+/* line 810, ../../sass/_main.scss */
+.circle.male {
+  background-color: #7F99D0;
+}
+/* line 813, ../../sass/_main.scss */
+.circle.female {
+  background-color: #D0917F;
+}
+
+/* line 824, ../../sass/_main.scss */
 .grecaptcha-badge {
   position: static !important;
 }
-/* line 784, ../../sass/_main.scss */
+/* line 832, ../../sass/_main.scss */
 .grecaptcha-badge.badge-hidden {
   opacity: 0;
   pointer-events: none;
@@ -1386,51 +1442,51 @@ main {
   bottom: -9999px;
 }
 
-/* line 797, ../../sass/_main.scss */
+/* line 845, ../../sass/_main.scss */
 footer a {
   color: #fff;
 }
-/* line 800, ../../sass/_main.scss */
+/* line 848, ../../sass/_main.scss */
 footer a:hover {
   color: #fff;
 }
-/* line 805, ../../sass/_main.scss */
+/* line 853, ../../sass/_main.scss */
 footer .footer-menu ul.menu {
   list-style: none;
   margin: 0;
   display: grid;
   gap: 26px;
 }
-/* line 811, ../../sass/_main.scss */
+/* line 859, ../../sass/_main.scss */
 footer .footer-menu ul.menu > li > a {
   color: #FFF;
   font-size: 20px;
   font-weight: 600;
 }
 @media screen and (max-width: 767px) {
-  /* line 811, ../../sass/_main.scss */
+  /* line 859, ../../sass/_main.scss */
   footer .footer-menu ul.menu > li > a {
     font-size: 18px;
   }
 }
-/* line 822, ../../sass/_main.scss */
+/* line 870, ../../sass/_main.scss */
 footer .copyright {
   font-size: 14px;
 }
-/* line 824, ../../sass/_main.scss */
+/* line 872, ../../sass/_main.scss */
 footer .copyright a, footer .copyright .elementor-shortcode {
   color: #FEFEFE;
   font-size: 20px;
 }
 @media screen and (max-width: 767px) {
-  /* line 824, ../../sass/_main.scss */
+  /* line 872, ../../sass/_main.scss */
   footer .copyright a, footer .copyright .elementor-shortcode {
     font-size: 18px;
   }
 }
 
 /* 全螢幕 loading 遮罩 */
-/* line 843, ../../sass/_main.scss */
+/* line 891, ../../sass/_main.scss */
 .is-loading {
   display: none;
   position: fixed;
@@ -1441,7 +1497,7 @@ footer .copyright a, footer .copyright .elementor-shortcode {
   height: 100vh;
   background: rgba(255, 255, 255, 0.8);
 }
-/* line 852, ../../sass/_main.scss */
+/* line 900, ../../sass/_main.scss */
 .is-loading::before {
   content: "";
   position: absolute;
@@ -3089,20 +3145,20 @@ footer .copyright a, footer .copyright .elementor-shortcode {
 }
 
 /* line 6, ../../sass/_page_health_checkup_plan.scss */
-.health-checkup-plan .wpcf7 .cont, .health-checkup-plan .search-results .cont, .health-checkup-plan .solution-comparison-results .cont {
+.health-checkup-plan .wpcf7 .cont, .health-checkup-plan .search-results .cont, .health-checkup-plan .solution-comparison-results .cont, .health-checkup-plan .section-title .cont {
   max-width: 100%;
   padding: 120px 40px;
 }
 @media (min-width: 922px) {
   /* line 6, ../../sass/_page_health_checkup_plan.scss */
-  .health-checkup-plan .wpcf7 .cont, .health-checkup-plan .search-results .cont, .health-checkup-plan .solution-comparison-results .cont {
+  .health-checkup-plan .wpcf7 .cont, .health-checkup-plan .search-results .cont, .health-checkup-plan .solution-comparison-results .cont, .health-checkup-plan .section-title .cont {
     max-width: 1200px;
     margin: 0 auto;
   }
 }
 @media screen and (max-width: 767px) {
   /* line 6, ../../sass/_page_health_checkup_plan.scss */
-  .health-checkup-plan .wpcf7 .cont, .health-checkup-plan .search-results .cont, .health-checkup-plan .solution-comparison-results .cont {
+  .health-checkup-plan .wpcf7 .cont, .health-checkup-plan .search-results .cont, .health-checkup-plan .solution-comparison-results .cont, .health-checkup-plan .section-title .cont {
     padding-left: 15px;
     padding-right: 15px;
   }
@@ -3463,23 +3519,77 @@ footer .copyright a, footer .copyright .elementor-shortcode {
     flex-direction: column;
   }
 }
-
-/* line 295, ../../sass/_page_health_checkup_plan.scss */
-.solution-comparison-results .table td, .solution-comparison-results .table th {
-  font-size: 20px;
-  padding: 24px 32px;
+/* line 282, ../../sass/_page_health_checkup_plan.scss */
+.health-checkup-plan .search-results .table-warp table .compare_row:hover {
+  background: linear-gradient(left, rgba(220, 220, 220, 0) 0%, rgba(220, 220, 220, 0.8) 50%, rgba(220, 220, 220, 0) 100%);
+  background: -webkit-linear-gradient(left, rgba(220, 220, 220, 0) 0%, rgba(220, 220, 220, 0.8) 50%, rgba(220, 220, 220, 0) 100%);
 }
-/* line 300, ../../sass/_page_health_checkup_plan.scss */
-.solution-comparison-results .table thead th {
-  font-size: 24px;
+/* line 293, ../../sass/_page_health_checkup_plan.scss */
+.health-checkup-plan .section-title .cont {
+  padding-top: 80px;
+  padding-bottom: 15px;
 }
-/* line 304, ../../sass/_page_health_checkup_plan.scss */
-.solution-comparison-results .table .th {
-  width: calc(100% / 3);
-  font-weight: 500;
+/* line 297, ../../sass/_page_health_checkup_plan.scss */
+.health-checkup-plan .section-title .item {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+  gap: 16px;
 }
-/* line 308, ../../sass/_page_health_checkup_plan.scss */
-.solution-comparison-results .table button {
+/* line 303, ../../sass/_page_health_checkup_plan.scss */
+.health-checkup-plan .section-title .item .item-title {
+  margin-bottom: 0;
+}
+@media screen and (max-width: 767px) {
+  /* line 303, ../../sass/_page_health_checkup_plan.scss */
+  .health-checkup-plan .section-title .item .item-title {
+    width: 100%;
+  }
+}
+/* line 309, ../../sass/_page_health_checkup_plan.scss */
+.health-checkup-plan .section-title .item .item-sub {
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+@media screen and (max-width: 767px) {
+  /* line 309, ../../sass/_page_health_checkup_plan.scss */
+  .health-checkup-plan .section-title .item .item-sub {
+    font-size: 14px;
+  }
+}
+/* line 323, ../../sass/_page_health_checkup_plan.scss */
+.health-checkup-plan .solution-comparison-results .cont {
+  padding-top: 0;
+  padding-bottom: 80px;
+}
+/* line 327, ../../sass/_page_health_checkup_plan.scss */
+.health-checkup-plan .solution-comparison-results .table {
+  table-layout: fixed;
+}
+/* line 334, ../../sass/_page_health_checkup_plan.scss */
+.health-checkup-plan .solution-comparison-results .table thead th:first-of-type {
+  width: auto;
+}
+/* line 337, ../../sass/_page_health_checkup_plan.scss */
+.health-checkup-plan .solution-comparison-results .table thead th:nth-of-type(2), .health-checkup-plan .solution-comparison-results .table thead th:nth-of-type(3), .health-checkup-plan .solution-comparison-results .table thead th:nth-of-type(4) {
+  width: 10%;
+}
+@media screen and (max-width: 767px) {
+  /* line 337, ../../sass/_page_health_checkup_plan.scss */
+  .health-checkup-plan .solution-comparison-results .table thead th:nth-of-type(2), .health-checkup-plan .solution-comparison-results .table thead th:nth-of-type(3), .health-checkup-plan .solution-comparison-results .table thead th:nth-of-type(4) {
+    width: 60px;
+  }
+}
+/* line 345, ../../sass/_page_health_checkup_plan.scss */
+.health-checkup-plan .solution-comparison-results .table .plan_term_name {
+  color: #FEFEFE;
+  background-color: #9BA787;
+}
+/* line 349, ../../sass/_page_health_checkup_plan.scss */
+.health-checkup-plan .solution-comparison-results .table button {
   color: #FEFEFE;
   border-radius: 80px;
   background-color: #79895F;
@@ -3499,10 +3609,15 @@ footer .copyright a, footer .copyright .elementor-shortcode {
   margin: 0 auto;
 }
 /* line 136, ../../sass/_mixin.scss */
-.solution-comparison-results .table button:hover {
+.health-checkup-plan .solution-comparison-results .table button:hover {
   color: #FEFEFE;
   background-color: #94A17F;
   border: 1px solid 0px;
+}
+/* line 361, ../../sass/_page_health_checkup_plan.scss */
+.health-checkup-plan .solution-comparison-results .table tbody .circle {
+  width: 8px;
+  height: 8px;
 }
 
 /* line 5, ../../sass/_page_checkup_plan.scss */
