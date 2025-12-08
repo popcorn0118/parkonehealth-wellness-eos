@@ -156,25 +156,35 @@ $thumbnail = $plan_info['thumbnail'];
     <!-- 項目詳細說明 -->
     <div class="checkup-plan-single-details">
         <div class="cont">
-            <h3 class="title">項目詳細說明</h3>
-            <div class="table-wrapper">
-                <table class="table responsive-table">
+
+            <div class="title-wrapper">
+                <h3 class="title">項目詳細說明</h3>
+                <div class='item'> <h5 class="item-title">
+                    <strong>性別代號</strong></h5>
+                    <span class='item-sub'><span class='circle unisex'></span>不拘性別</span>
+                    <span class='item-sub'><span class='circle male'></span>男</span>
+                    <span class='item-sub'><span class='circle female'></span>女</span>
+                </div>
+            </div>
+
+            <div class="">
+                <table class="table">
                     <thead>
                         <tr>
-                            <th>類別</th>
-                            <th>項目</th>
+                            <th class="left">類別</th>
+                            <th class="left">項目</th>
                             <th>性別</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($new_checkup_set_list as $set_name => $items): ?>
                             <tr>
-                                <th colspan="3"><?php echo esc_html($set_name); ?></th>
+                                <th colspan="3" class="plan_term_name left"><?php echo esc_html($set_name); ?></th>
                             </tr>
                             <?php foreach ($items as $item): ?>
                                 <tr>
-                                    <td><?=$item['title'];?></td>
-                                    <td><?=$item["desc"];?></td>
+                                    <td class="left"><?=$item['title'];?></td>
+                                    <td class="left"><?=$item["desc"];?></td>
                                     <td><span class='circle <?=$item['gender'];?>'></span></td>
                                 </tr>
                             <?php endforeach; ?>

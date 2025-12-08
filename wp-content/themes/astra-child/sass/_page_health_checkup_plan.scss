@@ -345,6 +345,7 @@
             .plan_term_name {
                 color: $text-w;
                 background-color: #9BA787;
+                padding: 8px 16px;
             }
             button {
                 @include btn($color: $text-w, $bg: $primary, $bg-h: #94A17F, $border: 0px, $border-h: 0px);

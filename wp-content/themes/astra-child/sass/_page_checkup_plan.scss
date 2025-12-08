@@ -5,31 +5,54 @@
     .cont {
         @include cont();
         table {
-            th, td {
-                padding: 20px 32px;
-                &:first-of-type, &:nth-of-type(2) {
-                    text-align: left;
+            width: 100%;
+            table-layout: fixed;
+        
+            tbody {
+                .circle {
+                    width: 8px;
+                    height: 8px;
                 }
             }
-            th {
-                font-size: 24px;
-                &:first-of-type {
-                    width: 24%;
-                }
-                &:nth-of-type(2) {
-                    width: 25%;
-                }
-                &:nth-of-type(3), &:nth-of-type(4) {
-                    width: calc(25% / 2);
-                }
-            }
+        
+            th,
             td {
-                font-size: 20px;
-                &.icon {
-                    text-align: center;
+                word-wrap: break-word;
+        
+                &:first-of-type {
+                    width: 30%;
                 }
+        
+                &:nth-of-type(2) {
+                    width: auto;
+                    @include md() {
+                    }
+                }
+        
+                &:nth-of-type(3) {
+                    width: 10%;
+                    @include md() {
+                        font-size: 0;
+                        width: 30px;
+                        padding: 8px;
+                    }
+                }
+            }
+        
+            td {
+                &.icon {
+                }
+            }
+        
+            .plan_term_name {
+                width: auto;
+                max-width: none;
+                color: $text-w;
+                background-color: #9BA787;
+                padding: 8px 16px;
             }
         }
+        
 
         .btn-group {
             display: flex;
@@ -287,10 +310,36 @@
                 padding-right: 0px;
             }
         }
-        .title {
-            color: $text-4;
+        .title-wrapper {
             margin-bottom: 30px;
+            .title {
+                color: $text-4;
+                margin-bottom: 15px;
+            }
+            .item {
+                display: flex;
+                align-items: center;
+                flex-wrap: wrap;
+                margin-bottom: 15px;
+                gap: 16px;
+                .item-title {
+                    margin-bottom: 0;
+                    @include md() {
+                        width: 100%;
+                    }
+                }
+                .item-sub {
+                    font-size: 16px;
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                    @include md() {
+                        font-size: 14px;
+                    }
+                }
+            }
         }
+        
     }
     .checkup-plan-single-popular-add {
         .cont {
