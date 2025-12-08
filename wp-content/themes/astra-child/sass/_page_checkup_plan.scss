@@ -4,55 +4,6 @@
 .checkup-plan-single {
     .cont {
         @include cont();
-        table {
-            width: 100%;
-            table-layout: fixed;
-        
-            tbody {
-                .circle {
-                    width: 8px;
-                    height: 8px;
-                }
-            }
-        
-            th,
-            td {
-                word-wrap: break-word;
-        
-                &:first-of-type {
-                    width: 30%;
-                }
-        
-                &:nth-of-type(2) {
-                    width: auto;
-                    @include md() {
-                    }
-                }
-        
-                &:nth-of-type(3) {
-                    width: 10%;
-                    @include md() {
-                        font-size: 0;
-                        width: 30px;
-                        padding: 8px;
-                    }
-                }
-            }
-        
-            td {
-                &.icon {
-                }
-            }
-        
-            .plan_term_name {
-                width: auto;
-                max-width: none;
-                color: $text-w;
-                background-color: #9BA787;
-                padding: 8px 16px;
-            }
-        }
-        
 
         .btn-group {
             display: flex;
@@ -337,6 +288,58 @@
                         font-size: 14px;
                     }
                 }
+            }
+        }
+        table {
+            width: 100%;
+            table-layout: fixed;
+        
+            tbody {
+                .circle {
+                    width: 8px;
+                    height: 8px;
+                }
+            }
+            th,
+            td {
+                word-wrap: break-word;
+        
+                &:first-of-type {
+                    width: 30%;
+                }
+        
+                &:nth-of-type(2) {
+                    width: auto;
+                    @include md() {
+                    }
+                }
+        
+                &:nth-of-type(3) {
+                    width: 10%;
+                    @include md() {
+                        font-size: 0;
+                        width: 30px;
+                        padding: 8px;
+                    }
+                }
+            }
+            th {
+                &:nth-of-type(2) {
+                    @include md() {
+                        border-right-color: $primary;
+                    }
+                }
+            }
+            td {
+                &.icon {
+                }
+            }
+            .plan_term_name {
+                width: auto;
+                max-width: none;
+                color: $text-w;
+                background-color: #9BA787;
+                padding: 8px 16px;
             }
         }
         
