@@ -87,12 +87,6 @@ function display_check_plan()
 									continue;
 								}
 
-								// 如果有 rowspan 就跳過
-								// if (isset($has_rowspan[$x]['count']) && $has_rowspan[$x]['count'] > 0) {
-								// 	$has_rowspan[$x]['count']--;
-								// 	continue;
-								// }
-
 								// 用 regex 判斷結尾是否為 colspan 或 rowspan, 並取出數字
 								$pattern = '/\|([c|r])s(\d+)$/';
 								$reg_result = preg_match($pattern, $col, $matches);
@@ -347,10 +341,10 @@ function import_csv()
 	// 開始處理 csv 內容
 
 	$checkup_plan_id_table = array();   // 對應x的位置
-	$checkup_plan_item_rel_table = array();
+	// $checkup_plan_item_rel_table = array();
 	// $check_table = array(); // 將 csv 轉換成 2d array table
 
-	$_check_item_id_list = array(0, 0);
+	// $_check_item_id_list = array(0, 0);
 	// $checkup_plan_id_table 的資料結構為
 	// $checkup_plan_id_table[$x] = [
 	//     'checkup_plan_post_id' => $post_id,
@@ -360,6 +354,7 @@ function import_csv()
 	//			'checkup_item_list' => [1, 2, 3, 4], // 健檢項目的 post_id => checkup-item
 	//      ],
 	// ];
+
 	foreach ($csv as $y => $row) {
 		switch (true) {
 			case $y == 0:
@@ -498,14 +493,24 @@ function import_csv()
 							array_push($_ary_x_content_line, $_check_item_name);
 							// 將健檢項目與健檢項目類型關聯
 							// error_log("_checkup_item_term_id: ".print_r($_checkup_item_term_id, true));
-							// error_log("checkup_item_id: ".print_r($checkup_item_id, true));							
-							wp_set_post_terms($checkup_item_id, $_checkup_item_term_id, 'health_checkup_set');
-							break;
+							// error_log("checkup_item_id: ".print_r($checkup_item_id, true));
 
-						// 處理健檢項目與健檢專案的關聯
+							// 測試, 上線後要打開
+							// break;
+							wp_set_post_terms($checkup_item_id, $_checkup_item_term_id, 'health_checkup_set');
+							// break;
+
+							// 處理健檢項目與健檢專案的關聯
 						case $x >= 4:
 							if ($col != "") {
-								$checkup_plan_id_table[$x]["info"]["checkup_item_list"][] = $checkup_item_id;
+								$_col = explode(':', $col);
+								if (count($_col) == 2) {
+									// 多選一的項目
+									$checkup_plan_id_table[$x]["info"]['checkup_item_multi_select_list'][$_col[1]][] = $checkup_item_id;
+								} else {
+									// 一般項目
+									$checkup_plan_id_table[$x]["info"]["checkup_item_list"][] = $checkup_item_id;
+								}
 							}
 
 							break;
@@ -536,10 +541,22 @@ function import_csv()
 			'gender' => $_gender,
 			'price' => $check_plan["info"]["checkup_plan_price"],
 			'checkup_item_list' => $check_plan["info"]["checkup_item_list"],
+			'multi_select' =>  [],
 		];
+		// 處理 multi select 的項目
+		if (isset($check_plan["info"]['checkup_item_multi_select_list'])) {
+			foreach ($check_plan["info"]['checkup_item_multi_select_list'] as $ms_key => $ms_items) {
+				// 將 multi select 的項目也加入總項目清單
+				$_info['multi_select'][] = ['multi_select_item' => $ms_items];
+			}
+		}
 
 		$acf_data_ary[$_check_plan_post_id][] = $_info;
 	}
+	error_log("4_acf_data_ary: " . var_export($acf_data_ary, true));
+
+	// 測試, 上線後要打開
+	// wp_send_json_error( );
 
 	// acf 更新
 	foreach ($acf_data_ary as $_post_id => $a_data) {
@@ -598,6 +615,7 @@ function get_plan_info_by_id($pid)
 		'checkup_parts' => array(),
 		'checkup_devices' => array(),
 		'check_item_union_list' => array(),
+		'multi_select_item_list' => array(),
 	);
 
 	if ($pid) {
@@ -622,7 +640,27 @@ function get_plan_info_by_id($pid)
 		$plan_info['checkup_parts'][] = $checkup_part_obj;
 	}
 
-	// error_log("get_plan_info_by_id {$pid}: ".var_export($plan_info, true));
+	$multi_select_item_list = get_field('multi_select', $pid);
+	foreach ($multi_select_item_list as $multi_select_item_obj) {
+		$plan_info['multi_select_item_list'][] = $multi_select_item_obj;
+	}
+
+	// 取得熱門加選
+	$hot_additional_list = get_field('hot_additional_list', $pid);
+	foreach ($hot_additional_list as $hot_additional_obj) {
+		$plan_info['hot_additional_list'][] = $hot_additional_obj;
+	}
+
+	// 取得是否供餐
+	$plan_info['enable_breakfast'] = get_field('enable_breakfast', $pid);
+	$plan_info['meal_type_display'] = get_field('meal_type_display', $pid);
+	$plan_info['meal_plrd'] = get_field('meal_plrd', $pid);
+
+	// 其他
+	$plan_info['meal_replacement_and_laxative'] = get_field('meal_replacement_and_laxative', $pid);
+	$plan_info['constipate'] = get_field('constipate', $pid);
+
+	error_log("get_plan_info_by_id {$pid}: ".var_export($plan_info, true));
 	return $plan_info;
 }
 
@@ -648,9 +686,9 @@ function get_plan_info_by_id_v2($pid)
 
 	$checkup_price_gender_and_items = get_field('checkup_price_gender_and_items', $pid);
 	$plan_info['info'] = $checkup_price_gender_and_items;
-	foreach ($checkup_price_gender_and_items as $checkup_price_gender_and_item) {		
-		foreach($checkup_price_gender_and_item['checkup_item_list'] as $item_id){			
-			if(!key_exists($item_id, $plan_info['check_item_union_list'])){
+	foreach ($checkup_price_gender_and_items as $checkup_price_gender_and_item) {
+		foreach ($checkup_price_gender_and_item['checkup_item_list'] as $item_id) {
+			if (!key_exists($item_id, $plan_info['check_item_union_list'])) {
 				$plan_info['check_item_union_list'][$item_id] = $checkup_price_gender_and_item['gender'];
 			} else {
 				$plan_info['check_item_union_list'][$item_id] = 'unisex';
@@ -1063,7 +1101,7 @@ function show_plan_compare()
 			});
 		});
 	</script>
-<?php
+	<?php
 	return ob_get_clean();
 }
 
@@ -1076,7 +1114,7 @@ function show_plan_compare_v2()
 	// error_log('$checkup_set_list: ' . var_export($checkup_set_list, true));
 	$compare_plans_item_list = [];
 	$_compare_plans_item_list = [];
-	
+
 	// 20251120 排列新的勾選項目
 	$show_plans = [];
 	$compare_plans = [];
@@ -1101,14 +1139,14 @@ function show_plan_compare_v2()
 			$compare_plans = [];
 		}
 	}
-	$compare_plans_count = count($show_plans)+1;
+	$compare_plans_count = count($show_plans) + 1;
 
 	// 20251120 把方案重排一次
 	$new_checkup_set_list = [];
 	foreach ($checkup_set_list as $_checkup_plan_id => $checkup_set) {
 		$_plan_terms = get_the_terms($_checkup_plan_id, 'health_checkup_set');
 		// if(!key_exists($_plan_terms[0]->name, $new_compare_plans)){
-			$new_checkup_set_list[$_plan_terms[0]->name][$_checkup_plan_id] = $checkup_set['title'];
+		$new_checkup_set_list[$_plan_terms[0]->name][$_checkup_plan_id] = $checkup_set['title'];
 		// }
 	}
 	// error_log('$new_checkup_set_list: ' . print_r($new_checkup_set_list, true));
@@ -1120,71 +1158,63 @@ function show_plan_compare_v2()
 	if (is_array($compare_plans) && count($compare_plans) > 0):
 	?>
 		<!-- 做直的比較表 -->
-        <div id="plan_list_title" class="section-title">
-			<div class="cont">
-				<h3 class="title">方案互比結果</h3>
-				<div class='item'>
-					<h5 class="item-title"><strong>方案代號</strong></h5>
+		<div id="plan_list_title" class="section-title">
+			<h4 class="title">方案互比結果</h4>
+			<p class='sub-title'>方案代號：
 				<?php
 				$i = 1;
-				foreach ($compare_plans as $pid => $pname) {                
-					echo "<span class='item-sub'><span class='circle n-{$i}'>{$i}</span>{$pname}</span>";
+				foreach ($compare_plans as $pid => $pname) {
+					echo "<span class='sub-title'>{$i} : {$pname}</span>";
 					// echo "<span class='sub-title'><img src='plan_{$i}.png'> : {$pname}</span>";
 					$i++;
-				}            
+				}
 				?>
-				</div>
-				<div class='item'> <h5 class="item-title">
-					<strong>性別代號</strong></h5>
-					<span class='item-sub'><span class='circle unisex'></span>不拘性別</span>
-					<span class='item-sub'><span class='circle male'></span>男</span>
-					<span class='item-sub'><span class='circle female'></span>女</span>
-				</div>
-				<!-- <p> 性別代號 ：男 <img src="male_icon.png"> 、女 <img src="female_icon.png"> 、通用 <img src="unisex_icon.png"></p> -->
-			</div>
-        </div>
+			</p>
+			<p> 性別代號 ：不拘性別 (Unisex)、男 (Male) 、女 (Female) </p>
+			<!-- <p> 性別代號 ：不拘性別 <img src="unisex_icon.png">、男 <img src="male_icon.png"> 、女 <img src="female_icon.png"></p> -->
+		</div>
 		<div id="compare" class="solution-comparison-results">
 			<div class="cont">
-				<div class="">
-					<table class='table'>
+				<div class="table-wrapper">
+					<table class='table responsive-table'>
 						<thead>
 							<tr>
-								<th class="th left">項目</th>
+								<th class="th">項目</th>
 								<?php
-                                $i = 1;
+								$i = 1;
 								foreach ($_compare_plans_item_list as $pname => $union_list) {
 									// echo "<th class='th'>{$pname}</th>";
-                                    echo "<th class='th'><span class='circle n-{$i}'>{$i}</span></th>";
-                                    // echo "<th class='th'><img src='plan_{$i}.png'></th>";
-                                    $i++;
-								}                                
+									echo "<th class='th'>{$i}</th>";
+									// echo "<th class='th'><img src='plan_{$i}.png'></th>";
+									$i++;
+								}
 								?>
-							</tr>							
+							</tr>
 						</thead>
-						<tbody>							
+						<tbody>
 							<?php
 							// 跑全部的健檢項目, $term_name 為 健檢項目類型名稱, $checkup_set 為該類型底下的健檢項目
-							foreach ($new_checkup_set_list as $term_name => $checkup_set){
-								echo "<tr><th class='plan_term_name left' colspan='{$compare_plans_count}'>{$term_name}</th></tr>";
+							foreach ($new_checkup_set_list as $term_name => $checkup_set) {
+								echo "<tr><th class='plan_term_name' colspan='{$compare_plans_count}' style='background-color: #f0f0f0; text-align: left; padding-left: 10px;'>{$term_name}</th></tr>";
 								// 跑該類型底下的健檢項目								
-								foreach ($checkup_set as $_checkup_plan_id => $checkup_set_title){
-									echo "<tr><th class='left'>{$checkup_set_title}</th>";
+								foreach ($checkup_set as $_checkup_plan_id => $checkup_set_title) {
+									echo "<tr><th>{$checkup_set_title}</th>";
 									// 進行比對
-									foreach ($show_plans as $plan_info){
+									foreach ($show_plans as $plan_info) {
 										$plan_name = $plan_info['plan_name'];
 										$union_list = $plan_info['check_item_union_list'];
 										// error_log("{$plan_name} {$_checkup_plan_id} union_list: " . print_r($union_list, true));
 										if (key_exists($_checkup_plan_id, $union_list)) {
-											echo "<td class='icon'><span class='circle {$union_list[$_checkup_plan_id]}'></span></td>";
+											echo "<td class='icon'>{$union_list[$_checkup_plan_id]}</td>";
 										} else {
 											echo "<td></td>";
 										}
 									}
-									echo "</tr>";	
-								}						
+									echo "</tr>";
+								}
 							}
 							?>
-							<!-- <tr>
+							<tr>
 								<th>了解方案</th>
 								<?php
 								foreach ($compare_plans as $pid => $pname) {
@@ -1203,7 +1233,7 @@ function show_plan_compare_v2()
 								<?php
 								}
 								?>
-							</tr> -->
+							</tr>
 						</tbody>
 					</table>
 				</div>
@@ -2172,6 +2202,42 @@ function search_plan_page_option_check()
 			true
 		);
 	}
+
+	// 預約頁面
+	if (is_page('health-check-up-appointment')) {
+		$js_mod_ts = filemtime(get_stylesheet_directory() . '/static/js/appointment_page_option_check.js');
+
+		wp_enqueue_script(
+			'appointment_page_option_check',
+			get_stylesheet_directory_uri() . '/static/js/appointment_page_option_check.js',
+			array('jquery'),
+			$js_mod_ts,
+			true
+		);
+		wp_localize_script(
+			'appointment_page_option_check',
+			'appointment_page_ajax',
+			array(
+				'ajax_url' => admin_url('admin-ajax.php'),
+				'get_planinfo_url' => site_url('wp-json/parkone/v1/checkup-plan-price/'),
+				'site_url' => site_url(),
+				'nonce'    => wp_create_nonce('search_plan_nonce_action'),
+			)
+		);
+	}
+
+	// 勞工健檢頁面
+	if (is_page('employee-health-checkup')) {
+		$js_mod_ts = filemtime(get_stylesheet_directory() . '/static/js/employee_health_checkup_page_option_check.js');
+
+		wp_enqueue_script(
+			'employee_health_checkup_page_option_check',
+			get_stylesheet_directory_uri() . '/static/js/employee_health_checkup_page_option_check.js',
+			array('jquery'),
+			$js_mod_ts,
+			true
+		);
+	}
 }
 
 add_action('wp_ajax_check_body_part_gender', 'check_body_part_gender_callback');
@@ -2333,4 +2399,327 @@ function health_checkup_set_orderby($query)
 	}
 }
 
-?>
+function dynamic_select_health_plans($null, $options, $args)
+{
+	// error_log('dynamic_select_health_plans: ' . var_export($options, true));
+	
+	switch($options[0]){
+		case 'health_checkup_appointment_plans':
+			// 從資料庫取得健檢方案
+			$plans = get_posts(array(
+				'post_type'      => 'checkup-plan',
+				'posts_per_page' => -1,
+				'post_status'    => 'publish',
+			));
+
+			// 清空預設選項
+			$options = array();
+
+			// 將健檢方案加入選項
+			foreach ($plans as $plan) {
+				$options[] = $plan->post_title;
+			}
+			return $options;
+
+		case 'health_checkup_appointment_gender':
+			// 清空預設選項
+			$options = array();
+			$options['male'] = "男性";
+			$options['female'] = "女性";
+			return $options;
+
+		case 'get_breakfast_item':
+			global $wpdb;
+			// 清空預設選項
+			$options = array();
+			// 使用 SQL 直接查詢 ACF 重複器欄位資料
+			$sql = "SELECT `option_value` FROM `{$wpdb->prefix}options` WHERE `option_name` LIKE 'options_breakfast_list_%_breakfast_meal_item'";
+			$results = $wpdb->get_col($sql);
+
+			if ($results) {
+				foreach ($results as $value) {
+					if (!empty($value)) {
+						$options[$value] = $value;
+					}
+				}
+			}
+
+			return $options;
+
+		case 'get_breakfast_drink_item':
+			global $wpdb;
+			// 清空預設選項
+			$options = array();
+			// 使用 SQL 直接查詢 ACF 重複器欄位資料
+			$sql = "SELECT `option_value` FROM `{$wpdb->prefix}options` WHERE `option_name` LIKE 'options_breakfast_drink_%_breakfast_drink_item'";
+			$results = $wpdb->get_col($sql);
+
+			if ($results) {
+				foreach ($results as $value) {
+					if (!empty($value)) {
+						$options[$value] = $value;
+					}
+				}
+			}
+
+			return $options;
+
+		case 'get_meal_type':
+			// "葷" "全素" "蛋奶素"
+			// 清空預設選項
+			$options = array();
+			$options['meat'] = "葷";
+			$options['vegetarian'] = "全素";
+			$options['lacto_ovo_vegetarian'] = "蛋奶素";
+			return $options;
+
+		case 'get_clothes_size':
+			// 清空預設選項
+			$options = array();
+			$options['S'] = "S";
+			$options['M'] = "M";
+			$options['L'] = "L";
+			$options['XL'] = "XL";
+			$options['2XL'] = "2XL";
+			$options['3XL'] = "3XL";
+			$options['5XL'] = "5XL";
+			$options['7XL'] = "7XL";
+			return $options;
+
+		case 'get_meal_replacement_options':
+			// 清空預設選項
+			$options = array();
+			$options['omnivore'] = "葷";
+			$options['vegetarian'] = "素";
+			return $options;
+
+		case 'get_meal_payment_method_options':
+			// 清空預設選項
+			$options = array();
+			$options['self_pickup'] = "自取（訂金付現）";
+			$options['mail_wire'] = "郵寄（訂金匯款）";
+			return $options;
+
+		case 'get_constipate_options':
+			// 清空預設選項
+			$options = array();
+			$options['yes'] = "是";
+			$options['no'] = "否";
+			return $options;
+
+		case 'get_employee_health_checkup_list':
+			// 清空預設選項
+			$options = array();
+			global $post;
+			$post_id = $post->ID;
+			// error_log('post: ' . var_export($post, true));
+			// error_log('post_id: ' . var_export($post_id, true));
+			$employee_health_checkup_list = get_field('employee_health_checkup_list', $post_id);
+			// error_log('employee_health_checkup_list: ' . var_export($employee_health_checkup_list, true));
+			if($employee_health_checkup_list){	
+				foreach($employee_health_checkup_list as $item){
+					$options[$item['employee_health_checkup_item']] = "{$item['employee_health_checkup_item']} {$item['employee_health_checkup_price']}元";
+				}
+			}
+			break;
+	}
+	// error_log('dynamic_select_health_plans return default options: ' . var_export($options, true));
+
+	return $options;
+}
+add_filter('wpcf7_form_tag_data_option', 'dynamic_select_health_plans', 10, 3);
+
+// // 自訂設定訪客識別 Cookie
+// function custom_set_visitor_cookie() {
+//     $cookie_name = 'wp_visitor_id';
+
+//     // 檢查 Cookie 是否已存在
+//     if ( ! isset( $_COOKIE[ $cookie_name ] ) ) {
+
+//         // 1. 生成一個唯一的 ID
+//         // 注意：這裡我們使用 PHP 的 uniqid()，但在更安全的應用中建議使用 UUID 庫
+//         $visitor_id = uniqid( 'v', true ); 
+
+//         // 2. 設定 Cookie 的過期時間 (例如：30 天)
+//         $expiry = time() + ( 86400 * 1 ); // 86400 秒 = 1 天
+
+//         // 3. 設置 Cookie
+//         // 參數: 名稱, 值, 過期時間, 路徑 (網站根目錄), 網域, 安全 (HTTPS), HTTP-Only (防止 JS 讀取)
+//         setcookie( $cookie_name, $visitor_id, $expiry, COOKIEPATH, COOKIE_DOMAIN, is_ssl(), true );
+//     }
+// }
+// // 在 WordPress 載入時的早期階段執行
+// add_action( 'init', 'custom_set_visitor_cookie' );
+
+// CF7 送出表單 hook, 把資料存到資料表
+add_action('wpcf7_submit', 'save_plan_search_data', 10, 2);
+function save_plan_search_data($contact_form, $abort)
+{
+	$submission = WPCF7_Submission::get_instance();
+	$uid = uniqid();
+
+	$posted_data = $submission->get_posted_data();
+
+	global $wpdb;
+	// 存入資料表 wp_parkone_health_checkup_reservation
+	$table = $wpdb->prefix . 'parkone_health_checkup_reservation';
+	$data = array(
+		'id' => $uid,
+		// 'wp_user_id' => $wp_user_id,
+		// 'visitor_id' => $visitor_id,
+		'reservation_data' => maybe_serialize($posted_data),
+		// 'submitted_at' => current_time('mysql'),
+	);
+	$wpdb->insert($table, $data);
+}
+
+
+// 預約相關部分, 開 rest api 查詢方案內容, 會用 get 變數帶 plan_name 與 gender 過來查詢價格
+// 查詢網址範例: https://yourdomain.com/wp-json/parkone/v1/checkup-plan-price/微型悠活/male
+add_action('rest_api_init', function () {
+	register_rest_route(
+		'parkone/v1',
+		'/checkup-plan-price/(?P<plan_name>[^/]+)/(?P<gender>[^/]+)',
+		array(
+			'methods' => 'GET',
+			'callback' => 'get_checkup_plan_price',
+			'permission_callback' => '__return_true',
+		)
+	);
+});
+
+function get_checkup_plan_price($request)
+{
+	$params = $request->get_params();
+	$plan_name = isset($params['plan_name']) ? urldecode($params['plan_name']) : '';
+	$gender = isset($params['gender']) ? urldecode($params['gender']) : '';
+	if (!empty($gender)) {
+		if ($gender == "女性") {
+			$gender = "female";
+		} elseif ($gender == "男性") {
+			$gender = "male";
+		}
+	}
+
+	// 用 plan_name 找到 plan_id
+	$plan_id = null;
+	$args = array(
+		'post_type'      => 'checkup-plan',
+		'posts_per_page' => -1,
+		'post_status'    => 'publish',
+		'title'          => $plan_name,
+	);
+	$plans = get_posts($args);
+	if ($plans) {
+		foreach ($plans as $plan) {
+			if ($plan->post_title === $plan_name) {
+				$plan_id = $plan->ID;
+				break;
+			}
+		}
+	}
+
+	// error_log('plan_name: ' . var_export($plan_name, true));
+	// error_log('gender: ' . var_export($gender, true));
+	// error_log('plan_id: ' . var_export($plan_id, true));
+
+	$price = null;
+	if ($plan_id && $gender) {
+		$plan_info = get_plan_info_by_id($plan_id);
+		if (empty($plan_info["plan_name"])) {
+			return rest_ensure_response(array(
+				'error' => 'Invalid plan_id',
+			));
+		}
+		// error_log('plan_info: ' . var_export($plan_info, true));
+		$result = [];
+		$multi_select = [];
+		$plan_name = $plan_info['plan_name'];
+		if ($plan_info) {
+			foreach ($plan_info['info'] as $info) {
+				if ($info['gender'] === $gender) {
+					$price = $info['price'];
+
+					// 處理多選一項目
+					if (isset($info['multi_select'])) {
+						foreach ($info['multi_select'] as $key => $multi_select_item_ary) {
+							// $multi_select_item_obj 是 array
+							foreach ($multi_select_item_ary as $multi_select_item_obj_ary) {
+								// 取得 multi_select_item_obj 的 post_title 與 ID
+								// error_log('multi_select_item_obj: ' . var_export($multi_select_item_obj_ary, true));
+								foreach ($multi_select_item_obj_ary as $multi_select_item_obj_id) {
+									$multi_select_item_obj = get_post($multi_select_item_obj_id);
+									if ($multi_select_item_obj) {
+										$multi_select[$key][] = array(
+											'item_name' => $multi_select_item_obj->post_title,
+											'item_id' => $multi_select_item_obj->ID,
+										);
+									}
+								}
+							}
+						}
+					}
+					break;
+				}
+			}
+
+			// 處理熱門加選項目
+			$hot_additional_list = [];
+			if (isset($plan_info['hot_additional_list'])) {
+				foreach ($plan_info['hot_additional_list'] as $i => $hot_additional_item_ary) {
+					$_hot_additional_item_price = $hot_additional_item_ary['hot_additional_item_price'];
+					$_hot_additional_item_title = $hot_additional_item_ary['hot_additional_item_name']->post_title;
+					$_hot_additional_item_id = $hot_additional_item_ary['hot_additional_item_name']->ID;
+					$hot_additional_list[] = array(
+						'item_name' => $_hot_additional_item_title,
+						'item_id' => $_hot_additional_item_id,
+						'item_price' => $_hot_additional_item_price,
+					);
+				}
+			}
+
+			$result = array(
+				'plan_id' => $plan_id,
+				'plan_name' => $plan_name,
+				'gender' => $gender,
+				'price' => $price,
+			);
+
+			if (!empty($multi_select) && is_array($multi_select)) {
+				$result['multi_select'] = $multi_select;
+			}
+
+			if (!empty($hot_additional_list) && is_array($hot_additional_list)) {
+				$result['hot_additional_list'] = $hot_additional_list;
+			}
+
+			if (isset($plan_info['enable_breakfast']) && $plan_info['enable_breakfast'] === 'yes') {
+				$result['enable_breakfast'] = $plan_info['enable_breakfast'];
+			}
+
+			if (isset($plan_info['meal_type_display']) && $plan_info['meal_type_display'] === 'yes') {
+				$result['meal_type_display'] = $plan_info['meal_type_display'];
+			}			
+
+			if(isset($plan_info['meal_plrd']) && !empty($plan_info['meal_plrd'])){
+				$result['meal_plrd'] = $plan_info['meal_plrd'];
+			}
+
+			if(isset($plan_info['meal_replacement_and_laxative']) && !empty($plan_info['meal_replacement_and_laxative'])){
+				$result['meal_replacement_and_laxative'] = $plan_info['meal_replacement_and_laxative'];				
+			}
+
+			if(isset($plan_info['constipate']) && !empty($plan_info['constipate'])){
+				$result['constipate'] = $plan_info['constipate'];
+			}
+		}
+
+		return rest_ensure_response(
+			$result
+		);
+	}
+	return rest_ensure_response(array(
+		'error' => 'Missing plan_id or gender parameter',
+	));
+}
+
