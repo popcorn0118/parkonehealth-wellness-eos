@@ -210,7 +210,10 @@ main {
   .wpcf7-form-control-wrap {
     // line-height: 1;
   }
-  .wpcf7-form-control {
+  .wpcf7-radio, .wpcf7-checkbox {
+    flex-wrap: wrap;
+  }
+  .wpcf7-form-control:not(input[type="date"]) {
     // line-height: 1;
     display: flex;
     gap: 1em;
