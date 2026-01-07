@@ -10,6 +10,7 @@ jQuery(function ($) {
     var div_meal_replacement_payment_method = $("#div_meal_replacement_payment_method");
     var div_constipate = $("#div_constipate");
 
+    $("#client_period_item").hide();
     $("[name='client_period']").hide();
     $("#label_client_period").hide();
     breakfast_item_list.hide();
@@ -126,9 +127,11 @@ jQuery(function ($) {
         if (selectedGender === "女性") {
             $("[name='client_period']").show();
             $("#label_client_period").show();
+            $("#client_period_item").show();
         } else {
             $("[name='client_period']").hide();
             $("#label_client_period").hide();
+            $("#client_period_item").hide();
         }
 
         var selectedPlan = $("[name='appointment_plan']:checked").val();
