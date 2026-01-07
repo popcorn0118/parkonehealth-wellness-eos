@@ -207,13 +207,24 @@ main {
       }
     }
   }
+  //date特殊處理：在IOS上會爆寬
+  input[type="date"] {
+    -webkit-appearance: none;
+    appearance: none;
+    box-sizing: border-box;
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    min-height: 65px;
+  }
   .wpcf7-form-control-wrap {
     // line-height: 1;
   }
   .wpcf7-radio, .wpcf7-checkbox {
     flex-wrap: wrap;
   }
-  .wpcf7-form-control:not(input[type="date"]) {
+  .wpcf7-form-control {
     // line-height: 1;
     display: flex;
     gap: 1em;
