@@ -2417,7 +2417,15 @@ function dynamic_select_health_plans($null, $options, $args)
 
 			// 將健檢方案加入選項
 			foreach ($plans as $plan) {
-				$options[] = $plan->post_title;
+				// 取得方案資訊, 要取得價格
+				$plan_info = get_plan_info_by_id($plan->ID);
+				$_price = "NT ";
+				foreach($plan_info['info'] as $info){
+					$_gender = $info['gender'] == 'male' ? '男' : '女';
+					$_price .= "{$_gender}：{$info['price']}元 / ";
+				}
+				$_price = rtrim($_price, ' / ');
+				$options[] = $plan->post_title."({$_price})";
 			}
 			return $options;
 
@@ -2518,7 +2526,9 @@ function dynamic_select_health_plans($null, $options, $args)
 			// error_log('employee_health_checkup_list: ' . var_export($employee_health_checkup_list, true));
 			if($employee_health_checkup_list){	
 				foreach($employee_health_checkup_list as $item){
-					$options[$item['employee_health_checkup_item']] = "{$item['employee_health_checkup_item']} {$item['employee_health_checkup_price']}元";
+					// $options[] = "{$item['employee_health_checkup_item']}{$item['employee_health_checkup_price']}元";
+					$options[] = trim($item['employee_health_checkup_item']) . trim($item['employee_health_checkup_price']) . "元";
+					// $options[$item['employee_health_checkup_item']] = "{$item['employee_health_checkup_item']}{$item['employee_health_checkup_price']}元";
 				}
 			}
 			break;

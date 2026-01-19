@@ -9,6 +9,8 @@ jQuery(function ($) {
     var div_meal_replacement = $("#div_meal_replacement");
     var div_meal_replacement_payment_method = $("#div_meal_replacement_payment_method");
     var div_constipate = $("#div_constipate");
+    var total_price_details = $("#total_price_details");
+    var hot_additional_details = $("#hot_additional_details");
 
     $("#client_period_item").hide();
     $("[name='client_period']").hide();
@@ -21,11 +23,11 @@ jQuery(function ($) {
     div_meal_replacement.hide();
     div_meal_replacement_payment_method.hide();
     div_constipate.hide();
-    total_price.val('0');
+    total_price.text('NT$ 0');
 
 
     // GET AJAX 取得方案資訊
-    function ajax_get_plan_info(plan_name, gender) {
+    function ajax_get_plan_info(plan_name, gender, plan_full_name) {
         let url = appointment_page_ajax.get_planinfo_url + plan_name + '/' + gender;
         $.ajax({
             url: url,
@@ -81,27 +83,31 @@ jQuery(function ($) {
 
                 // 顯示總價
                 if (data.price === undefined || data.price === null || data.price === "") {
-                    total_price.val('0');
+                    total_price.text('');
+                    hot_additional_details.text(''); // 清空加選明細
                     total_price_field.hide();
                 } else {
                     plan_price = parseInt(data.price);
+                    // 明細顯示方案名稱與價格
+                    total_price_details.text(plan_full_name + ": NT$ " + data.price);
+                    hot_additional_details.text(''); // 清空加選明細
                     total_price_field.show();
-                    total_price.val(data.price);
+                    total_price.text("NT$ " + data.price);
                 }
 
-                if(data.constipate === true){
+                if (data.constipate === true) {
                     div_constipate.show();
                 } else {
                     div_constipate.hide();
                 }
 
-                if(data.meal_replacement_and_laxative === true){
+                if (data.meal_replacement_and_laxative === true) {
                     div_meal_replacement_payment_method.show();
                 } else {
                     div_meal_replacement_payment_method.hide();
                 }
 
-                if(data.meal_plrd === true){
+                if (data.meal_plrd === true) {
                     div_meal_replacement.show();
                 } else {
                     div_meal_replacement.hide();
@@ -112,14 +118,20 @@ jQuery(function ($) {
 
     $(document).on('change', ".hot_additional_item", function () {
         var additional_total = 0;
+        hot_additional_details.text('');
+        var _html = '';
         $(".hot_additional_item:checked").each(function () {
             var item_price = parseInt($(this).data('additional-price'));
+            var item_name = $(this).val();
             if (!isNaN(item_price)) {
                 additional_total += item_price;
             }
+            // 更新明細顯示
+            _html += "<br />" + item_name + " : NT$" + item_price + "\n";
         });
+        hot_additional_details.html(_html);
         var final_total = plan_price + additional_total;
-        total_price.val(final_total);
+        total_price.text("NT$ " + final_total);
     });
 
     $("[name='gender']").change(function (e) {
@@ -128,7 +140,7 @@ jQuery(function ($) {
             $("[name='client_period']").show();
             $("#label_client_period").show();
             $("#client_period_item").show();
-        } else {
+        } else {            
             $("[name='client_period']").hide();
             $("#label_client_period").hide();
             $("#client_period_item").hide();
@@ -136,7 +148,8 @@ jQuery(function ($) {
 
         var selectedPlan = $("[name='appointment_plan']:checked").val();
         if (selectedPlan !== undefined) {
-            ajax_get_plan_info(selectedPlan, selectedGender);
+            _selectedPlan = selectedPlan.split("(")[0].trim();
+            ajax_get_plan_info(_selectedPlan, selectedGender, selectedPlan);
         }
     });
 
@@ -145,14 +158,15 @@ jQuery(function ($) {
         var selectedGender = $("[name='gender']:checked").val();
         if (selectedGender !== undefined) {
             var selectedPlan = $(this).val();
-            ajax_get_plan_info(selectedPlan, selectedGender);
+            var _selectedPlan = selectedPlan.split("(")[0].trim();
+            ajax_get_plan_info(_selectedPlan, selectedGender, selectedPlan);
         }
     });
 
     // 為方案選項的 label 添加連結功能
-    $(".wpcf7-form-control-wrap[data-name='appointment_plan']").find(".wpcf7-list-item-label").each(function(elm) {
+    $(".wpcf7-form-control-wrap[data-name='appointment_plan']").find(".wpcf7-list-item-label").each(function (elm) {
         $(this).css("cursor", "pointer");
-        $(this).click(function() {
+        $(this).click(function () {
             var plan_name = $(this).text().trim();
             var site_url = appointment_page_ajax.site_url;
             var plan_url = site_url + "/checkup-plan/" + encodeURIComponent(plan_name) + "/";
