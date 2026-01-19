@@ -134,6 +134,13 @@
           }
       }
     }
+
+    //選擇方案
+    .choose-plan {
+      .wpcf7-radio {
+        flex-direction: column;
+      }
+    }
     
     //想了解哪個方案
     .checkup-plan-list {
@@ -178,6 +185,86 @@
               }
             }
         }
+    }
+    // 明細資訊
+    .detailed-info {
+      border: 1px solid #DCDCDC;
+      border-radius: 8px;
+      padding: 0 40px 40px 40px;
+      display: flex;
+      flex-wrap: wrap;
+      box-shadow: 2px 5px 8px 0 rgba(#000, 0.03);
+      @include bgGradient(to left top, rgba($bg, 0.37) 0%,rgba($bg, 0) 100%);
+      @include md() {
+          padding: 0 20px 30px 20px;
+      }
+      .title {
+          color: $text-2;
+          font-weight: 600;
+          margin-top: -22px;
+          margin-left: -24px;
+          margin-bottom: 30px;
+          padding: 0 24px;
+          background-color: #FEFEFE;
+          display: block;
+      }
+      .desc {
+          width: 100%;
+          color: $text-3;
+          ul, ol {
+              list-style: none; 
+              position: relative;
+              margin: 0;
+              padding-left: 0;
+              padding-left: 30px;
+              display: flex;
+              flex-direction: column;
+              gap: 32px;
+              li {
+                  position: relative;
+                  text-indent: 0;
+                  text-indent: -25px;
+                  &::before {
+                      content: '';
+                      color: $primary; 
+                      font-size: 1em;
+                      
+                  }
+              }
+          }
+          ul {
+              li::before {
+                  font-size: 2em;
+                  width: 8px;
+                  height: 8px;
+                  display: inline-block;
+                  border-radius: 100%;
+                  background-color: $primary;
+                  margin-bottom: 3px;
+                  margin-right: 16px;
+              }
+          }
+          
+          ol {
+              counter-reset: custom-counter;
+              li::before {
+                  counter-increment: custom-counter;
+                  content: counter(custom-counter) '.';
+                  font-size: 1em;
+                  margin-right: 5px;
+                  color: $primary;
+              }
+          }
+      }
+      hr {
+        margin: 20px 0;
+        width: 100%;
+      }
+      .total {
+        font-size: 19px;
+        font-weight: 600;
+        line-height: 2em;
+      }
     }
     .submit {
       margin-bottom: -132px;
