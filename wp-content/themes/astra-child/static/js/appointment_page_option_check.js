@@ -168,6 +168,7 @@ jQuery(function ($) {
         $(this).css("cursor", "pointer");
         $(this).click(function () {
             var plan_name = $(this).text().trim();
+            plan_name = plan_name.split("(")[0].trim();
             var site_url = appointment_page_ajax.site_url;
             var plan_url = site_url + "/checkup-plan/" + encodeURIComponent(plan_name) + "/";
             window.open(plan_url, "_blank");

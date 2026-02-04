@@ -172,7 +172,7 @@ $thumbnail = $plan_info['thumbnail'];
                     <thead>
                         <tr>
                             <th class="left">類別</th>
-                            <th class="left">項目</th>
+                            <!-- <th class="left">項目</th> -->
                             <th>性別</th>
                         </tr>
                     </thead>
@@ -184,7 +184,7 @@ $thumbnail = $plan_info['thumbnail'];
                             <?php foreach ($items as $item): ?>
                                 <tr>
                                     <td class="left"><?=$item['title'];?></td>
-                                    <td class="left"><?=$item["desc"];?></td>
+                                    <!-- <td class="left"><?=$item["desc"];?></td> -->
                                     <td><span class='circle <?=$item['gender'];?>'></span></td>
                                 </tr>
                             <?php endforeach; ?>

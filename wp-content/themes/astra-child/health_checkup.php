@@ -2518,10 +2518,9 @@ function dynamic_select_health_plans($null, $options, $args)
 		case 'get_employee_health_checkup_list':
 			// 清空預設選項
 			$options = array();
-			global $post;
-			$post_id = $post->ID;
-			// error_log('post: ' . var_export($post, true));
-			// error_log('post_id: ' . var_export($post_id, true));
+			$post_slug = "employee-health-checkup";
+			$post = get_page_by_path($post_slug, OBJECT, 'page');
+			$post_id = $post->ID;			
 			$employee_health_checkup_list = get_field('employee_health_checkup_list', $post_id);
 			// error_log('employee_health_checkup_list: ' . var_export($employee_health_checkup_list, true));
 			if($employee_health_checkup_list){	
