@@ -305,23 +305,24 @@
                 word-wrap: break-word;
         
                 &:first-of-type {
-                    width: 30%;
+                    width: 100%;
                 }
         
                 &:nth-of-type(2) {
-                    width: auto;
+                    width: 120px;
                     @include md() {
+                        width: 80px;
                     }
                 }
         
-                &:nth-of-type(3) {
-                    width: 10%;
-                    @include md() {
-                        font-size: 0;
-                        width: 30px;
-                        padding: 8px;
-                    }
-                }
+                // &:nth-of-type(3) {
+                //     width: 10%;
+                //     @include md() {
+                //         font-size: 0;
+                //         width: 30px;
+                //         padding: 8px;
+                //     }
+                // }
             }
             th {
                 &:nth-of-type(2) {
