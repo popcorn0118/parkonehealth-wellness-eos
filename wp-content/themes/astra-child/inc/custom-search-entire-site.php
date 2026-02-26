@@ -88,7 +88,7 @@ $showPage  = 5; // 每次顯示幾個頁碼
 <div class="search-entire-site">
 	<div class="cont">
 		<div class="ast-container">
-			<div class="search-close-btn">✖&nbsp;&nbsp;關閉搜尋</div>
+			<div class="search-close-btn">&times;&nbsp;&nbsp;關閉搜尋</div>
 			<!-- 搜尋關鍵字 -->
 			<div class="warp search">
 				<h3 class="search-title">搜尋</h3>
@@ -125,8 +125,7 @@ $showPage  = 5; // 每次顯示幾個頁碼
 								<?php if ( current_user_can('manage_options') ): ?>
 									<a href="<?php echo esc_url( add_query_arg('delete_keyword', urlencode($term), home_url('/search/')) ); ?>"
 									onclick="return confirm('確定要刪除「<?php echo esc_js($term); ?>」這個關鍵字？');"
-									style="color: #cc0000; margin-left: 8px; font-size: 13px;">
-										✖
+									style="color: #cc0000; margin-left: 8px; font-size: 16px;">&nbsp;&nbsp;&times;
 									</a>
 								<?php endif; ?>
 							</li>

@@ -4804,3 +4804,64 @@ footer .copyright a, footer .copyright .elementor-shortcode {
     padding-right: 0px;
   }
 }
+
+/* line 4, ../../sass/_page_search.scss */
+.search-results-page {
+  padding: 30px 0;
+}
+/* line 6, ../../sass/_page_search.scss */
+.search-results-page .article-info {
+  flex-direction: column;
+  gap: 40px;
+}
+/* line 9, ../../sass/_page_search.scss */
+.search-results-page .article-info .no-search-results {
+  font-weight: bold;
+  color: #434343;
+  line-height: 1.3em;
+  margin-bottom: 0;
+}
+/* line 16, ../../sass/_page_search.scss */
+.search-results-page .article-info .article-search {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 0 0 80px 0;
+}
+/* line 21, ../../sass/_page_search.scss */
+.search-results-page .article-info .keyword {
+  margin-top: 35px;
+}
+/* line 23, ../../sass/_page_search.scss */
+.search-results-page .article-info .keyword .keyword-title {
+  color: #595757;
+}
+/* line 26, ../../sass/_page_search.scss */
+.search-results-page .article-info .keyword .keyword-list {
+  flex-wrap: nowrap;
+  flex-direction: column;
+}
+/* line 29, ../../sass/_page_search.scss */
+.search-results-page .article-info .keyword .keyword-list .item {
+  width: 100%;
+}
+/* line 31, ../../sass/_page_search.scss */
+.search-results-page .article-info .keyword .keyword-list .item > * {
+  color: #595757;
+}
+/* line 41, ../../sass/_page_search.scss */
+.search-results-page .article-cont .list {
+  gap: 48px;
+}
+/* line 43, ../../sass/_page_search.scss */
+.search-results-page .article-cont .list .item {
+  border-bottom: 1px solid #4B4B4B;
+  padding-bottom: 56px;
+}
+/* line 47, ../../sass/_page_search.scss */
+.search-results-page .article-cont .list .item .cont {
+  width: 100%;
+}
+/* line 54, ../../sass/_page_search.scss */
+.search-results-page .page-number-warp {
+  margin-bottom: 56px;
+}

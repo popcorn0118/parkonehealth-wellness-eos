@@ -1,2 +1,57 @@
 @import 'variable';
 @import 'mixin';
+
+.search-results-page {
+  padding: 30px 0;
+  .article-info {
+    flex-direction: column;
+    gap: 40px;
+    .no-search-results {
+      // font-size: 24px;
+      font-weight: bold;
+      color: #434343;
+      line-height: 1.3em;
+      margin-bottom: 0;
+    }
+    .article-search {
+        margin-top: 0;
+        margin-bottom: 0;
+        padding: 0 0 80px 0;
+    }
+    .keyword {
+      margin-top: 35px;
+      .keyword-title {
+        color: $text;
+      }
+      .keyword-list {
+        flex-wrap: nowrap;
+        flex-direction: column;
+        .item {
+          width: 100%;
+          > * {
+            color: $text;
+          }
+        }
+      }
+    }
+    
+  }
+
+  .article-cont {
+    .list {
+      gap: 48px;
+      .item {
+        border-bottom: 1px solid $text-4;
+        padding-bottom: 56px;
+        // margin-bottom: 48px;
+        .cont {
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  .page-number-warp {
+    margin-bottom: 56px;
+  }
+}
