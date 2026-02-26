@@ -180,4 +180,20 @@ require_once "health_checkup.php";
 
 
 
+// 清除指定熱門搜尋關鍵字對應的快取頁
+function clear_search_cache_by_keyword( $keyword ) {
+	if ( function_exists('breeze_delete_cache_by_url') && !empty($keyword) ) {
+		$search_url = add_query_arg( 'search-query', urlencode($keyword), home_url('/search/') );
+		breeze_delete_cache_by_url( $search_url );
+	}
+}
+
+// 清除整個搜尋結果頁的快取（通常用在全部刪除熱門關鍵字時）
+function clear_search_cache_all() {
+	if ( function_exists('breeze_delete_cache_by_url') ) {
+		breeze_delete_cache_by_url( home_url('/search/') );
+	}
+}
+
+
 ?>
