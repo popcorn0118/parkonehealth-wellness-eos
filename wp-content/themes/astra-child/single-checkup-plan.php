@@ -338,11 +338,11 @@ $thumbnail = $plan_info['thumbnail'];
 
 </main>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     jQuery(function($) {
         var plan_name = "<?= $plan_name; ?>"; // 使用 json_encode 以避免特殊字元問題
-        var plan_id = <?= $post_id; ?>;
-        console.log(plan_name, plan_id);
+        var plan_id = <?= $post_id; ?>;        
 
         // 點擊加入方案互比
         $('.add_to_plans_compare').on('click', function() {
@@ -374,8 +374,7 @@ $thumbnail = $plan_info['thumbnail'];
                                 location.href = '<?= site_url('choices'); ?>';
                             }
                         });
-                    } else {
-                        //alert(response.message);
+                    } else {                        
                         Swal.fire({
                             title: '加入失敗',
                             text: response.message,

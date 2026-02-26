@@ -203,7 +203,6 @@ function display_check_plan()
 		echo "</tr></tfoot>";
 		?>
 	</table>
-	<!-- <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script> -->
 	<script>
 		var multi_select_rule = <?= json_encode($multi_select_rule); ?>;
 		document.addEventListener('DOMContentLoaded', function() {
@@ -269,6 +268,31 @@ function upload_csv()
 	return ob_get_clean();
 }
 
+add_shortcode('download_csv', 'download_csv');
+function download_csv()
+{
+	$ajax_url = admin_url('admin-ajax.php');
+	ob_start();
+?>
+	<div style="margin: 20px 0;">
+		<button id="download_csv_btn" class="button" style="background-color: #4CAF50; color: white; padding: 10px 20px; border: none; cursor: pointer; border-radius: 5px;">
+			匯出健檢方案 CSV
+		</button>
+	</div>
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			jQuery(document).ready(function($) {
+				$('#download_csv_btn').click(function() {
+					// 直接導向下載 URL
+					window.location.href = '<?= $ajax_url; ?>?action=export_csv';
+				});
+			});
+		});
+	</script>
+<?php
+	return ob_get_clean();
+}
+
 function getcsv($csv_file)
 {
 	$content = file_get_contents($csv_file);
@@ -286,6 +310,187 @@ function getcsv($csv_file)
 	// 刪除暫存檔
 	// unlink("temp.csv");
 	return $csv;
+}
+
+add_action('wp_ajax_export_csv', 'export_csv');
+function export_csv()
+{
+	// 取得所有健檢方案
+	$args = array(
+		'post_type' => 'checkup-plan',
+		'post_status' => 'publish',
+		'posts_per_page' => -1,
+		'orderby' => 'title',
+		'order' => 'ASC',
+	);
+	$plans_query = new WP_Query($args);	
+	
+	// 取得所有健檢項目及其分類
+	$item_args = array(
+		'post_type' => 'checkup-item',
+		'post_status' => 'publish',
+		'posts_per_page' => -1,
+		'orderby' => 'ID',
+		'order' => 'ASC',
+	);
+	$items_query = new WP_Query($item_args);
+	
+	// 準備 CSV 資料
+	$csv_data = array();
+	$plan_data = array(); // 儲存各方案資料
+	
+	// 第一行：方案名稱
+	$row0 = array('項次', '檢查項目', '檢查項目', '臨床說明');
+	// 第二行：性別
+	$row1 = array('', '', '', '');
+	// 第三行：價格  
+	$row2 = array('', '', '', '');
+			
+	if ($plans_query->have_posts()) {
+		while ($plans_query->have_posts()) {
+			$plans_query->the_post();
+			$plan_id = get_the_ID();
+			$plan_name = get_the_title();
+			
+			// 取得方案的價格性別資訊
+			$checkup_price_gender_and_items = get_field('checkup_price_gender_and_items', $plan_id);			
+			
+			if ($checkup_price_gender_and_items && is_array($checkup_price_gender_and_items)) {
+				foreach ($checkup_price_gender_and_items as $item_data) {
+					$gender = $item_data['gender'] == 'male' ? '男' : '女';
+					$price = isset($item_data['price']) ? $item_data['price'] : '';
+					$checkup_items = isset($item_data['checkup_item_list']) ? $item_data['checkup_item_list'] : array();
+					$multi_select = isset($item_data['multi_select']) ? $item_data['multi_select'] : array();
+					
+					$col_index = count($row0);
+					
+					// 第一行加入方案名稱
+					$row0[] = $plan_name;
+					
+					// 第二行加入性別
+					$row1[] = $gender;
+					
+					// 第三行加入價格
+					$row2[] = $price;
+					
+					// 儲存此方案欄位的資料
+					$plan_data[$col_index] = array(
+						'plan_id' => $plan_id,
+						'gender' => $item_data['gender'],
+						'items' => $checkup_items,
+						'multi_select' => $multi_select,
+					);
+				}
+			}
+		}
+		wp_reset_postdata();
+	}	
+	
+	// 加入前三行
+	$csv_data[] = $row0;
+	$csv_data[] = $row1;
+	$csv_data[] = $row2;
+	
+	// 處理每個檢查項目
+	$item_no = 0;
+	$current_term = '';
+	
+	if ($items_query->have_posts()) {
+		while ($items_query->have_posts()) {
+			$items_query->the_post();
+			$item_id = get_the_ID();
+			$item_title = get_the_title();
+			$item_content = get_the_content();
+			
+			// 取得分類
+			$terms = get_the_terms($item_id, 'health_checkup_set');
+			$term_name = '';
+			if ($terms && !is_wp_error($terms)) {
+				$term_name = $terms[0]->name;
+			}
+			
+			// 準備該項目的資料行
+			$row = array();
+			
+			// 檢查是否為新分類
+			if ($term_name != $current_term) {
+				$item_no++;
+				$current_term = $term_name;
+			}
+			
+			$row[] = $item_no; // 項次
+			$row[] = $term_name; // 分類
+			$row[] = $item_title; // 檢查項目
+			$row[] = $item_content; // 臨床說明
+			
+			// 檢查各方案是否包含此項目
+			foreach ($plan_data as $col_index => $plan_info) {
+				$has_item = in_array($item_id, $plan_info['items']);
+				
+				// 檢查是否為多選項目
+				$multi_select_group = '';
+				if (isset($plan_info['multi_select']) && is_array($plan_info['multi_select'])) {
+					foreach ($plan_info['multi_select'] as $ms_index => $ms_data) {
+						if (isset($ms_data['multi_select_item']) && is_array($ms_data['multi_select_item'])) {
+							foreach ($ms_data['multi_select_item'] as $multi_select_item) {								
+								if ($multi_select_item instanceof WP_Post) {
+									$multi_item_id = intval($multi_select_item->ID);									
+								}
+
+								if ($multi_item_id === intval($item_id)) {
+									$multi_select_group = 'ms' . $col_index . 'g' . $ms_index . '_1';									
+									break 2; // 跳出兩層循環
+								}
+							}
+						}
+					}
+				}
+
+				// 設定值
+				if ($multi_select_group) {
+					$row[] = '★:' . $multi_select_group;
+				} elseif ($has_item) {
+					$row[] = '★';
+				} else {
+					$row[] = '';
+				}
+			}
+			
+			$csv_data[] = $row;
+		}
+		
+		wp_reset_postdata();
+	}
+	
+	// 輸出 CSV
+	$filename = '博田健檢' . date('Ymd') . '.csv';
+	
+	// 建立 CSV 內容
+	$csv_content = '';
+	foreach ($csv_data as $row) {
+		// 處理每個欄位，加上雙引號並處理特殊字元
+		$fields = array();
+		foreach ($row as $field) {
+			// 如果欄位包含逗號、雙引號或換行符，需要加上雙引號
+			if (strpos($field, ',') !== false || strpos($field, '"') !== false || strpos($field, "\n") !== false || strpos($field, "\r") !== false) {
+				$field = '"' . str_replace('"', '""', $field) . '"';
+			}
+			$fields[] = $field;
+		}
+		$csv_content .= implode(',', $fields) . "\r\n";
+	}
+	
+	// 轉換編碼為 BIG-5
+	$csv_content = mb_convert_encoding($csv_content, 'BIG-5', 'UTF-8');
+	
+	// 設定 header
+	header('Content-Type: text/csv; charset=BIG-5');
+	header('Content-Disposition: attachment; filename="' . $filename . '"');
+	header('Pragma: no-cache');
+	header('Expires: 0');
+	
+	echo $csv_content;
+	exit();
 }
 
 add_action('wp_ajax_import_csv', 'import_csv');
@@ -1395,27 +1600,27 @@ function add_to_plans_compare()
 	$plan_name_list = json_decode(wp_unslash($plan_name_list), true);
 	if (!is_array($plan_name_list)) {
 		$plan_name_list = [];
-	}
+	}	
+
+	if (in_array($pname, $plan_name_list)) {
+		$result['message'] = '已經加入過';
+		echo json_encode($result, JSON_UNESCAPED_UNICODE + JSON_UNESCAPED_SLASHES + JSON_PRETTY_PRINT);
+		exit();
+	}	
 
 	if (!in_array($plan_id, array_keys($plan_name_list))) {
 		$plan_name_list[$plan_id] = $pname;
 		// 存入 cookie
-		$plan_name_list = json_encode($plan_name_list, JSON_UNESCAPED_UNICODE + JSON_UNESCAPED_SLASHES + JSON_PRETTY_PRINT);
-		setcookie('plan_name_list', $plan_name_list, time() + 3600, '/');
+		$_plan_name_list = json_encode($plan_name_list, JSON_UNESCAPED_UNICODE + JSON_UNESCAPED_SLASHES + JSON_PRETTY_PRINT);
+		setcookie('plan_name_list', $_plan_name_list, time() + 3600, '/');
 	}
 
 	// 存入 card_plan_name_list
 	if (!in_array($plan_id, array_keys($card_plan_name_list))) {
 		$card_plan_name_list[$plan_id] = $pname;
 		// 存入 cookie
-		$card_plan_name_list = json_encode($card_plan_name_list, JSON_UNESCAPED_UNICODE + JSON_UNESCAPED_SLASHES + JSON_PRETTY_PRINT);
-		setcookie('card_plan_name_list', $card_plan_name_list, time() + 3600, '/');
-	}
-
-	if (in_array($pname, $plan_name_list)) {
-		$result['message'] = '已經加入過';
-		echo json_encode($result, JSON_UNESCAPED_UNICODE + JSON_UNESCAPED_SLASHES + JSON_PRETTY_PRINT);
-		exit();
+		$_card_plan_name_list = json_encode($card_plan_name_list, JSON_UNESCAPED_UNICODE + JSON_UNESCAPED_SLASHES + JSON_PRETTY_PRINT);
+		setcookie('card_plan_name_list', $_card_plan_name_list, time() + 3600, '/');
 	}
 
 	// if (count($plans_compare) >= 3) {
@@ -1873,15 +2078,15 @@ function get_plan_search_result()
 			case '<2萬':
 				$max = 20000;
 				$min = 0;
-				$sql_condition = "(`meta_value` BETWEEN {$min} AND {$max})";
+				if ($sql_condition === "") {
+					$sql_condition = "(`meta_value` BETWEEN {$min} AND {$max})";
+				} else {
+					$sql_condition .= " OR (`meta_value` BETWEEN {$min} AND {$max})";
+				}
 				break;
 			case '2-5萬':
-				if ($min === null) {
-					$min = 20000;
-				} else if ($min < 20000) {
-					$min = 20000;
-				}
 				$max = 50000;
+				$min = 20000;
 				if ($sql_condition === "") {
 					$sql_condition = "(`meta_value` BETWEEN {$min} AND {$max})";
 				} else {
@@ -1889,12 +2094,8 @@ function get_plan_search_result()
 				}
 				break;
 			case '5-11萬':
-				if ($min === null) {
-					$min = 50000;
-				} else if ($min < 50000) {
-					$min = 50000;
-				}
 				$max = 110000;
+				$min = 50000;
 				if ($sql_condition === "") {
 					$sql_condition = "(`meta_value` BETWEEN {$min} AND {$max})";
 				} else {
@@ -1938,11 +2139,10 @@ function get_plan_search_result()
 			// error_log('$_checkup_part->post_id: '.var_export($_checkup_part->post_id, true));
 			// error_log('__checkup_part_list: '.var_export($__checkup_part_list, true));
 			if (is_array($__checkup_part_list)) {
-				foreach ($checkup_part_keywords_id_list as $checkup_part_keywords_id) {
-					if (in_array($checkup_part_keywords_id, $__checkup_part_list)) {
-						$checkup_part_id_list[] = $_checkup_part->post_id;
-						break;
-					}
+				// 檢查是否所有選擇的部位都在方案中（交集邏輯）
+				$missing_parts = array_diff($checkup_part_keywords_id_list, $__checkup_part_list);
+				if (empty($missing_parts)) {
+					$checkup_part_id_list[] = $_checkup_part->post_id;
 				}
 			}
 		}
@@ -1969,15 +2169,15 @@ function get_plan_search_result()
 		}
 	}
 
-	// 把 card_plan_name_list 整合進 plan_name_list
-	if (isset($_COOKIE['card_plan_name_list']) && is_array(json_decode(wp_unslash($_COOKIE['card_plan_name_list']), true))) {
-		$card_plan_name_list = json_decode(wp_unslash($_COOKIE['card_plan_name_list']), true);
-		foreach ($card_plan_name_list as $pid => $pname) {
-			if (!in_array($pname, $plan_name_list)) {
-				$plan_name_list[$pid] = $pname;
-			}
-		}
-	}
+	// // 把 card_plan_name_list 整合進 plan_name_list
+	// if (isset($_COOKIE['card_plan_name_list']) && is_array(json_decode(wp_unslash($_COOKIE['card_plan_name_list']), true))) {
+	// 	$card_plan_name_list = json_decode(wp_unslash($_COOKIE['card_plan_name_list']), true);
+	// 	foreach ($card_plan_name_list as $pid => $pname) {
+	// 		if (!in_array($pname, $plan_name_list)) {
+	// 			$plan_name_list[$pid] = $pname;
+	// 		}
+	// 	}
+	// }
 
 	setcookie('plan_name_list', '', time() - 3600, '/');
 	setcookie('plan_name_list', json_encode($plan_name_list, JSON_UNESCAPED_UNICODE + JSON_UNESCAPED_SLASHES + JSON_PRETTY_PRINT), time() + 7200, '/');
@@ -2340,11 +2540,24 @@ function import_health_checkup_items_page_callback()
 	$ajax_url = admin_url('admin-ajax.php');
 	?>
 	<div class="wrap">
-		<h1>CSV匯入健檢項目細項清單</h1>
-		<form method="post" action="<?= $ajax_url; ?>" enctype="multipart/form-data" id="upload_csv_form">
-			<input type="file" name="csv_file" accept=".csv" required>
-			<?php submit_button('匯入'); ?>
-		</form>
+		<h1>CSV 健檢項目管理</h1>
+		
+		<div style="margin-bottom: 40px;">
+			<h2>匯入 CSV 檔案</h2>
+			<form method="post" action="<?= $ajax_url; ?>" enctype="multipart/form-data" id="upload_csv_form">
+				<input type="file" name="csv_file" accept=".csv" required>
+				<?php submit_button('匯入'); ?>
+			</form>
+		</div>
+		
+		<div style="margin-top: 40px; padding-top: 20px; border-top: 2px solid #ccc;">
+			<h2>匯出 CSV 檔案</h2>
+			<p>將目前系統中的所有健檢方案與項目匯出為 CSV 檔案</p>
+			<button id="download_csv_btn" class="button button-primary" style="padding: 10px 30px; height: auto;">
+				匯出健檢方案 CSV
+			</button>
+		</div>
+		
 		<script>
 			document.addEventListener('DOMContentLoaded', function() {
 				jQuery(document).ready(function($) {
@@ -2370,8 +2583,17 @@ function import_health_checkup_items_page_callback()
 							success: function(response) {
 								// console.log(response);
 								alert('上傳成功');
+								location.reload();
+							},
+							error: function(xhr, status, error) {
+								alert('上傳失敗: ' + error);
 							}
 						});
+					});
+					
+					$('#download_csv_btn').click(function() {
+						// 直接導向下載 URL
+						window.location.href = '<?= $ajax_url; ?>?action=export_csv';
 					});
 				});
 			});
