@@ -178,7 +178,23 @@ add_filter('wpcf7_autop_or_not', '__return_false');
 
 require_once "health_checkup.php";
 
+// 增加摘要字數
+add_filter('get_the_excerpt', function($e, $p) {
+    if (has_excerpt($p)) return $e;
+    $c = wp_strip_all_tags(get_the_content('', false, $p));
+    return mb_strlen($c) > 90 ? mb_substr($c, 0, 90) . '...' : $c;
+}, 10, 2);
 
+
+// 衛教文只顯示 health-education
+add_action('pre_get_posts', function($query) {
+    if (!is_admin() && $query->is_main_query() && !is_single()) {
+        $uri = $_SERVER['REQUEST_URI'];
+        if (strpos($uri, '/article') !== false && strpos($uri, '/article/') === 0) {
+            $query->set('category_name', 'health-education');
+        }
+    }
+});
 
 // 清除指定熱門搜尋關鍵字對應的快取頁
 function clear_search_cache_by_keyword( $keyword ) {
